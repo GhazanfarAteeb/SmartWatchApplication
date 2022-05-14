@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".Activities.Login.LoginActivity">
+	
+	<RelativeLayout
+		android:id="@+id/rl_header"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@drawable/ic_bg_login">
+		
+		<ImageView
+			android:id="@+id/gss_logo_white"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="52dp"
+			android:layout_marginTop="65dp"
+			android:src="@drawable/gss_logo_white" />
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/gss_logo_white"
+			android:layout_marginStart="52dp"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/montserrat_light"
+			android:gravity="center"
+			android:text="Welcome"
+			android:textColor="@color/white"
+			android:textSize="28sp" />
+	</RelativeLayout>
+	
+	<RelativeLayout
+		android:paddingStart="25dp"
+		android:paddingEnd="25dp"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/rl_header">
+		
+		<LinearLayout
+			android:layout_marginTop="40dp"
+			android:id="@+id/ll_login"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/tv_login"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/montserrat_bold"
+				android:text="Login"
+				android:textColor="#3A3A3A"
+				android:textSize="28sp" />
+			<TextView
+				android:fontFamily="@font/montserrat_medium"
+				android:textSize="18sp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="7dp"
+				android:text="Please fill this form to login"/>
+		</LinearLayout>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_below="@id/ll_login"
+			android:layout_marginTop="60dp"
+>
+			
+			<LinearLayout
+				android:id="@+id/ll_phone_number"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Phone Number"
+					android:textSize="14sp"
+					android:textColor="#B9B9B9"
+					android:fontFamily="@font/montserrat_regular"/>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+					
+					<com.hbb20.CountryCodePicker
+						android:id="@+id/ccp_picker"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						app:ccpDialog_allowSearch="false"
+						app:ccpDialog_cornerRadius="5dp"
+						app:ccp_countryAutoDetectionPref="NETWORK_LOCALE_SIM"
+						app:ccp_defaultLanguage="ENGLISH"
+						app:ccp_defaultNameCode="PK"
+						app:ccp_showFlag="true"
+						app:ccp_showPhoneCode="false" />
+					<EditText
+						android:layout_toEndOf="@id/ccp_picker"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:backgroundTint="#DC953E"
+						android:fontFamily="@font/montserrat_regular" />
+				</LinearLayout>
+			</LinearLayout>
+			
+			<LinearLayout
+				android:id="@+id/ll_remember_me"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/ll_phone_number"
+				android:layout_marginTop="12dp">
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:buttonTint="#DC953E"
+					/>
+				<TextView
+					android:textSize="16dp"
+					android:textColor="#DC953E"
+					android:layout_marginStart="5dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/montserrat_regular"
+					android:text="Remember Me" />
+			</LinearLayout>
+			
+			<Button
+				android:id="@+id/btn_login"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/ll_remember_me"
+				android:layout_centerHorizontal="true"
+				android:layout_marginTop="75dp"
+				android:background="@drawable/button_bg"
+				android:drawableEnd="@drawable/ic_arrow_next"
+				android:elevation="5dp"
+				android:fontFamily="@font/montserrat_regular"
+				android:padding="20dp"
+				android:text="Verify"
+				android:textAlignment="textStart"
+				android:textAllCaps="false"
+				android:textColor="@color/white"
+				android:textSize="16sp" />
+		</RelativeLayout>
+	</RelativeLayout>
+</RelativeLayout>
