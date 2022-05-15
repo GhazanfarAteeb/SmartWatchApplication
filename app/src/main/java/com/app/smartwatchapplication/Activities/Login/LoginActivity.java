@@ -17,7 +17,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         PermissionUtils.checkAndRequestPermissions(LoginActivity.this);
         findViewById(R.id.btn_login).setOnClickListener(view -> {
-            startActivity(new Intent(LoginActivity.this, ActivityMain.class));
+            startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
         });
     }
 
