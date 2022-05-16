@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startActivity(new Intent(getActivity(), WatchScanActivity.class));
+//        startActivity(new Intent(getActivity(), WatchScanActivity.class));
     }
 
     @Override

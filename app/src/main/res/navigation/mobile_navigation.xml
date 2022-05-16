@@ -13,13 +13,13 @@
 	
 	<fragment
 		android:id="@+id/navigation_dashboard"
-		android:name="com.app.smartwatchapplication.Activities.ui.dashboard.DashboardFragment"
+		android:name="com.app.smartwatchapplication.Activities.ui.maps.MapsFragment"
 		android:label="@string/title_dashboard"
-		tools:layout="@layout/fragment_dashboard" />
+		tools:layout="@layout/fragment_maps" />
 	
 	<fragment
 		android:id="@+id/navigation_notifications"
-		android:name="com.app.smartwatchapplication.Activities.ui.notifications.NotificationsFragment"
+		android:name="com.app.smartwatchapplication.Activities.ui.profile.ProfileFragment"
 		android:label="@string/title_notifications"
-		tools:layout="@layout/fragment_notifications" />
+		tools:layout="@layout/fragment_profile" />
 </navigation>

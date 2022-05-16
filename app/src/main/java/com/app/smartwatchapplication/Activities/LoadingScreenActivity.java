@@ -36,7 +36,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
         anim.setDuration(3000);
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(1);
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(6000);
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(2000);
         animator.setInterpolator(new DecelerateInterpolator());
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -64,6 +64,6 @@ public class LoadingScreenActivity extends AppCompatActivity {
                 overridePendingTransition(0,0);
                 finish();
             }
-        },6500);
+        },2500);
     }
 }
