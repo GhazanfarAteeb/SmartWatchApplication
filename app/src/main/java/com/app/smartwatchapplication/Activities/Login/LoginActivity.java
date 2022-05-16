@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.app.smartwatchapplication.Activities.ActivityMain;
 import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Utils.PermissionUtils;
 
