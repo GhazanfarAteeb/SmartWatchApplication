@@ -1,22 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".Activities.ui.home.HomeFragment">
 	
-	<TextView
-		android:id="@+id/text_home"
+
+	
+	<ScrollView
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="8dp"
-		android:layout_marginTop="8dp"
-		android:layout_marginEnd="8dp"
-		android:textAlignment="center"
-		android:textSize="20sp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+		android:layout_height="match_parent">
+		
+		<LinearLayout
+			android:id="@+id/ll_1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+			
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:padding="10dp">
+				<androidx.cardview.widget.CardView
+					android:id="@+id/cv_connect_watch"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:elevation="5dp"
+					app:cardBackgroundColor="#DFDFDF"
+					app:cardCornerRadius="10dp"
+					app:cardUseCompatPadding="true">
+					<RelativeLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:padding="12dp">
+						
+						<TextView
+							android:layout_centerHorizontal="true"
+							android:textColor="@color/black"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_centerVertical="true"
+							android:layout_marginStart="10dp"
+							android:fontFamily="@font/montserrat_semi_bold"
+							android:text="Add Watch"
+							android:textSize="18sp"
+							app:drawableStartCompat="@drawable/ic_baseline_add_24"
+							android:drawablePadding="5dp"/>
+<!--						<Button-->
+<!--							android:layout_marginEnd="10dp"-->
+<!--							android:layout_marginTop="10dp"-->
+<!--							android:layout_marginBottom="10dp"-->
+<!--							android:layout_width="wrap_content"-->
+<!--							android:layout_height="wrap_content"-->
+<!--							style="?android:attr/buttonBarButtonStyle"-->
+<!--							android:text="@string/connect"-->
+<!--							android:textColor="@color/black"-->
+<!--							android:layout_alignParentEnd="true"-->
+<!--							android:textAllCaps="false"/>-->
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+				
+				<androidx.cardview.widget.CardView
+					android:visibility="gone"
+					android:id="@+id/cv_connected_watch"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:elevation="5dp"
+					app:cardBackgroundColor="#eeeeee"
+					app:cardCornerRadius="16dp"
+					app:cardUseCompatPadding="true">
+					
+					<RelativeLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="16dp">
+						
+						<ImageView
+							android:id="@+id/iv_watch"
+							android:layout_width="60dp"
+							android:layout_height="85dp"
+							android:layout_marginStart="5dp"
+							android:src="@drawable/ic_watch" />
+						
+						<RelativeLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_centerVertical="true"
+							android:layout_marginStart="20dp"
+							android:layout_toEndOf="@id/iv_watch"
+							android:orientation="vertical">
+							
+							<TextView
+								android:id="@+id/tv_watch_name"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:fontFamily="@font/montserrat_medium"
+								android:text="@string/watch_name"
+								android:textColor="@color/black"
+								android:textSize="22sp"
+								android:textStyle="bold" />
+							
+							<TextView
+								android:id="@+id/tv_watch_mac_address"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_below="@id/tv_watch_name"
+								android:fontFamily="@font/montserrat_medium"
+								android:text="@string/mac_address"
+								android:textColor="@color/black"
+								android:textSize="16sp" />
+						</RelativeLayout>
+						
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_alignParentEnd="true"
+							android:fontFamily="@font/montserrat_medium"
+							android:text="@string/connected"
+							android:textColor="@color/green" />
+						
+						<ImageView
+							android:id="@+id/iv_unlink"
+							android:layout_width="50dp"
+							android:layout_height="wrap_content"
+							android:layout_alignParentEnd="true"
+							android:layout_alignParentBottom="true"
+							android:elevation="5dp"
+							android:scaleType="fitEnd"
+							android:src="@drawable/ic_disconnect" />
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+			</RelativeLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:padding="10dp">
+				<TextView
+					android:id="@+id/tv_insights"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/montserrat_bold"
+					android:padding="10dp"
+					android:text="@string/recent_activities"
+					android:textColor="@color/black"
+					android:textSize="22sp"
+					android:textStyle="bold" />
+<!--				TODO - CREATE RECENT ACTIVITIES GRAPH HERE   -->
+			</RelativeLayout>
+		</LinearLayout>
+	</ScrollView>
+</RelativeLayout>

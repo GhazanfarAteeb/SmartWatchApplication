@@ -23,7 +23,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         view = binding.getRoot();
 
-        final TextView textView = binding.textHome;
         return view;
     }
 

@@ -8,9 +8,5 @@
 	app:behavior_peekHeight="300dp"
 	android:background="@drawable/bg_bottom_sheet"
 	android:id="@+id/rl_bottom_sheet">
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="this is a bottom sheet nav bar"/>
-
+	
 </RelativeLayout>

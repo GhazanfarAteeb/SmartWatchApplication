@@ -8,4 +8,10 @@
 	<string name="title_home">Home</string>
 	<string name="title_dashboard">Dashboard</string>
 	<string name="title_notifications">Notifications</string>
+	<string name="watch_name">Name</string>
+	<string name="mac_address">MAC Address</string>
+	<string name="connected">Connected</string>
+	<string name="recent_activities">Recent Activities</string>
+	<string name="connect">Connect</string>
+	<string name="watch_disconnected">Watch Disconnected</string>
 </resources>
