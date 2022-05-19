@@ -77,17 +77,17 @@ public class WatchScanActivity extends AppCompatActivity {
                                         WristbandConfig wristbandConfig = wristbandManager.getWristbandConfig();
                                         int healthType = 0;
                                         System.out.println(wristbandManager.isConnected());
-                                        healthType|= WristbandManager.HEALTHY_TYPE_HEART_RATE;
-                                        healthType|= WristbandManager.HEALTHY_TYPE_BLOOD_PRESSURE;
-                                        healthType|= WristbandManager.HEALTHY_TYPE_OXYGEN;
-                                        healthType|= WristbandManager.HEALTHY_TYPE_RESPIRATORY_RATE;
-                                        Disposable healthSystem =  wristbandManager.openHealthyRealTimeData(healthType, Integer.MAX_VALUE).
+                                        healthType |= WristbandManager.HEALTHY_TYPE_HEART_RATE;
+                                        healthType |= WristbandManager.HEALTHY_TYPE_BLOOD_PRESSURE;
+                                        healthType |= WristbandManager.HEALTHY_TYPE_OXYGEN;
+                                        healthType |= WristbandManager.HEALTHY_TYPE_RESPIRATORY_RATE;
+                                        Disposable healthSystem = wristbandManager.openHealthyRealTimeData(healthType, Integer.MAX_VALUE).
                                                 observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(new Consumer<HealthyDataResult>() {
                                                     @Override
                                                     public void accept(HealthyDataResult healthyDataResult) throws Exception {
                                                         Log.d("HEART_RATE", String.valueOf(healthyDataResult.getHeartRate()));
-                                                        Log.d("BP_RATE", ""+ healthyDataResult.getSystolicPressure()+"/"+healthyDataResult.getDiastolicPressure());
+                                                        Log.d("BP_RATE", "" + healthyDataResult.getSystolicPressure() + "/" + healthyDataResult.getDiastolicPressure());
                                                         Log.d("SPO2_RATE", String.valueOf(healthyDataResult.getOxygen()));
                                                         Log.d("RESPIRATION_RATE", String.valueOf(healthyDataResult.getRespiratoryRate()));
                                                     }
