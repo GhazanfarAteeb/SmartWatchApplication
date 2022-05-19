@@ -5,11 +5,12 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".Activities.ui.maps.MapsFragment">
+	
 	<fragment
 		android:id="@+id/maps"
+		android:name="com.google.android.gms.maps.SupportMapFragment"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:name="com.google.android.gms.maps.SupportMapFragment"/>
+		android:layout_height="match_parent" />
 	
 	
 	<androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,12 +19,14 @@
 		android:layout_height="match_parent"
 		android:layout_alignParentBottom="true"
 		android:clipToPadding="false">
+		
 		<View
 			android:layout_width="match_parent"
 			android:layout_height="20dp"
 			android:background="@drawable/shadow_gradient"
-			app:layout_anchor="@id/rl_bottom_sheet"
-			android:gravity="bottom"/>
+			android:gravity="bottom"
+			app:layout_anchor="@id/rl_bottom_sheet" />
+		
 		<include layout="@layout/layout_bottom_sheet" />
 	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </RelativeLayout>
