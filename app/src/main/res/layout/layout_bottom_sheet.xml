@@ -282,10 +282,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Blood Pressure"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_bp"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -308,10 +309,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Heart Rate"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_hr"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -334,10 +336,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Blood Oxygen"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_spo2"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -360,10 +363,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Respiration Rate"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/respiration_rate"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -427,10 +431,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Weather"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_weather"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -453,10 +458,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Wind Speed"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_wind_speed"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -479,10 +485,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Humidity"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_humidity"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -505,10 +512,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Clouds"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_clouds"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -531,10 +539,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Visibility"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_visibility"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -605,10 +614,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Temperature "
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_temperature"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -631,10 +641,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Min. Temperature"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_minimum_temperature"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -657,10 +668,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Max. Temperature"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_maximum_temperature"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -724,10 +736,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Speed"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_speed"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -750,10 +763,11 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Accuracy"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_accuracy"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
@@ -774,12 +788,13 @@
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:fontFamily="@font/montserrat_bold"
-										android:text="Humidity"
+										android:text="Altitude"
 										android:textColor="@color/black"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 									
 									<TextView
+										android:id="@+id/tv_altitude"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
