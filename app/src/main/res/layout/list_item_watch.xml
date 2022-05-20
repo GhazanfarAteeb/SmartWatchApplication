@@ -3,12 +3,11 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:clickable="true"
 	android:elevation="5dp"
-	android:focusable="true"
 	app:cardBackgroundColor="#eeeeee"
 	app:cardCornerRadius="16dp"
-	app:cardUseCompatPadding="true">
+	app:cardUseCompatPadding="true"
+	android:id="@+id/cv_watch">
 	
 	<RelativeLayout
 		android:layout_width="match_parent"

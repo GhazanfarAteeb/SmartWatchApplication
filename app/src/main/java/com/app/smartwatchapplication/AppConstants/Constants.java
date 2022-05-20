@@ -7,6 +7,7 @@ import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
+import com.polidea.rxandroidble2.RxBleDevice;
 
 import java.util.List;
 
@@ -24,4 +25,5 @@ public class Constants {
     public static FusedLocationProviderClient client;
     public static List<Location> locationList;
     public static Notification notification;
+    public static RxBleDevice connectedDevice = null;
 }
