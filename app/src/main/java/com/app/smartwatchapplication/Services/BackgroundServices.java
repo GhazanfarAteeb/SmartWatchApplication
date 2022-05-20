@@ -1,17 +1,14 @@
 package com.app.smartwatchapplication.Services;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Binder;
 import android.os.IBinder;
@@ -23,11 +20,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
 import com.app.smartwatchapplication.Activities.ActivityMain;
 import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
+import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
+import com.app.smartwatchapplication.Modals.Weather.Weather;
 import com.app.smartwatchapplication.R;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -36,9 +34,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+@SuppressLint({"SetTextI18n", "DefaultLocale"})
 public class BackgroundServices extends Service {
     private static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
@@ -51,30 +57,68 @@ public class BackgroundServices extends Service {
             MapsFragment.map.clear();
             Constants.watchReadingsList = new ArrayList<>();
             Location currentLocation = locationResult.getLastLocation();
-            float speedInKMPH = (float) (currentLocation.getSpeed()*3.6);
+            float speedInKMPH = (float) (currentLocation.getSpeed() * 3.6);
             Log.d("CURRENT_SPEED", String.valueOf(speedInKMPH));
 
             List<LatLng> latLngArrayList = new ArrayList<>();
             for (Location loc : Constants.locationList) {
                 latLngArrayList.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
             }
-//            MarkerOptions markerOptions = new MarkerOptions()
-//                    .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
-//                    .icon(BitmapDescriptorFactory.fromBitmap(getBitmapFromVectorDrawable(getApplicationContext(), R.drawable.ic_maps_arrow)));
-
             if (Math.round(speedInKMPH) != 0) {
                 Constants.locationList.add(currentLocation);
             }
             MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(5).color(Color.BLUE).geodesic(true));
-            MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed()*3.6))+" km/h");
-            MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy()))+"");
-            MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude()))+"");
+            MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
+            MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
+            MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude())) + "");
             Log.d(null, "================ USER DETAILS ================");
             Log.d("CURRENT_LOCATION : ", currentLocation.getLatitude() + "," + currentLocation.getLongitude());
             Log.d("CURRENT_SPEED : ", String.valueOf(currentLocation.getSpeed()));
             Log.d("CURRENT_ALTITUDE : ", String.valueOf(currentLocation.getAltitude()));
             Log.d("CURRENT_ACCURACY : ", String.valueOf(currentLocation.getAccuracy()));
             Log.d(null, "==============================================");
+
+            if (!Constants.isWeatherFetched) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Constants.BaseUrl)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                Api service = retrofit.create(Api.class);
+                Call call = service.getCurrentWeatherData(String.valueOf(currentLocation.getLatitude()), String.valueOf(currentLocation.getLongitude()), Constants.AppId, Constants.mode, Constants.units);
+                call.enqueue(new Callback() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        if (response.code() == 200) {
+                            Constants.weatherResponse = (Weather) response.body();
+                            assert Constants.weatherResponse != null;
+                            MapsFragment.tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
+                            MapsFragment.tvWindSpeed.setText(Constants.weatherResponse.getWind().getSpeed() + " km/h");
+                            MapsFragment.tvHumidity.setText(Constants.weatherResponse.getMain().getHumidity() + "%");
+                            MapsFragment.tvClouds.setText(Constants.weatherResponse.getClouds().getAll() + "%");
+                            if (Constants.weatherResponse.getVisibility() >= 1000) {
+                                MapsFragment.tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " km");
+                            } else {
+                                MapsFragment.tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " m");
+                            }
+                            MapsFragment.tvTemperature.setText(Constants.weatherResponse.getMain().getTemp() + "°C");
+                            MapsFragment.tvMinTemperature.setText(Constants.weatherResponse.getMain().getTempMin() + "°C");
+                            MapsFragment.tvMaxTemperature.setText(Constants.weatherResponse.getMain().getTempMax() + "°C");
+                            MapsFragment.tvCountry.setText(Constants.weatherResponse.getName() + ", " + Constants.weatherResponse.getSys().getCountry());
+                            MapsFragment.tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
+                            MapsFragment.tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");
+                            Constants.isWeatherFetched = true;
+                        } else {
+                            System.out.println("Cannot show data");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+
+                    }
+                });
+            }
 //            MapsFragment.map.addMarker(markerOptions);
             MapsFragment.map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17.f));
         }
@@ -92,7 +136,9 @@ public class BackgroundServices extends Service {
             return BackgroundServices.this;
         }
     }
+
     private final IBinder locationServiceBinder = new LocalBinder();
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -134,17 +180,6 @@ public class BackgroundServices extends Service {
         super.onTaskRemoved(rootIntent);
     }
 
-    public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        assert drawable != null;
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -179,5 +214,11 @@ public class BackgroundServices extends Service {
         PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 1, startIntent, PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(contentIntent);
         return builder.build();
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private String getDateString(long timeInMilliseconds) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        return formatter.format(timeInMilliseconds);
     }
 }
