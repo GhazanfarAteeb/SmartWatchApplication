@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +25,6 @@ import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Services.BackgroundServices;
 import com.app.smartwatchapplication.databinding.FragmentMapsBinding;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
@@ -36,6 +36,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     View root;
     SupportMapFragment mapsFragment;
     Intent serviceIntent;
+    public static TextView tvJourneyStartedAt, tvJourneyTime, tvCountry, tvSunrise, tvSunset, tvBloodPressure, tvHeartRate,
+            tvBloodOxygen, tvRespirationRate, tvWeather, tvWindSpeed, tvHumidity, tvClouds, tvVisibility, tvTemperature, tvMinTemperature, tvMaxTemperature,
+    tvSpeed, tvAccuracy, tvAltitude;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +57,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        System.out.println("ISMYLOC" + map.isMyLocationEnabled());
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -66,14 +68,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
         map.setMyLocationEnabled(true);
-        System.out.println("ISMYLOC" + map.isMyLocationEnabled());
         map.getUiSettings().setAllGesturesEnabled(false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mapsFragment !=null) {
+        init();
+        if (mapsFragment != null) {
             mapsFragment.getMapAsync(this);
         }
         Constants.locationList = new ArrayList<>();
@@ -87,6 +89,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
     }
+
     com.app.smartwatchapplication.Services.BackgroundServices locationServices;
     boolean isGPSServiceBound = false;
     private final ServiceConnection GPSServiceConnection = new ServiceConnection() {
@@ -102,4 +105,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         }
     };
+
+    private void init() {
+        tvJourneyStartedAt = root.findViewById(R.id.tv_started_at);
+        tvJourneyTime = root.findViewById(R.id.tv_journey_time);
+        tvCountry = root.findViewById(R.id.tv_country);
+        tvSunrise = root.findViewById(R.id.tv_sunrise);
+        tvSunset = root.findViewById(R.id.tv_sunset);
+        tvBloodPressure = root.findViewById(R.id.tv_bp);
+        tvHeartRate = root.findViewById(R.id.tv_hr);
+        tvBloodOxygen = root.findViewById(R.id.tv_spo2);
+        tvRespirationRate = root.findViewById(R.id.tv_respiration_rate);
+        tvWeather = root.findViewById(R.id.tv_weather);
+        tvWindSpeed = root.findViewById(R.id.tv_wind_speed);
+        tvHumidity = root.findViewById(R.id.tv_humidity);
+        tvClouds = root.findViewById(R.id.tv_clouds);
+        tvVisibility = root.findViewById(R.id.tv_visibility);
+        tvTemperature = root.findViewById(R.id.tv_temperature);
+        tvMinTemperature = root.findViewById(R.id.tv_minimum_temperature);
+        tvMaxTemperature = root.findViewById(R.id.tv_maximum_temperature);
+        tvSpeed = root.findViewById(R.id.tv_speed);
+        tvAccuracy = root.findViewById(R.id.tv_accuracy);
+        tvAltitude = root.findViewById(R.id.tv_altitude);
+    }
 }

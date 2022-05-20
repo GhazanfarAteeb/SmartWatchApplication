@@ -7,8 +7,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-
-
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -35,10 +33,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -54,6 +49,7 @@ public class BackgroundServices extends Service {
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
             MapsFragment.map.clear();
+            Constants.watchReadingsList = new ArrayList<>();
             Location currentLocation = locationResult.getLastLocation();
             float speedInKMPH = (float) (currentLocation.getSpeed()*3.6);
             Log.d("CURRENT_SPEED", String.valueOf(speedInKMPH));
@@ -70,7 +66,9 @@ public class BackgroundServices extends Service {
                 Constants.locationList.add(currentLocation);
             }
             MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(5).color(Color.BLUE).geodesic(true));
-
+            MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed()*3.6))+" km/h");
+            MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy()))+"");
+            MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude()))+"");
             Log.d(null, "================ USER DETAILS ================");
             Log.d("CURRENT_LOCATION : ", currentLocation.getLatitude() + "," + currentLocation.getLongitude());
             Log.d("CURRENT_SPEED : ", String.valueOf(currentLocation.getSpeed()));

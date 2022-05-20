@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
 import com.app.smartwatchapplication.Adapters.WatchAdapter;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
@@ -117,9 +118,29 @@ public class WatchScanActivity extends AppCompatActivity {
                                 healthType |= WristbandManager.HEALTHY_TYPE_BLOOD_PRESSURE;
                                 healthType |= WristbandManager.HEALTHY_TYPE_OXYGEN;
                                 healthType |= WristbandManager.HEALTHY_TYPE_RESPIRATORY_RATE;
-                                wristbandManager.openHealthyRealTimeData(healthType, Integer.MAX_VALUE).
+                                Disposable HealthSystem = wristbandManager.openHealthyRealTimeData(healthType, Integer.MAX_VALUE).
                                         observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(healthyDataResult -> {
+                                            if (Constants.watchReadingsList!= null) {
+                                                Constants.currentWatchReadings.setSystolicBloodPressure(healthyDataResult.getSystolicPressure());
+                                                Constants.currentWatchReadings.setDiastolicBloodPressure(healthyDataResult.getDiastolicPressure());
+                                                Constants.currentWatchReadings.setHeartRate(healthyDataResult.getHeartRate());
+                                                Constants.currentWatchReadings.setBloodOxygenLevel(healthyDataResult.getOxygen());
+                                                Constants.currentWatchReadings.setRespirationRate(healthyDataResult.getRespiratoryRate());
+                                                Log.d("ADDING_READINGS", "ADDING_READGINS");
+                                            }
+                                            if (MapsFragment.tvBloodPressure!= null) {
+                                                MapsFragment.tvBloodPressure.setText(Constants.currentWatchReadings.getSystolicBloodPressure()+"/"+Constants.currentWatchReadings.getDiastolicBloodPressure());
+                                            }
+                                            if (MapsFragment.tvBloodOxygen != null) {
+                                                MapsFragment.tvBloodOxygen.setText(Constants.currentWatchReadings.getBloodOxygenLevel()+"%");
+                                            }
+                                            if (MapsFragment.tvHeartRate != null) {
+                                                MapsFragment.tvHeartRate.setText(Constants.currentWatchReadings.getHeartRate()+" BPM");
+                                            }
+                                            if (MapsFragment.tvRespirationRate != null) {
+                                                MapsFragment.tvRespirationRate.setText(Constants.currentWatchReadings.getRespirationRate() +" per min.");
+                                            }
                                             Log.d("HEART_RATE", String.valueOf(healthyDataResult.getHeartRate()));
                                             Log.d("BP_RATE", "" + healthyDataResult.getSystolicPressure() + "/" + healthyDataResult.getDiastolicPressure());
                                             Log.d("SPO2_RATE", String.valueOf(healthyDataResult.getOxygen()));

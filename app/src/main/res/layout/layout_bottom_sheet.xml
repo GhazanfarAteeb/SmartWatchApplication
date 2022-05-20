@@ -72,6 +72,7 @@
 				android:textStyle="bold" />
 			
 			<TextView
+				android:id="@+id/tv_started_at"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
@@ -100,6 +101,7 @@
 				android:textStyle="bold" />
 			
 			<TextView
+				android:id="@+id/tv_journey_time"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
@@ -145,6 +147,7 @@
 				android:textStyle="bold" />
 			
 			<TextView
+				android:id="@+id/tv_country"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
@@ -174,6 +177,7 @@
 				android:textStyle="bold" />
 			
 			<TextView
+				android:id="@+id/tv_sunrise"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
@@ -203,6 +207,7 @@
 				android:textStyle="bold" />
 			
 			<TextView
+				android:id="@+id/tv_sunset"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center"
@@ -367,7 +372,7 @@
 										android:textStyle="bold" />
 									
 									<TextView
-										android:id="@+id/respiration_rate"
+										android:id="@+id/tv_respiration_rate"
 										android:layout_width="wrap_content"
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
