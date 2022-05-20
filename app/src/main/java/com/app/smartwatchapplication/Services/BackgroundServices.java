@@ -25,6 +25,7 @@ import com.app.smartwatchapplication.Activities.ActivityMain;
 import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
 import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
+import com.app.smartwatchapplication.Modals.City;
 import com.app.smartwatchapplication.Modals.Weather.Weather;
 import com.app.smartwatchapplication.R;
 import com.google.android.gms.location.LocationCallback;
@@ -78,48 +79,67 @@ public class BackgroundServices extends Service {
             Log.d("CURRENT_ACCURACY : ", String.valueOf(currentLocation.getAccuracy()));
             Log.d(null, "==============================================");
 
-            if (!Constants.isWeatherFetched) {
+            if (Constants.weatherResponse == null) {
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(Constants.BaseUrl)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 Api service = retrofit.create(Api.class);
-                Call call = service.getCurrentWeatherData(String.valueOf(currentLocation.getLatitude()), String.valueOf(currentLocation.getLongitude()), Constants.AppId, Constants.mode, Constants.units);
-                call.enqueue(new Callback() {
-                    @SuppressLint("SetTextI18n")
+
+                Call<List<City>> cityCall = service.getCityData(String.valueOf(currentLocation.getLatitude()), String.valueOf(currentLocation.getLongitude()), Constants.AppId, "0");
+                cityCall.enqueue(new Callback<List<City>>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
+                    public void onResponse(Call<List<City>> call, Response<List<City>> response) {
+                     System.out.println("xD RESPONSE_CODE"+ response.code());
                         if (response.code() == 200) {
-                            Constants.weatherResponse = (Weather) response.body();
-                            assert Constants.weatherResponse != null;
-                            MapsFragment.tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
-                            MapsFragment.tvWindSpeed.setText(Constants.weatherResponse.getWind().getSpeed() + " km/h");
-                            MapsFragment.tvHumidity.setText(Constants.weatherResponse.getMain().getHumidity() + "%");
-                            MapsFragment.tvClouds.setText(Constants.weatherResponse.getClouds().getAll() + "%");
-                            if (Constants.weatherResponse.getVisibility() >= 1000) {
-                                MapsFragment.tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " km");
-                            } else {
-                                MapsFragment.tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " m");
-                            }
-                            MapsFragment.tvTemperature.setText(Constants.weatherResponse.getMain().getTemp() + "°C");
-                            MapsFragment.tvMinTemperature.setText(Constants.weatherResponse.getMain().getTempMin() + "°C");
-                            MapsFragment.tvMaxTemperature.setText(Constants.weatherResponse.getMain().getTempMax() + "°C");
-                            MapsFragment.tvCountry.setText(Constants.weatherResponse.getName() + ", " + Constants.weatherResponse.getSys().getCountry());
-                            MapsFragment.tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
-                            MapsFragment.tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");
-                            Constants.isWeatherFetched = true;
-                        } else {
-                            System.out.println("Cannot show data");
+                            List<City> cityList = response.body();
+                            Constants.city = cityList.get(0);
+                            System.out.println(Constants.city.getName());
+                            System.out.println(Constants.city.getLat());
+                            System.out.println(Constants.city.getLon());
+                            Call weatherCall = service.getCurrentWeatherData(Constants.city.getLat(), Constants.city.getLon(), Constants.AppId, Constants.mode, Constants.units);
+                            weatherCall.enqueue(new Callback() {
+                                @SuppressLint("SetTextI18n")
+                                @Override
+                                public void onResponse(Call call, Response response) {
+                                    if (response.code() == 200) {
+                                        Constants.weatherResponse = (Weather) response.body();
+                                    } else {
+                                        System.out.println("Cannot show data");
+                                    }
+                                }
+                                @Override
+                                public void onFailure(Call call, Throwable t) {
+
+                                }
+                            });
                         }
                     }
 
                     @Override
-                    public void onFailure(Call call, Throwable t) {
-
+                    public void onFailure(Call<List<City>> call, Throwable t) {
+                        t.getMessage();
                     }
                 });
             }
-//            MapsFragment.map.addMarker(markerOptions);
+
+            if (Constants.weatherResponse != null) {
+                MapsFragment.tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
+                MapsFragment.tvWindSpeed.setText(Constants.weatherResponse.getWind().getSpeed() + " km/h");
+                MapsFragment.tvHumidity.setText(Constants.weatherResponse.getMain().getHumidity() + "%");
+                MapsFragment.tvClouds.setText(Constants.weatherResponse.getClouds().getAll() + "%");
+                if (Constants.weatherResponse.getVisibility() >= 1000) {
+                    MapsFragment.tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " km");
+                } else {
+                    MapsFragment.tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " m");
+                }
+                MapsFragment.tvTemperature.setText(Constants.weatherResponse.getMain().getTemp() + "°C");
+                MapsFragment.tvMinTemperature.setText(Constants.weatherResponse.getMain().getTempMin() + "°C");
+                MapsFragment.tvMaxTemperature.setText(Constants.weatherResponse.getMain().getTempMax() + "°C");
+                MapsFragment.tvCountry.setText(Constants.weatherResponse.getName() + ", " + Constants.weatherResponse.getSys().getCountry());
+                MapsFragment.tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
+                MapsFragment.tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");
+            }
             MapsFragment.map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17.f));
         }
     };

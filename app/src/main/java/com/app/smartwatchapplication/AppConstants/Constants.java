@@ -4,6 +4,7 @@ package com.app.smartwatchapplication.AppConstants;
 import android.app.Notification;
 import android.location.Location;
 
+import com.app.smartwatchapplication.Modals.City;
 import com.app.smartwatchapplication.Modals.WatchReadings;
 import com.app.smartwatchapplication.Modals.Weather.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,4 +39,5 @@ public class Constants {
     public static String mode = "JSON";
     public static String units ="metric";
     public static Weather weatherResponse;
+    public static City city;
 }
