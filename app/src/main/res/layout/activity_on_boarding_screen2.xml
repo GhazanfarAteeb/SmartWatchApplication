@@ -4,21 +4,45 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Activities.OnBoardingScreens.OnBoardingScreen1Activity">
-	<TextView
+	tools:context=".Activities.OnBoardingScreens.OnBoardingScreen1Activity"
+	android:padding="20dp">
+	
+	<LinearLayout
+		android:layout_marginTop="75dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center"
-		android:layout_centerInParent="true"
-		android:text="ON BOARDING SCREEN 2"
-		android:id="@+id/tv_on_boarding"/>
+		android:orientation="vertical">
+		<ImageView
+			android:layout_gravity="center"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/route_mapping" />
+		<TextView
+			android:layout_marginTop="20dp"
+			android:textColor="@color/black"
+			android:textSize="24sp"
+			android:fontFamily="@font/montserrat_semi_bold"
+			android:text="Route Mapping"
+			android:textStyle="bold"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="start"
+			android:id="@+id/tv_on_boarding"/>
+		<TextView
+			android:fontFamily="@font/montserrat_regular"
+			android:textColor="@color/black"
+			android:layout_marginTop="16dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Route planning helps prevent delivery delays by routing drivers around congested roads, bridges, and high-traffic areas"/>
+	</LinearLayout>
+	
 	<ImageView
+		android:id="@+id/iv_next"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:src="@drawable/ic_arrow_right"
-		android:layout_alignParentEnd="true"
 		android:layout_alignParentBottom="true"
-		android:layout_marginEnd="30dp"
-		android:layout_marginBottom="30dp"
-		android:id="@+id/iv_next"/>
+		android:layout_centerHorizontal="true"
+		android:layout_marginBottom="75dp"
+		android:src="@drawable/ic_arrow_right" />
 </RelativeLayout>
