@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -48,13 +47,12 @@ public class LoginActivity extends AppCompatActivity {
         }
         findViewById(R.id.btn_login).setOnClickListener(view -> {
             if(countryCodePicker.isValidFullNumber()) {
-                Toast.makeText(LoginActivity.this, countryCodePicker.getFullNumberWithPlus(), Toast.LENGTH_SHORT).show();
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(Constants.GO_SAFE_BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 Api service = retrofit.create(Api.class);
-                Call call = service.postContact("+923109453603");
+                Call call = service.postContact(countryCodePicker.getFullNumberWithPlus());
                 call.enqueue(new Callback() {
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
@@ -76,7 +74,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }
-//            startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
+            else {
+                etPhoneNo.setError("Phone number not valid");
+
+            }
         });
     }
     private void init() {
