@@ -65,7 +65,7 @@ public class BackgroundServices extends Service {
             for (Location loc : Constants.locationList) {
                 latLngArrayList.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
             }
-            if (Math.round(speedInKMPH) != 0) {
+            if (Math.round(speedInKMPH) >= 5) {
                 Constants.locationList.add(currentLocation);
             }
             MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(5).color(Color.BLUE).geodesic(true));
@@ -93,13 +93,13 @@ public class BackgroundServices extends Service {
                      System.out.println("xD RESPONSE_CODE"+ response.code());
                         if (response.code() == 200) {
                             List<City> cityList = response.body();
+                            assert cityList != null;
                             Constants.city = cityList.get(0);
                             System.out.println(Constants.city.getName());
                             System.out.println(Constants.city.getLat());
                             System.out.println(Constants.city.getLon());
                             Call<Weather> weatherCall = service.getCurrentWeatherData(Constants.city.getLat(), Constants.city.getLon(), Constants.AppId, Constants.mode, Constants.units);
                             weatherCall.enqueue(new Callback<Weather>() {
-                                @SuppressLint("SetTextI18n")
                                 @Override
                                 public void onResponse(@NonNull Call call, @NonNull Response response) {
                                     if (response.code() == 200) {
@@ -109,7 +109,7 @@ public class BackgroundServices extends Service {
                                     }
                                 }
                                 @Override
-                                public void onFailure(Call call, Throwable t) {
+                                public void onFailure(@NonNull Call call, @NonNull Throwable t) {
 
                                 }
                             });
@@ -117,7 +117,7 @@ public class BackgroundServices extends Service {
                     }
 
                     @Override
-                    public void onFailure(Call<List<City>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<List<City>> call, @NonNull Throwable t) {
                         t.getMessage();
                     }
                 });

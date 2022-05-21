@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.app.smartwatchapplication.databinding.FragmentProfileBinding;
+import com.htsmart.wristband2.WristbandApplication;
+import com.htsmart.wristband2.WristbandManager;
 
 public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
-
+    WristbandManager wristbandManager = WristbandApplication.getWristbandManager();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
@@ -28,5 +30,6 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        wristbandManager.close();
     }
 }

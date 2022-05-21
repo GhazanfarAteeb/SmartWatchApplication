@@ -232,4 +232,9 @@ public class WatchScanActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wristbandManager.close();
+    }
 }

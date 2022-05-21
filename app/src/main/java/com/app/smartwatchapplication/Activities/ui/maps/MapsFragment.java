@@ -37,6 +37,8 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.htsmart.wristband2.WristbandApplication;
+import com.htsmart.wristband2.WristbandManager;
 
 import java.util.ArrayList;
 
@@ -50,6 +52,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public static TextView tvJourneyStartedAt, tvJourneyTime, tvCountry, tvSunrise, tvSunset, tvBloodPressure, tvHeartRate,
             tvBloodOxygen, tvRespirationRate, tvWeather, tvWindSpeed, tvHumidity, tvClouds, tvVisibility, tvTemperature, tvMinTemperature, tvMaxTemperature, tvTemperatureFeelsLike,
     tvSpeed, tvAccuracy, tvAltitude;
+    WristbandManager wristbandManager = WristbandApplication.getWristbandManager();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -192,5 +195,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
             getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wristbandManager.close();
     }
 }
