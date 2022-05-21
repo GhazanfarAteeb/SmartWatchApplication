@@ -53,7 +53,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         root = binding.getRoot();
         mapsFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
