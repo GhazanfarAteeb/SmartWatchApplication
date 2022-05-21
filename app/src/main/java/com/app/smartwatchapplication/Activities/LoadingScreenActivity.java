@@ -2,7 +2,6 @@ package com.app.smartwatchapplication.Activities;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.smartwatchapplication.Activities.OnBoardingScreens.OnBoardingScreen1Activity;
@@ -33,7 +31,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
     private void addAnimation() {
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(3000);
+        anim.setDuration(2000);
         anim.setRepeatMode(Animation.REVERSE);
         anim.setRepeatCount(1);
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(2000);
@@ -44,7 +42,6 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onAnimationEnd(Animation animation) {
                 ivLogo.setVisibility(View.GONE);
@@ -64,6 +61,6 @@ public class LoadingScreenActivity extends AppCompatActivity {
                 overridePendingTransition(0,0);
                 finish();
             }
-        },2500);
+        },4500);
     }
 }
