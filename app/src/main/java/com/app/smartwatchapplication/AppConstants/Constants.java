@@ -40,4 +40,5 @@ public class Constants {
     public static String units ="metric";
     public static Weather weatherResponse;
     public static City city;
+    public static String GO_SAFE_BASE_URL = "https://gosafeschool.com/";
 }
