@@ -54,11 +54,12 @@ dependencies {
     implementation 'com.polidea.rxandroidble2:rxandroidble:1.11.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.20'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    //added libraries
+
+    //phone no
     implementation 'com.hbb20:ccp:2.6.0'
 
     //for apis
-    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.7'
@@ -66,5 +67,8 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+
+    //graphs
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 }
