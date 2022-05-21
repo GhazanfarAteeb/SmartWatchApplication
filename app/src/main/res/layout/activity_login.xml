@@ -106,6 +106,7 @@
 								app:ccp_showFlag="true"
 								app:ccp_showPhoneCode="false" />
 							<EditText
+								android:inputType="phone"
 								android:id="@+id/et_phone_no"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"

@@ -132,8 +132,9 @@ public class WatchScanActivity extends AppCompatActivity {
                                             .setMessage("Watch Connected successfully")
                                             .setCancelable(false).setNeutralButton("OK", (dialog, which) -> {
                                                 Intent intent = new Intent(WatchScanActivity.this, ActivityMain.class);
-                                                dialog.dismiss();
                                                 startActivity(intent);
+                                                finish();
+                                                dialog.dismiss();
                                             }).create();
                                     builder.show();
                                 }
@@ -146,16 +147,16 @@ public class WatchScanActivity extends AppCompatActivity {
                                 Disposable HealthSystem = wristbandManager.openHealthyRealTimeData(healthType, Integer.MAX_VALUE).
                                         observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(healthyDataResult -> {
-                                            if (Constants.watchReadingsList != null) {
-                                                Constants.currentWatchReadings.setSystolicBloodPressure(healthyDataResult.getSystolicPressure());
-                                                Constants.currentWatchReadings.setDiastolicBloodPressure(healthyDataResult.getDiastolicPressure());
-                                                Constants.currentWatchReadings.setHeartRate(healthyDataResult.getHeartRate());
-                                                Constants.currentWatchReadings.setBloodOxygenLevel(healthyDataResult.getOxygen());
-                                                Constants.currentWatchReadings.setRespirationRate(healthyDataResult.getRespiratoryRate());
-                                                Log.d("ADDING_READINGS", "ADDING_READGINS");
-                                            }
+
+                                            Constants.currentWatchReadings.setSystolicBloodPressure(healthyDataResult.getSystolicPressure());
+                                            Constants.currentWatchReadings.setDiastolicBloodPressure(healthyDataResult.getDiastolicPressure());
+                                            Constants.currentWatchReadings.setHeartRate(healthyDataResult.getHeartRate());
+                                            Constants.currentWatchReadings.setBloodOxygenLevel(healthyDataResult.getOxygen());
+                                            Constants.currentWatchReadings.setRespirationRate(healthyDataResult.getRespiratoryRate());
+                                            Log.d("ADDING_READINGS", "ADDING_READGINS");
+
                                             if (MapsFragment.tvBloodPressure != null) {
-                                                MapsFragment.tvBloodPressure.setText(Constants.currentWatchReadings.getSystolicBloodPressure() + "/" + Constants.currentWatchReadings.getDiastolicBloodPressure()+" mmHg");
+                                                MapsFragment.tvBloodPressure.setText(Constants.currentWatchReadings.getSystolicBloodPressure() + "/" + Constants.currentWatchReadings.getDiastolicBloodPressure() + " mmHg");
                                             }
                                             if (MapsFragment.tvBloodOxygen != null) {
                                                 MapsFragment.tvBloodOxygen.setText(Constants.currentWatchReadings.getBloodOxygenLevel() + "%");
@@ -231,10 +232,5 @@ public class WatchScanActivity extends AppCompatActivity {
                 scanWatch();
             }
         }
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        wristbandManager.close();
     }
 }

@@ -26,6 +26,7 @@ import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
 import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.Modals.City;
+import com.app.smartwatchapplication.Modals.PostReadingsResponse;
 import com.app.smartwatchapplication.Modals.Weather.Weather;
 import com.app.smartwatchapplication.R;
 import com.google.android.gms.location.LocationCallback;
@@ -55,8 +56,8 @@ public class BackgroundServices extends Service {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
+
             MapsFragment.map.clear();
-            Constants.watchReadingsList = new ArrayList<>();
             Location currentLocation = locationResult.getLastLocation();
             float speedInKMPH = (float) (currentLocation.getSpeed() * 3.6);
             Log.d("CURRENT_SPEED", String.valueOf(speedInKMPH));
@@ -65,9 +66,7 @@ public class BackgroundServices extends Service {
             for (Location loc : Constants.locationList) {
                 latLngArrayList.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
             }
-            if (Math.round(speedInKMPH) >= 5) {
-                Constants.locationList.add(currentLocation);
-            }
+
             MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(5).color(Color.BLUE).geodesic(true));
             MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
             MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
@@ -77,6 +76,7 @@ public class BackgroundServices extends Service {
             Log.d("CURRENT_SPEED : ", String.valueOf(currentLocation.getSpeed()));
             Log.d("CURRENT_ALTITUDE : ", String.valueOf(currentLocation.getAltitude()));
             Log.d("CURRENT_ACCURACY : ", String.valueOf(currentLocation.getAccuracy()));
+            Log.d("CURRENT_BEARING : ", String.valueOf(currentLocation.getBearing()));
             Log.d(null, "==============================================");
 
             if (Constants.weatherResponse == null) {
@@ -85,7 +85,6 @@ public class BackgroundServices extends Service {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 Api service = retrofit.create(Api.class);
-
                 Call<List<City>> cityCall = service.getCityData(String.valueOf(currentLocation.getLatitude()), String.valueOf(currentLocation.getLongitude()), Constants.AppId, "0");
                 cityCall.enqueue(new Callback<List<City>>() {
                     @Override
@@ -114,6 +113,7 @@ public class BackgroundServices extends Service {
                                 }
                             });
                         }
+
                     }
 
                     @Override
@@ -122,8 +122,56 @@ public class BackgroundServices extends Service {
                     }
                 });
             }
-
             if (Constants.weatherResponse != null) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(Constants.GO_SAFE_BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                Api service = retrofit.create(Api.class);
+                Constants.locationList.add(currentLocation);
+                Log.d("USER_ID", Constants.USER_ID);
+                if (speedInKMPH >= 3) {
+                    Call<PostReadingsResponse> readingsCall = service.postAllData(
+                            Constants.USER_ID,
+                            String.valueOf(currentLocation.getLatitude()),
+                            String.valueOf(currentLocation.getLongitude()),
+                            String.valueOf(System.currentTimeMillis()),
+                            String.valueOf(currentLocation.getAltitude()),
+                            String.valueOf(currentLocation.getSpeed()),
+                            String.valueOf(currentLocation.getBearing()),
+                            String.valueOf(currentLocation.getAccuracy()),
+                            String.valueOf(Constants.weatherResponse.getMain().getTemp()),
+                            String.valueOf(Constants.weatherResponse.getMain().getFeelsLike()),
+                            String.valueOf(Constants.weatherResponse.getMain().getTempMin()),
+                            String.valueOf(Constants.weatherResponse.getMain().getTempMax()),
+                            String.valueOf(Constants.weatherResponse.getMain().getPressure()),
+                            String.valueOf(Constants.weatherResponse.getMain().getHumidity()),
+                            String.valueOf(Constants.weatherResponse.getWind().getSpeed()),
+                            String.valueOf(Constants.weatherResponse.getClouds().getAll()),
+                            String.valueOf(Constants.weatherResponse.getVisibility()),
+                            String.valueOf(Constants.currentWatchReadings.getSystolicBloodPressure()),
+                            String.valueOf(Constants.currentWatchReadings.getDiastolicBloodPressure()),
+                            String.valueOf(Constants.currentWatchReadings.getHeartRate()),
+                            String.valueOf(Constants.currentWatchReadings.getBloodOxygenLevel()),
+                            String.valueOf(Constants.currentWatchReadings.getRespirationRate())
+                    );
+                    readingsCall.enqueue(new Callback<PostReadingsResponse>() {
+                        @Override
+                        public void onResponse(Call<PostReadingsResponse> call, Response<PostReadingsResponse> response) {
+                            Log.d("READINGS_RESPONSE", response.code()+"");
+                            if(response.code() == 200) {
+                                PostReadingsResponse postReadingsResponse = response.body();
+                                assert postReadingsResponse != null;
+                                Log.d("Readings",postReadingsResponse.success+"");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<PostReadingsResponse> call, Throwable t) {
+                            System.out.println(t);
+                        }
+                    });
+                }
                 MapsFragment.tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
                 MapsFragment.tvWindSpeed.setText(Constants.weatherResponse.getWind().getSpeed() + " km/h");
                 MapsFragment.tvHumidity.setText(Constants.weatherResponse.getMain().getHumidity() + "%");

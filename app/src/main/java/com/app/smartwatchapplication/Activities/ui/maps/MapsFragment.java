@@ -197,9 +197,4 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        wristbandManager.close();
-    }
 }

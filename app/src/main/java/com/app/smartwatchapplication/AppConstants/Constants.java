@@ -5,13 +5,13 @@ import android.app.Notification;
 import android.location.Location;
 
 import com.app.smartwatchapplication.Modals.City;
+import com.app.smartwatchapplication.Modals.GoSafeLoginApiResponse;
 import com.app.smartwatchapplication.Modals.WatchReadings;
 import com.app.smartwatchapplication.Modals.Weather.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.polidea.rxandroidble2.RxBleDevice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
@@ -29,7 +29,6 @@ public class Constants {
     public static List<Location> locationList;
     public static Notification notification;
     public static RxBleDevice connectedDevice = null;
-    public static List<WatchReadings> watchReadingsList = new ArrayList<>();
     public static WatchReadings currentWatchReadings = new WatchReadings();
     public static boolean isWeatherFetched = false;
     public static String BaseUrl = "http://api.openweathermap.org/";
@@ -41,4 +40,6 @@ public class Constants {
     public static Weather weatherResponse;
     public static City city;
     public static String GO_SAFE_BASE_URL = "https://gosafeschool.com/";
+    public static GoSafeLoginApiResponse USER;
+    public static String USER_ID;
 }

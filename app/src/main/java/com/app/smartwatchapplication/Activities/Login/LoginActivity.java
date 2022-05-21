@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -57,12 +58,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
                         if(response.code() ==200) {
-                            GoSafeLoginApiResponse apiResponse = (GoSafeLoginApiResponse) response.body();
-                            assert apiResponse != null;
-                            if(apiResponse.error) {
+                            Constants.USER = (GoSafeLoginApiResponse) response.body();
+                            assert Constants.USER != null;
+                            if(Constants.USER.error) {
                                 etPhoneNo.setError("Phone number not valid");
                             }
                             else {
+                                Constants.USER_ID = Constants.USER.getUser().get(0).getvApiUsername();
+                                Log.d("USER", Constants.USER_ID);
                                 startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
                             }
                         }

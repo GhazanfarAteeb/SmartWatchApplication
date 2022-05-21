@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.smartwatchapplication.Activities.ActivityMain;
-import com.app.smartwatchapplication.Activities.WatchScanActivity;
 import com.app.smartwatchapplication.R;
 
 public class OtpVerificationActivity extends AppCompatActivity {
@@ -18,6 +17,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_verify_otp).setOnClickListener(view -> {
             startActivity(new Intent(OtpVerificationActivity.this, ActivityMain.class));
+            finish();
         });
     }
 }
