@@ -89,7 +89,7 @@ public class BackgroundServices extends Service {
                 Call<List<City>> cityCall = service.getCityData(String.valueOf(currentLocation.getLatitude()), String.valueOf(currentLocation.getLongitude()), Constants.AppId, "0");
                 cityCall.enqueue(new Callback<List<City>>() {
                     @Override
-                    public void onResponse(Call<List<City>> call, Response<List<City>> response) {
+                    public void onResponse(@NonNull Call<List<City>> call, @NonNull Response<List<City>> response) {
                      System.out.println("xD RESPONSE_CODE"+ response.code());
                         if (response.code() == 200) {
                             List<City> cityList = response.body();
@@ -97,11 +97,11 @@ public class BackgroundServices extends Service {
                             System.out.println(Constants.city.getName());
                             System.out.println(Constants.city.getLat());
                             System.out.println(Constants.city.getLon());
-                            Call weatherCall = service.getCurrentWeatherData(Constants.city.getLat(), Constants.city.getLon(), Constants.AppId, Constants.mode, Constants.units);
-                            weatherCall.enqueue(new Callback() {
+                            Call<Weather> weatherCall = service.getCurrentWeatherData(Constants.city.getLat(), Constants.city.getLon(), Constants.AppId, Constants.mode, Constants.units);
+                            weatherCall.enqueue(new Callback<Weather>() {
                                 @SuppressLint("SetTextI18n")
                                 @Override
-                                public void onResponse(Call call, Response response) {
+                                public void onResponse(@NonNull Call call, @NonNull Response response) {
                                     if (response.code() == 200) {
                                         Constants.weatherResponse = (Weather) response.body();
                                     } else {
@@ -136,6 +136,7 @@ public class BackgroundServices extends Service {
                 MapsFragment.tvTemperature.setText(Constants.weatherResponse.getMain().getTemp() + "°C");
                 MapsFragment.tvMinTemperature.setText(Constants.weatherResponse.getMain().getTempMin() + "°C");
                 MapsFragment.tvMaxTemperature.setText(Constants.weatherResponse.getMain().getTempMax() + "°C");
+                MapsFragment.tvTemperatureFeelsLike.setText(Constants.weatherResponse.getMain().getFeelsLike() + "°C");
                 MapsFragment.tvCountry.setText(Constants.weatherResponse.getName() + ", " + Constants.weatherResponse.getSys().getCountry());
                 MapsFragment.tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
                 MapsFragment.tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/rl_bottom_sheet"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/white"
-	android:paddingTop="12dp"
+	android:paddingTop="13dp"
 	app:behavior_hideable="false"
 	app:behavior_peekHeight="200dp"
+	tools:ignore="HardcodedText"
 	app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 	
 	<View
@@ -37,13 +39,14 @@
 				android:id="@+id/iv_play"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_play" />
-<!--			TODO CHANGE STOP BUTTON-->
+				android:src="@drawable/ic_play"
+				android:contentDescription="@null"/>
 			<ImageView
 				android:id="@+id/iv_pause"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_pause" />
+				android:src="@drawable/ic_pause"
+				android:contentDescription="@null"/>
 		</RelativeLayout>
 		
 		<ImageView
@@ -52,7 +55,8 @@
 			android:layout_height="wrap_content"
 			android:layout_marginStart="15dp"
 			android:layout_toEndOf="@id/rl_pause_play"
-			android:src="@drawable/ic_stop_2" />
+			android:src="@drawable/ic_stop_2"
+			android:contentDescription="@null" />
 		
 		<LinearLayout
 			android:id="@+id/ll_journey_started_at"
@@ -235,7 +239,8 @@
 				
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal">
+				android:orientation="horizontal"
+				android:baselineAligned="false">
 				
 				<LinearLayout
 					android:layout_width="0dp"
@@ -245,21 +250,21 @@
 					android:background="@drawable/bg_data_borders"
 					android:backgroundTint="#B6792B"
 					android:orientation="vertical"
-					android:paddingTop="12dp">
+					android:paddingTop="13dp">
 					
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_vertical"
-						android:layout_marginStart="13dp"
+						android:layout_marginStart="14dp"
 						android:fontFamily="@font/montserrat_bold"
 						android:text="Smart Watch"
 						android:textColor="@color/white"
-						android:textSize="15sp" />
+						android:textSize="16sp" />
 					
 					<LinearLayout
 						android:layout_width="match_parent"
-						android:layout_height="200dp"
+						android:layout_height="225dp"
 						android:layout_marginTop="10dp"
 						android:background="@drawable/bg_data_borders"
 						android:backgroundTint="#eeeeee"
@@ -287,7 +292,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Blood Pressure"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -296,8 +301,8 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="120/80 mmHg"
-										android:textSize="12sp"
+										android:text="130/80 mmHg"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -314,7 +319,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Heart Rate"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -324,7 +329,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="88 BPM"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -341,7 +346,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Blood Oxygen"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -351,7 +356,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="97%"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -368,7 +373,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Respiration Rate"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -378,7 +383,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="17 Per Min."
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 							</LinearLayout>
@@ -394,21 +399,21 @@
 					android:background="@drawable/bg_data_borders"
 					android:backgroundTint="#B6792B"
 					android:orientation="vertical"
-					android:paddingTop="12dp">
+					android:paddingTop="13dp">
 					
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_vertical"
-						android:layout_marginStart="13dp"
+						android:layout_marginStart="14dp"
 						android:fontFamily="@font/montserrat_bold"
 						android:text="Weather"
 						android:textColor="@color/white"
-						android:textSize="15sp" />
+						android:textSize="16sp" />
 					
 					<LinearLayout
 						android:layout_width="match_parent"
-						android:layout_height="200dp"
+						android:layout_height="225dp"
 						android:layout_marginTop="10dp"
 						android:background="@drawable/bg_data_borders"
 						android:backgroundTint="#eeeeee"
@@ -436,7 +441,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Weather"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -446,7 +451,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="Cloudy"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -463,7 +468,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Wind Speed"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -473,7 +478,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="3.5 km/h"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -490,7 +495,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Humidity"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -500,7 +505,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="97%"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -517,7 +522,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Clouds"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -527,7 +532,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="17%"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -544,7 +549,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Visibility"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -554,7 +559,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="10 km"
-										android:textSize="12sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 							</LinearLayout>
@@ -567,7 +572,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
-				android:orientation="horizontal">
+				android:orientation="horizontal"
+				android:baselineAligned="false">
 				
 				<LinearLayout
 					android:layout_width="0dp"
@@ -577,21 +583,21 @@
 					android:background="@drawable/bg_data_borders"
 					android:backgroundTint="#B6792B"
 					android:orientation="vertical"
-					android:paddingTop="12dp">
+					android:paddingTop="13dp">
 					
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_vertical"
-						android:layout_marginStart="13dp"
+						android:layout_marginStart="14dp"
 						android:fontFamily="@font/montserrat_bold"
 						android:text="Temperature"
 						android:textColor="@color/white"
-						android:textSize="15sp" />
+						android:textSize="16sp" />
 					
 					<LinearLayout
 						android:layout_width="match_parent"
-						android:layout_height="200dp"
+						android:layout_height="225dp"
 						android:layout_marginTop="10dp"
 						android:background="@drawable/bg_data_borders"
 						android:backgroundTint="#eeeeee"
@@ -619,7 +625,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Temperature "
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -629,7 +635,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="35°C"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -646,7 +652,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Min. Temperature"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -656,7 +662,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="35°C"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -673,7 +679,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Max. Temperature"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -683,7 +689,33 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="35°C"
-										android:textSize="12sp"
+										android:textSize="13sp"
+										android:textStyle="bold" />
+								</LinearLayout>
+								<LinearLayout
+									android:id="@+id/ll_temperature_feels_like"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:layout_marginTop="15dp"
+									android:orientation="vertical">
+									
+									<TextView
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:fontFamily="@font/montserrat_bold"
+										android:text="Feels Like"
+										android:textColor="@color/black"
+										android:textSize="14sp"
+										android:textStyle="bold" />
+									
+									<TextView
+										android:id="@+id/tv_temperature_feels_like"
+										android:layout_width="wrap_content"
+										android:layout_height="wrap_content"
+										android:layout_marginTop="3dp"
+										android:fontFamily="@font/montserrat_semi_bold"
+										android:text="35°C"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 							</LinearLayout>
@@ -699,21 +731,21 @@
 					android:background="@drawable/bg_data_borders"
 					android:backgroundTint="#B6792B"
 					android:orientation="vertical"
-					android:paddingTop="12dp">
+					android:paddingTop="13dp">
 					
 					<TextView
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_vertical"
-						android:layout_marginStart="13dp"
+						android:layout_marginStart="14dp"
 						android:fontFamily="@font/montserrat_bold"
 						android:text="Vehicle Details"
 						android:textColor="@color/white"
-						android:textSize="15sp" />
+						android:textSize="16sp" />
 					
 					<LinearLayout
 						android:layout_width="match_parent"
-						android:layout_height="200dp"
+						android:layout_height="225dp"
 						android:layout_marginTop="10dp"
 						android:background="@drawable/bg_data_borders"
 						android:backgroundTint="#eeeeee"
@@ -741,7 +773,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Speed"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -751,7 +783,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="100 km/h"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -768,7 +800,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Accuracy"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -778,7 +810,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="3.5"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 								
@@ -795,7 +827,7 @@
 										android:fontFamily="@font/montserrat_bold"
 										android:text="Altitude"
 										android:textColor="@color/black"
-										android:textSize="13sp"
+										android:textSize="14sp"
 										android:textStyle="bold" />
 									
 									<TextView
@@ -805,7 +837,7 @@
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
 										android:text="1000"
-										android:textSize="12sp"
+										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
 							</LinearLayout>

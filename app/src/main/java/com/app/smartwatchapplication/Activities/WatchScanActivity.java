@@ -130,7 +130,6 @@ public class WatchScanActivity extends AppCompatActivity {
 
                                     AlertDialog builder = new AlertDialog.Builder(WatchScanActivity.this)
                                             .setMessage("Watch Connected successfully")
-                                            .setTitle("Watch Connection")
                                             .setCancelable(false).setNeutralButton("OK", (dialog, which) -> {
                                                 Intent intent = new Intent(WatchScanActivity.this, ActivityMain.class);
                                                 dialog.dismiss();
@@ -156,7 +155,7 @@ public class WatchScanActivity extends AppCompatActivity {
                                                 Log.d("ADDING_READINGS", "ADDING_READGINS");
                                             }
                                             if (MapsFragment.tvBloodPressure != null) {
-                                                MapsFragment.tvBloodPressure.setText(Constants.currentWatchReadings.getSystolicBloodPressure() + "/" + Constants.currentWatchReadings.getDiastolicBloodPressure());
+                                                MapsFragment.tvBloodPressure.setText(Constants.currentWatchReadings.getSystolicBloodPressure() + "/" + Constants.currentWatchReadings.getDiastolicBloodPressure()+" mmHg");
                                             }
                                             if (MapsFragment.tvBloodOxygen != null) {
                                                 MapsFragment.tvBloodOxygen.setText(Constants.currentWatchReadings.getBloodOxygenLevel() + "%");
