@@ -26,7 +26,7 @@
 					android:layout_marginStart="52dp"
 					android:layout_marginTop="65dp"
 					android:src="@drawable/gss_logo_white" />
-				
+
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -106,10 +106,10 @@
 								app:ccp_showFlag="true"
 								app:ccp_showPhoneCode="false" />
 							<EditText
-								android:inputType="phone"
 								android:id="@+id/et_phone_no"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
+								android:inputType="phone"
 								android:backgroundTint="#DC953E"
 								android:fontFamily="@font/montserrat_regular" />
 						</LinearLayout>
@@ -134,7 +134,7 @@
 							android:fontFamily="@font/montserrat_regular"
 							android:text="Remember Me" />
 					</LinearLayout>
-					
+
 					<Button
 						android:id="@+id/btn_login"
 						android:layout_width="match_parent"
@@ -142,6 +142,7 @@
 						android:layout_below="@id/ll_remember_me"
 						android:layout_centerHorizontal="true"
 						android:layout_marginTop="75dp"
+						android:layout_marginBottom="25dp"
 						android:background="@drawable/button_bg"
 						android:drawableEnd="@drawable/ic_arrow_next"
 						android:elevation="5dp"
@@ -151,8 +152,7 @@
 						android:textAlignment="textStart"
 						android:textAllCaps="false"
 						android:textColor="@color/white"
-						android:textSize="16sp"
-						android:layout_marginBottom="25dp"/>
+						android:textSize="16sp" />
 				</RelativeLayout>
 			</RelativeLayout>
 		</LinearLayout>
