@@ -1,6 +1,7 @@
 package com.app.smartwatchapplication.Activities.Login;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -28,6 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
     EditText etPhoneNo;
     CountryCodePicker countryCodePicker;
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         findViewById(R.id.btn_login).setOnClickListener(view -> {
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setMessage("Verifying ...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
             if(countryCodePicker.isValidFullNumber()) {
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(Constants.GO_SAFE_BASE_URL)
@@ -56,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback() {
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
+                        progressDialog.dismiss();
                         if(response.code() ==200) {
                             Constants.USER = (GoSafeLoginApiResponse) response.body();
                             assert Constants.USER != null;
