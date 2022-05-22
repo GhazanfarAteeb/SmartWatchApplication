@@ -89,7 +89,7 @@ public class BackgroundServices extends Service {
                 cityCall.enqueue(new Callback<List<City>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<City>> call, @NonNull Response<List<City>> response) {
-                     System.out.println("xD RESPONSE_CODE"+ response.code());
+                     System.out.println("   RESPONSE_CODE"+ response.code());
                         if (response.code() == 200) {
                             List<City> cityList = response.body();
                             assert cityList != null;
