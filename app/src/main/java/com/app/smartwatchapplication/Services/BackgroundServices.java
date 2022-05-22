@@ -66,7 +66,7 @@ public class BackgroundServices extends Service {
                 latLngArrayList.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
             }
 
-            MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(5).color(Color.BLUE).geodesic(true));
+            MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(8).color(Color.BLUE).geodesic(true));
             MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
             MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
             MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude())) + "");
@@ -127,7 +127,7 @@ public class BackgroundServices extends Service {
                 Api service = retrofit.create(Api.class);
                 Constants.locationList.add(currentLocation);
 
-                if (speedInKMPH >= 8) {
+                if (speedInKMPH >= 15) {
                     Call<PostReadingsResponse> readingsCall = service.postAllData(
                             Constants.USER_ID,
                             String.valueOf(currentLocation.getLatitude()),
@@ -186,7 +186,7 @@ public class BackgroundServices extends Service {
                 MapsFragment.tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
                 MapsFragment.tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");
             }
-            MapsFragment.map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17.f));
+            MapsFragment.map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 16.f));
         }
     };
 
