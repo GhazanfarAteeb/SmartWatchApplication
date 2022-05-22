@@ -7,8 +7,6 @@ import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -114,13 +112,5 @@ public class PermissionUtils {
                 permissionRequest.launch(PERMISSIONS_FOR_ANDROID_S_AND_ABOVE);
             }
         }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    public static void checkAndRequestBackgroundLocationPermission(AppCompatActivity activity) {
-        if(ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.d("BG_LOCATION:", "GRANTED");
-        }
-
     }
 }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -65,8 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else {
                                 Constants.USER_ID = Constants.USER.getUser().get(0).getvApiUsername();
-                                Log.d("USER", Constants.USER_ID);
                                 startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
+                                finish();
                             }
                         }
                     }

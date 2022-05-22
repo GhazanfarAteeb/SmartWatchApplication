@@ -60,7 +60,6 @@ public class BackgroundServices extends Service {
             MapsFragment.map.clear();
             Location currentLocation = locationResult.getLastLocation();
             float speedInKMPH = (float) (currentLocation.getSpeed() * 3.6);
-            Log.d("CURRENT_SPEED", String.valueOf(speedInKMPH));
 
             List<LatLng> latLngArrayList = new ArrayList<>();
             for (Location loc : Constants.locationList) {
@@ -71,6 +70,7 @@ public class BackgroundServices extends Service {
             MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
             MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
             MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude())) + "");
+
             Log.d(null, "================ USER DETAILS ================");
             Log.d("CURRENT_LOCATION : ", currentLocation.getLatitude() + "," + currentLocation.getLongitude());
             Log.d("CURRENT_SPEED : ", String.valueOf(currentLocation.getSpeed()));
@@ -129,7 +129,7 @@ public class BackgroundServices extends Service {
                         .build();
                 Api service = retrofit.create(Api.class);
                 Constants.locationList.add(currentLocation);
-                Log.d("USER_ID", Constants.USER_ID);
+
                 if (speedInKMPH >= 3) {
                     Call<PostReadingsResponse> readingsCall = service.postAllData(
                             Constants.USER_ID,
@@ -158,17 +158,17 @@ public class BackgroundServices extends Service {
                     readingsCall.enqueue(new Callback<PostReadingsResponse>() {
                         @Override
                         public void onResponse(Call<PostReadingsResponse> call, Response<PostReadingsResponse> response) {
-                            Log.d("READINGS_RESPONSE", response.code()+"");
+
                             if(response.code() == 200) {
                                 PostReadingsResponse postReadingsResponse = response.body();
                                 assert postReadingsResponse != null;
-                                Log.d("Readings",postReadingsResponse.success+"");
+
                             }
                         }
 
                         @Override
                         public void onFailure(Call<PostReadingsResponse> call, Throwable t) {
-                            System.out.println(t);
+
                         }
                     });
                 }

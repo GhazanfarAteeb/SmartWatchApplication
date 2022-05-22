@@ -153,7 +153,7 @@ public class WatchScanActivity extends AppCompatActivity {
                                             Constants.currentWatchReadings.setHeartRate(healthyDataResult.getHeartRate());
                                             Constants.currentWatchReadings.setBloodOxygenLevel(healthyDataResult.getOxygen());
                                             Constants.currentWatchReadings.setRespirationRate(healthyDataResult.getRespiratoryRate());
-                                            Log.d("ADDING_READINGS", "ADDING_READGINS");
+
 
                                             if (MapsFragment.tvBloodPressure != null) {
                                                 MapsFragment.tvBloodPressure.setText(Constants.currentWatchReadings.getSystolicBloodPressure() + "/" + Constants.currentWatchReadings.getDiastolicBloodPressure() + " mmHg");
