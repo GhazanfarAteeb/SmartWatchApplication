@@ -89,7 +89,7 @@ public class BackgroundServices extends Service {
                 cityCall.enqueue(new Callback<List<City>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<City>> call, @NonNull Response<List<City>> response) {
-                     System.out.println("   RESPONSE_CODE"+ response.code());
+                        System.out.println("   RESPONSE_CODE" + response.code());
                         if (response.code() == 200) {
                             List<City> cityList = response.body();
                             assert cityList != null;
@@ -104,6 +104,7 @@ public class BackgroundServices extends Service {
                                         System.out.println("Cannot show data");
                                     }
                                 }
+
                                 @Override
                                 public void onFailure(@NonNull Call call, @NonNull Throwable t) {
 
@@ -156,7 +157,7 @@ public class BackgroundServices extends Service {
                         @Override
                         public void onResponse(Call<PostReadingsResponse> call, Response<PostReadingsResponse> response) {
 
-                            if(response.code() == 200) {
+                            if (response.code() == 200) {
                                 PostReadingsResponse postReadingsResponse = response.body();
                                 assert postReadingsResponse != null;
 
