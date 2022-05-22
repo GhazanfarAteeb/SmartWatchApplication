@@ -21,7 +21,7 @@
 			android:layout_gravity="center_vertical"
 			android:layout_marginStart="20dp"
 			android:fontFamily="@font/montserrat_bold"
-			android:text="Acction Information"
+			android:text="Account Information"
 			android:textColor="@color/black"
 			android:textSize="22sp" />
 	</LinearLayout>
