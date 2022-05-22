@@ -44,8 +44,7 @@
 			android:focusable="false"
 			android:hint="Name"
 			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false"
-			>
+			android:focusableInTouchMode="false">
 			
 			<com.google.android.material.textfield.TextInputEditText
 				android:layout_width="match_parent"
@@ -53,7 +52,8 @@
 				android:clickable="false"
 				android:focusable="false"
 				android:textSize="14sp"
-				android:text="Usama Shaukat" />
+				android:text="Usama Shaukat"
+				android:focusableInTouchMode="false" />
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -78,7 +78,8 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="Allama Iqbal Town, Lahore" />
+				android:text="Allama Iqbal Town, Lahore"
+				android:focusableInTouchMode="false" />
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -103,7 +104,8 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="03007000050" />
+				android:text="03007000050"
+				android:focusableInTouchMode="false"/>
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -128,7 +130,8 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="XX-XXXX-XXXX-XXX" />
+				android:text="XX-XXXX-XXXX-XXX"
+				android:focusableInTouchMode="false" />
 		
 		</com.google.android.material.textfield.TextInputLayout>
 		
@@ -152,7 +155,8 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="28th May 2020" />
+				android:text="28th May 2020"
+				android:focusableInTouchMode="false" />
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -184,7 +188,8 @@
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="Honda" />
+					android:text="Honda"
+					android:focusableInTouchMode="false" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -207,7 +212,8 @@
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="Honda" />
+					android:text="Honda"
+					android:focusableInTouchMode="false" />
 			
 			</com.google.android.material.textfield.TextInputLayout>
 		</LinearLayout>
@@ -231,7 +237,8 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="XXXX-XXXX-XX" />
+				android:text="XXXX-XXXX-XX"
+				android:focusableInTouchMode="false" />
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -256,7 +263,8 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="XXXX-XXX-XXXX-X" />
+				android:text="XXXX-XXX-XXXX-X"
+				android:focusableInTouchMode="false" />
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
@@ -280,17 +288,19 @@
 				android:layout_height="wrap_content"
 				android:clickable="false"
 				android:focusable="false"
-				android:text="SUV" />
+				android:text="SUV"
+				android:focusableInTouchMode="false" />
 		
 		
 		</com.google.android.material.textfield.TextInputLayout>
 		
 		<Button
-			
+			android:backgroundTint="@color/red"
 			android:id="@+id/btn_login"
 			android:layout_width="300dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
+			android:gravity="start"
 			android:layout_marginTop="30dp"
 			android:background="@drawable/button_bg"
 			android:drawableEnd="@drawable/ic_arrow_next"
@@ -298,7 +308,6 @@
 			android:fontFamily="@font/montserrat_medium"
 			android:padding="20dp"
 			android:text="Logout"
-			android:textAlignment="center"
 			android:textAllCaps="false"
 			android:textColor="@color/white"
 			android:textSize="16sp" />
