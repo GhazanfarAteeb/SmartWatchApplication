@@ -130,7 +130,7 @@ public class BackgroundServices extends Service {
                 Api service = retrofit.create(Api.class);
                 Constants.locationList.add(currentLocation);
 
-                if (speedInKMPH >= 3) {
+                if (speedInKMPH >= 8) {
                     Call<PostReadingsResponse> readingsCall = service.postAllData(
                             Constants.USER_ID,
                             String.valueOf(currentLocation.getLatitude()),
@@ -268,13 +268,13 @@ public class BackgroundServices extends Service {
         builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         //builder.setSmallIcon(R.drawable.ic_notification_24dp)
         builder.setSmallIcon(R.mipmap.ic_launcher_round)
-                .setColor(getResources().getColor(R.color.teal_200))
                 .setContentTitle(getString(R.string.app_name))
                 .setShowWhen(false)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setOngoing(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentText("Go Safe School is running in background.");
 
         final Intent startIntent = new Intent(getApplicationContext(), ActivityMain.class);
         startIntent.setAction(Intent.ACTION_MAIN);

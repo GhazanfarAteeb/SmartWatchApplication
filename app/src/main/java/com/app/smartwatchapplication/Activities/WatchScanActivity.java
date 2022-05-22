@@ -129,8 +129,9 @@ public class WatchScanActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
 
                                     AlertDialog builder = new AlertDialog.Builder(WatchScanActivity.this)
-                                            .setMessage("Watch Connected successfully")
-                                            .setCancelable(false).setNeutralButton("OK", (dialog, which) -> {
+                                            .setTitle("Watch Connected")
+                                            .setMessage("Your watch have been connected successfully.")
+                                            .setCancelable(false).setPositiveButton("OK", (dialog, which) -> {
                                                 Intent intent = new Intent(WatchScanActivity.this, ActivityMain.class);
                                                 startActivity(intent);
                                                 finish();
