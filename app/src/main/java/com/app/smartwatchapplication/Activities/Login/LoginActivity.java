@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 etPhoneNo.setError("Phone number not valid");
-
+                progressDialog.dismiss();
             }
         });
     }

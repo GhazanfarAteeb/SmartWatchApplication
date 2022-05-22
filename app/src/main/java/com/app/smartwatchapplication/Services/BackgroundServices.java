@@ -94,9 +94,6 @@ public class BackgroundServices extends Service {
                             List<City> cityList = response.body();
                             assert cityList != null;
                             Constants.city = cityList.get(0);
-                            System.out.println(Constants.city.getName());
-                            System.out.println(Constants.city.getLat());
-                            System.out.println(Constants.city.getLon());
                             Call<Weather> weatherCall = service.getCurrentWeatherData(Constants.city.getLat(), Constants.city.getLon(), Constants.AppId, Constants.mode, Constants.units);
                             weatherCall.enqueue(new Callback<Weather>() {
                                 @Override
