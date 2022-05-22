@@ -17,6 +17,7 @@ import java.util.List;
 public class Constants {
     public static final long FASTEST_INTERVAL = 0;
     public static final long INTERVAL = 0;
+    public static final String LOGIN_SAVED = null;
     public static boolean isFineLocationPermissionGranted = false;
     public static boolean isCoarseLocationPermissionGranted = false;
     public static boolean isBluetoothPermissionGranted = false;
@@ -42,4 +43,6 @@ public class Constants {
     public static String GO_SAFE_BASE_URL = "https://gosafeschool.com/";
     public static GoSafeLoginApiResponse USER;
     public static String USER_ID;
+    public static boolean IS_ON_BOARDING_SHOWN = false;
+    public static String ON_BOARDING_SHOWN = "ON_BOARDING_SHOWN";
 }

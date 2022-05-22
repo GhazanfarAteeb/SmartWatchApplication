@@ -12,14 +12,18 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.smartwatchapplication.Activities.Login.LoginActivity;
 import com.app.smartwatchapplication.Activities.OnBoardingScreens.OnBoardingScreen1Activity;
+import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
+import com.app.smartwatchapplication.SharedPreferences.SharedPref;
 
 public class LoadingScreenActivity extends AppCompatActivity {
     ImageView ivLogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPref.init(LoadingScreenActivity.this);
         setContentView(R.layout.activity_loading_screen);
         init();
         addAnimation();
@@ -54,13 +58,15 @@ public class LoadingScreenActivity extends AppCompatActivity {
         });
         ivLogo.startAnimation(anim);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        new Handler().postDelayed(() -> {
+            if (!SharedPref.readBoolean(Constants.ON_BOARDING_SHOWN, Constants.IS_ON_BOARDING_SHOWN)) {
                 startActivity(new Intent(LoadingScreenActivity.this, OnBoardingScreen1Activity.class));
-                overridePendingTransition(0,0);
-                finish();
             }
+            else {
+                startActivity(new Intent(LoadingScreenActivity.this, LoginActivity.class));
+            }
+            overridePendingTransition(0,0);
+            finish();
         },4500);
     }
 }

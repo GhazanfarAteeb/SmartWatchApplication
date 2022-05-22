@@ -124,7 +124,8 @@
 						<CheckBox
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:buttonTint="#DC953E" />
+							android:buttonTint="#DC953E"
+							android:id="@+id/cb_remember_me"/>
 						<TextView
 							android:textSize="16dp"
 							android:textColor="#DC953E"
