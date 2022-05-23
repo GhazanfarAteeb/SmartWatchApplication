@@ -26,160 +26,26 @@
 			android:textSize="22sp" />
 	</LinearLayout>
 	
-	<LinearLayout
+	<ScrollView
 		android:layout_below="@id/ll_title"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:foregroundTint="@color/brown"
-			android:id="@+id/et_name"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="30dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Name"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:textSize="14sp"
-				android:text="Usama Shaukat"
-				android:focusableInTouchMode="false" />
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_address"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Address"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="Allama Iqbal Town, Lahore"
-				android:focusableInTouchMode="false" />
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_phone_no"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/et_address"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Phone Number"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="03007000050"
-				android:focusableInTouchMode="false"/>
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_license_no"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/et_phone_no"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="License Number"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="XX-XXXX-XXXX-XXX"
-				android:focusableInTouchMode="false" />
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_doj"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/et_license_no"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Date of Joining"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="28th May 2020"
-				android:focusableInTouchMode="false" />
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
+		android:layout_height="wrap_content">
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:baselineAligned="false"
-			android:orientation="horizontal"
-			android:focusableInTouchMode="false">
+			android:orientation="vertical">
 			
 			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/et_vehicle_name"
+				android:foregroundTint="@color/brown"
+				android:id="@+id/et_name"
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-				android:layout_width="0dp"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				android:layout_marginStart="30dp"
+				android:layout_marginEnd="30dp"
 				android:contextClickable="false"
 				android:focusable="false"
-				android:hint="Vehicle Name"
+				android:hint="Name"
 				app:expandedHintEnabled="true"
 				android:focusableInTouchMode="false">
 				
@@ -188,22 +54,25 @@
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="Honda"
+					android:textSize="14sp"
+					android:text="Usama Shaukat"
 					android:focusableInTouchMode="false" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
 			
+			
 			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/et_manu_by"
+				android:id="@+id/et_address"
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-				android:layout_width="0dp"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="16dp"
-				android:layout_weight="1"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
 				android:contextClickable="false"
 				android:focusable="false"
-				android:hint="Manufacturer Name"
+				android:hint="Address"
 				app:expandedHintEnabled="true"
 				android:focusableInTouchMode="false">
 				
@@ -212,105 +81,240 @@
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="Honda"
+					android:text="Allama Iqbal Town, Lahore"
+					android:focusableInTouchMode="false" />
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/et_phone_no"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/et_address"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:contextClickable="false"
+				android:focusable="false"
+				android:hint="Phone Number"
+				app:expandedHintEnabled="true"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clickable="false"
+					android:focusable="false"
+					android:text="03007000050"
+					android:focusableInTouchMode="false"/>
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/et_license_no"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/et_phone_no"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:contextClickable="false"
+				android:focusable="false"
+				android:hint="License Number"
+				app:expandedHintEnabled="true"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clickable="false"
+					android:focusable="false"
+					android:text="XX-XXXX-XXXX-XXX"
 					android:focusableInTouchMode="false" />
 			
 			</com.google.android.material.textfield.TextInputLayout>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/et_doj"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@+id/et_license_no"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:contextClickable="false"
+				android:focusable="false"
+				android:hint="Date of Joining"
+				app:expandedHintEnabled="true"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clickable="false"
+					android:focusable="false"
+					android:text="28th May 2020"
+					android:focusableInTouchMode="false" />
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:baselineAligned="false"
+				android:orientation="horizontal"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/et_vehicle_name"
+					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:contextClickable="false"
+					android:focusable="false"
+					android:hint="Vehicle Name"
+					app:expandedHintEnabled="true"
+					android:focusableInTouchMode="false">
+					
+					<com.google.android.material.textfield.TextInputEditText
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:clickable="false"
+						android:focusable="false"
+						android:text="Honda"
+						android:focusableInTouchMode="false" />
+				
+				
+				</com.google.android.material.textfield.TextInputLayout>
+				
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/et_manu_by"
+					style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="16dp"
+					android:layout_weight="1"
+					android:contextClickable="false"
+					android:focusable="false"
+					android:hint="Manufacturer Name"
+					app:expandedHintEnabled="true"
+					android:focusableInTouchMode="false">
+					
+					<com.google.android.material.textfield.TextInputEditText
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:clickable="false"
+						android:focusable="false"
+						android:text="Honda"
+						android:focusableInTouchMode="false" />
+				
+				</com.google.android.material.textfield.TextInputLayout>
+			</LinearLayout>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/et_engine_number"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:contextClickable="false"
+				android:focusable="false"
+				android:hint="Engine Number"
+				app:expandedHintEnabled="true"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clickable="false"
+					android:focusable="false"
+					android:text="XXXX-XXXX-XX"
+					android:focusableInTouchMode="false" />
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/et_chassis_no"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:contextClickable="false"
+				android:focusable="false"
+				android:hint="Chassis Number"
+				app:expandedHintEnabled="true"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clickable="false"
+					android:focusable="false"
+					android:text="XXXX-XXX-XXXX-X"
+					android:focusableInTouchMode="false" />
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/et_vehicle_type"
+				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="5dp"
+				android:layout_marginEnd="30dp"
+				android:contextClickable="false"
+				android:focusable="false"
+				android:hint="Vehicle Type"
+				app:expandedHintEnabled="true"
+				android:focusableInTouchMode="false">
+				
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:clickable="false"
+					android:focusable="false"
+					android:text="SUV"
+					android:focusableInTouchMode="false" />
+			
+			
+			</com.google.android.material.textfield.TextInputLayout>
+			
+			<Button
+				android:backgroundTint="@color/red"
+				android:id="@+id/btn_login"
+				android:layout_width="300dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:gravity="start"
+				android:layout_marginTop="30dp"
+				android:background="@drawable/button_bg"
+				android:drawableEnd="@drawable/ic_arrow_next"
+				android:elevation="5dp"
+				android:fontFamily="@font/montserrat_medium"
+				android:padding="20dp"
+				android:text="Logout"
+				android:textAllCaps="false"
+				android:textColor="@color/white"
+				android:textSize="16sp" />
+		
 		</LinearLayout>
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_engine_number"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Engine Number"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="XXXX-XXXX-XX"
-				android:focusableInTouchMode="false" />
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_chassis_no"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Chassis Number"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="XXXX-XXX-XXXX-X"
-				android:focusableInTouchMode="false" />
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/et_vehicle_type"
-			style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="30dp"
-			android:layout_marginTop="5dp"
-			android:layout_marginEnd="30dp"
-			android:contextClickable="false"
-			android:focusable="false"
-			android:hint="Vehicle Type"
-			app:expandedHintEnabled="true"
-			android:focusableInTouchMode="false">
-			
-			<com.google.android.material.textfield.TextInputEditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:clickable="false"
-				android:focusable="false"
-				android:text="SUV"
-				android:focusableInTouchMode="false" />
-		
-		
-		</com.google.android.material.textfield.TextInputLayout>
-		
-		<Button
-			android:backgroundTint="@color/red"
-			android:id="@+id/btn_login"
-			android:layout_width="300dp"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:gravity="start"
-			android:layout_marginTop="30dp"
-			android:background="@drawable/button_bg"
-			android:drawableEnd="@drawable/ic_arrow_next"
-			android:elevation="5dp"
-			android:fontFamily="@font/montserrat_medium"
-			android:padding="20dp"
-			android:text="Logout"
-			android:textAllCaps="false"
-			android:textColor="@color/white"
-			android:textSize="16sp" />
-	
-	</LinearLayout>
+	</ScrollView>
 </RelativeLayout>

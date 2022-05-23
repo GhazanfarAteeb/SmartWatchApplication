@@ -1,8 +1,6 @@
 package com.app.smartwatchapplication.Adapters;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.smartwatchapplication.Activities.WatchScanActivity;
@@ -40,16 +37,7 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RxBleDevice watch = watchList.get(position);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+
         holder.tvName.setText(watch.getBluetoothDevice().getName());
         holder.tvMacAddress.setText(watch.getBluetoothDevice().getAddress());
         holder.itemView.setOnClickListener( (view) -> {
