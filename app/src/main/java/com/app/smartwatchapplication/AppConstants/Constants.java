@@ -10,8 +10,10 @@ import com.app.smartwatchapplication.Modals.WatchReadings;
 import com.app.smartwatchapplication.Modals.Weather.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.model.LatLng;
 import com.polidea.rxandroidble2.RxBleDevice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
@@ -45,4 +47,5 @@ public class Constants {
     public static String USER_ID;
     public static boolean IS_ON_BOARDING_SHOWN = false;
     public static String ON_BOARDING_SHOWN = "ON_BOARDING_SHOWN";
+    public static List<LatLng> latLngArrayList = new ArrayList<>();
 }

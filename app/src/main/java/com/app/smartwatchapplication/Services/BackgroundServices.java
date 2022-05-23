@@ -37,7 +37,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,13 +59,7 @@ public class BackgroundServices extends Service {
             MapsFragment.map.clear();
             Location currentLocation = locationResult.getLastLocation();
             float speedInKMPH = (float) (currentLocation.getSpeed() * 3.6);
-
-            List<LatLng> latLngArrayList = new ArrayList<>();
-            for (Location loc : Constants.locationList) {
-                latLngArrayList.add(new LatLng(loc.getLatitude(), loc.getLongitude()));
-            }
-
-            MapsFragment.map.addPolyline(new PolylineOptions().addAll(latLngArrayList).width(8).color(Color.BLUE).geodesic(true));
+            Constants.latLngArrayList.add(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
             MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
             MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
             MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude())) + "");
@@ -128,7 +121,7 @@ public class BackgroundServices extends Service {
                 Api service = retrofit.create(Api.class);
                 Constants.locationList.add(currentLocation);
 
-                if (speedInKMPH >= 15) {
+                if (speedInKMPH >= 3) {
                     Call<PostReadingsResponse> readingsCall = service.postAllData(
                             Constants.USER_ID,
                             String.valueOf(currentLocation.getLatitude()),
@@ -187,6 +180,7 @@ public class BackgroundServices extends Service {
                 MapsFragment.tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
                 MapsFragment.tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");
             }
+            MapsFragment.map.addPolyline(new PolylineOptions().addAll(Constants.latLngArrayList).width(8).color(Color.BLUE).geodesic(true));
             MapsFragment.map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 16.f));
         }
     };

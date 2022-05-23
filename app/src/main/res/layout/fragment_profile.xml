@@ -299,7 +299,7 @@
 			
 			<Button
 				android:backgroundTint="@color/red"
-				android:id="@+id/btn_login"
+				android:id="@+id/btn_logout"
 				android:layout_width="300dp"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
