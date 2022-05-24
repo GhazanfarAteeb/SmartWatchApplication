@@ -33,11 +33,8 @@ public class Constants {
     public static Notification notification;
     public static RxBleDevice connectedDevice = null;
     public static WatchReadings currentWatchReadings = new WatchReadings();
-    public static boolean isWeatherFetched = false;
     public static String BaseUrl = "http://api.openweathermap.org/";
     public static String AppId = "714563e4b3022ea7e11842bf0f5af4a4";
-    public static String lat = "35";
-    public static String lon = "139";
     public static String mode = "JSON";
     public static String units ="metric";
     public static Weather weatherResponse;
