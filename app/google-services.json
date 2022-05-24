@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1079748196427",
+    "project_id": "smartwatchapplication-c52a5",
+    "storage_bucket": "smartwatchapplication-c52a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079748196427:android:c70c808c4b0da968c575ce",
+        "android_client_info": {
+          "package_name": "com.app.smartwatchapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079748196427-604cknkgq3nbb812qcg636h28ij5or4k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.smartwatchapplication",
+            "certificate_hash": "2110b84df41d5b6e2a129b16a6edf2884d4d2961"
+          }
+        },
+        {
+          "client_id": "1079748196427-dj043hla57ni8ctk4cib0lg5no06al13.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAlnjTUHwwkHFYq8E0doTlpbM6ZuJR7b8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079748196427-dj043hla57ni8ctk4cib0lg5no06al13.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
