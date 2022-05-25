@@ -214,7 +214,7 @@ public class WatchScanActivity extends AppCompatActivity {
                             // Location settings are NOT satisfied,  but this can be fixed  by showing the user a dialog.
                             try {
                                 ResolvableApiException resolvable = (ResolvableApiException) ex;
-                                resolvable.startResolutionForResult(WatchScanActivity.this, 123);
+                                resolvable.startResolutionForResult(WatchScanActivity.this, Constants.Location_SERVICE_REQUEST_CODE);
                             } catch (IntentSender.SendIntentException sendEx) {
                                 // Ignore the error.
                             }
@@ -228,7 +228,7 @@ public class WatchScanActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123) {
+        if (requestCode ==  Constants.Location_SERVICE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 scanWatch();
             }

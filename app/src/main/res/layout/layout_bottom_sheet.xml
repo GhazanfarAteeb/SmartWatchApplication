@@ -411,7 +411,8 @@
 						android:backgroundTint="#eeeeee"
 						android:orientation="vertical">
 						
-						<ScrollView
+						<androidx.core.widget.NestedScrollView
+							android:scrollbars="vertical"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:padding="10dp">
@@ -555,7 +556,7 @@
 										android:textStyle="bold" />
 								</LinearLayout>
 							</LinearLayout>
-						</ScrollView>
+						</androidx.core.widget.NestedScrollView>
 					</LinearLayout>
 				</LinearLayout>
 			</LinearLayout>

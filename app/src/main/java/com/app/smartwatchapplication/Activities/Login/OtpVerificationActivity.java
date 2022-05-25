@@ -1,8 +1,8 @@
 package com.app.smartwatchapplication.Activities.Login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -11,13 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.app.smartwatchapplication.Activities.ActivityMain;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -26,81 +21,98 @@ import java.util.concurrent.TimeUnit;
 
 public class OtpVerificationActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
-    PhoneAuthOptions phoneAuthOptions;
     Button btnVerifyOTP;
-    PhoneAuthProvider.ForceResendingToken resendingToken;
     String vID;
+    OtpEditText otpEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_verification);
         init();
         setListeners();
+        assert Constants.USER.getUser() != null;
+        sendVerificationCode(Constants.USER.getUser().get(0).getvApiUsername());
     }
 
     private void init() {
+        otpEditText = findViewById(R.id.et_otp);
         firebaseAuth = FirebaseAuth.getInstance();
         btnVerifyOTP = findViewById(R.id.btn_verify_otp);
-        phoneAuthOptions = PhoneAuthOptions.newBuilder(firebaseAuth)
-                .setPhoneNumber(Constants.USER.getUser().get(0).getvApiUsername())
-                .setTimeout(5L, TimeUnit.MINUTES)
-                .setActivity(OtpVerificationActivity.this)
-                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                        signInWithPhoneAuthCredential(phoneAuthCredential);
-                        startActivity(new Intent(OtpVerificationActivity.this, ActivityMain.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-
-                    }
-
-                    @Override
-                    public void onCodeSent(@NonNull String verificationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                        super.onCodeSent(verificationID, forceResendingToken);
-
-                        // The SMS verification code has been sent to the provided phone number, we
-                        // now need to ask the user to enter the code and then construct a credential
-                        // by combining the code with a verification ID.
-                        Log.d("VERIFICATION_ID", "onCodeSent:" + verificationID);
-
-                        // Save verification ID and resending token so we can use them later
-                        vID = verificationID;
-                        resendingToken = forceResendingToken;
-                    }
-                })
-                .build();
+        assert Constants.USER.getUser() != null;
+        sendVerificationCode(Constants.USER.getUser().get(0).getvApiUsername());
     }
 
     private void setListeners() {
         btnVerifyOTP.setOnClickListener(view -> {
-            startActivity(new Intent(OtpVerificationActivity.this, ActivityMain.class));
-            finish();
+            if (!otpEditText.getText().toString().isEmpty() && otpEditText.getText().toString().length() == 6) {
+                verifyCode(otpEditText.getText().toString());
+
+            }
         });
     }
 
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("FIREBASE_SIGN_IN", "signInWithCredential:success");
-
-                            FirebaseUser user = task.getResult().getUser();
-                            // Update UI
-                        } else {
-                            // Sign in failed, display a message and update the UI
-                            Log.w("FIREBASE_SIGN_IN", "signInWithCredential:failure", task.getException());
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                            }
-                        }
+    private void signInWithCredential(PhoneAuthCredential credential) {
+//        firebaseAuth.getFirebaseAuthSettings().forceRecaptchaFlowForTesting(false);
+//        firebaseAuth.getFirebaseAuthSettings().setAutoRetrievedSmsCodeForPhoneNumber("+923109453603","123456");
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        firebaseAuth.signOut();
+                        Intent i = new Intent(OtpVerificationActivity.this, ActivityMain.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        task.getException().getLocalizedMessage();
                     }
                 });
+    }
+
+
+    private void sendVerificationCode(String number) {
+        // this method is used for getting
+        // OTP on user phone number.
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(firebaseAuth)
+                        .setPhoneNumber(number)
+                        .setTimeout(20L, TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            @Override
+                            public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(s, forceResendingToken);
+                                vID = s;
+                            }
+                            @Override
+                            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                                final String code = phoneAuthCredential.getSmsCode();
+                                if (code != null) {
+                                    otpEditText.setText(code);
+                                    ProgressDialog progressDialog = new ProgressDialog(OtpVerificationActivity.this);
+                                    progressDialog.setMessage("Verifying OTP ...");
+                                    progressDialog.show();
+                                    verifyCode(code);
+                                }
+                            }
+                            @Override
+                            public void onVerificationFailed(FirebaseException e) {
+                                e.getLocalizedMessage();
+                            }
+
+                            @Override
+                            public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
+                                super.onCodeAutoRetrievalTimeOut(s);
+                                System.out.println("TIMEOUT: "+s);
+                            }
+                        })
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void verifyCode(String code) {
+        try {
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(vID, code);
+            signInWithCredential(credential);
+        } catch (Exception e) {
+            System.out.println("WRONG CODE ENTERED");
+        }
     }
 }

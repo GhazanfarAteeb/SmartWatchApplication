@@ -40,7 +40,7 @@
 	</LinearLayout>
 	
 	<com.app.smartwatchapplication.Activities.Login.OtpEditText
-		android:maxLength="4"
+		android:inputType="phone"
 		android:id="@+id/et_otp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -48,7 +48,9 @@
 		android:layout_marginStart="40dp"
 		android:layout_marginTop="25dp"
 		android:layout_marginEnd="40dp"
-		android:autofillHints="smsOTPCode" />
+		android:autofillHints="smsOTPCode"
+		android:fontFamily="@font/montserrat_medium"
+		android:maxLength="6" />
 	<LinearLayout
 		android:id="@+id/ll_resend_otp"
 		android:layout_marginTop="14dp"

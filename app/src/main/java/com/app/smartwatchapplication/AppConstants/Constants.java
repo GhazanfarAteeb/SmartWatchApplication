@@ -33,16 +33,21 @@ public class Constants {
     public static Notification notification;
     public static RxBleDevice connectedDevice = null;
     public static WatchReadings currentWatchReadings = new WatchReadings();
-    public static String BaseUrl = "http://api.openweathermap.org/";
-    public static String AppId = "714563e4b3022ea7e11842bf0f5af4a4";
-    public static String mode = "JSON";
-    public static String units ="metric";
+    public static final String BaseUrl = "http://api.openweathermap.org/";
+    public static final String AppId = "714563e4b3022ea7e11842bf0f5af4a4";
+    public static final String mode = "JSON";
+    public static final String units ="metric";
     public static Weather weatherResponse;
     public static City city;
     public static String GO_SAFE_BASE_URL = "https://gosafeschool.com/";
     public static GoSafeLoginApiResponse USER;
     public static String USER_ID;
     public static boolean IS_ON_BOARDING_SHOWN = false;
-    public static String ON_BOARDING_SHOWN = "ON_BOARDING_SHOWN";
+    public static final String ON_BOARDING_SHOWN = "ON_BOARDING_SHOWN";
     public static List<LatLng> latLngArrayList = new ArrayList<>();
+    public static final int Location_SERVICE_REQUEST_CODE = 123;
+    public static final int CREDENTIAL_PICKER_REQUEST = 1;
+    public static final int SMS_CONSENT_REQUEST = 2;
+
+
 }

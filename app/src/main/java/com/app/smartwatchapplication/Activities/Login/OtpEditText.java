@@ -13,10 +13,10 @@ import androidx.appcompat.widget.AppCompatEditText;
 import com.app.smartwatchapplication.R;
 
 public class  OtpEditText extends AppCompatEditText {
-    private float mSpace = 24; //24 dp by default, space between the lines
-    private float mNumChars = 4;
+    private float mSpace = 16; //24 dp by default, space between the lines
+    private float mNumChars = 6;
     private float mLineSpacing = 8; //8dp by default, height of the text from our lines
-    private int mMaxLength = 4;
+    private int mMaxLength = 6;
     private float mLineStroke = 2;
     private Paint mLinesPaint;
     private OnClickListener mClickListener;
