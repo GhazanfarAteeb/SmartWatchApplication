@@ -45,11 +45,34 @@ public class Constants {
     public static boolean IS_ON_BOARDING_SHOWN = false;
     public static final String ON_BOARDING_SHOWN = "ON_BOARDING_SHOWN";
     public static List<LatLng> latLngArrayList = new ArrayList<>();
-    public static final int Location_SERVICE_REQUEST_CODE = 123;
-    public static final int CREDENTIAL_PICKER_REQUEST = 1;
-    public static final int SMS_CONSENT_REQUEST = 2;
+
+    //DATABASE ATTRIBUTES
     public static final String DB_NAME = "gss.db";
     public static final int DB_VERSION = 1;
+    public static final String READINGS_TABLE_NAME = "READINGS";
+    public static final String READINGS_ID = "ID";
+    public static final String READINGS_LAT = "LAT";
+    public static final String READINGS_LON = "LON";
+    public static final String READINGS_TIMESTAMP = "TIMESTAMP";
+    public static final String READINGS_ALTITUDE = "ALTITUDE";
+    public static final String READINGS_ACCURACY = "ACCURACY";
+    public static final String READINGS_SPEED = "SPEED";
+    public static final String READINGS_BEARING = "BEARING";
+    public static final String READINGS_TEMP = "TEMPERATURE";
+    public static final String READINGS_FEELS_LIKE = "FEELS_LIKE";
+    public static final String READINGS_TEMP_MAX = "MAXIMUM_TEMPERATURE";
+    public static final String READINGS_TEMP_MIN = "MINIMUM_TEMPERATURE";
+    public static final String READINGS_PRESSURE = "PRESSURE";
+    public static final String READINGS_HUMIDITY = "HUMIDITY";
+    public static final String READINGS_WIND = "WIND";
+    public static final String READINGS_CLOUDS = "CLOUDS";
+    public static final String READINGS_VISIBILITY = "VISIBILITY";
+    public static final String READINGS_SYSTOLIC_BLOOD_PRESSURE = "SYSTOLIC_BLOOD_PRESSURE";
+    public static final String READINGS_DIASTOLIC_BLOOD_PRESSURE = "DIASTOLIC_BLOOD_PRESSURE";
+    public static final String READINGS_HEART_RATE = "HEART_RATE";
+    public static final String READINGS_BLOOD_OXYGEN = "BLOOD_OXYGEN";
+    public static final String READINGS_RESPIRATION_RATE = "RESPIRATION_RATE";
+    public static final String READINGS_STATUS = "STATUS";
 
 
 }
