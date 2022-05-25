@@ -19,7 +19,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
-			android:layout_marginStart="20dp"
+			android:layout_mahrginStart="20dp"
 			android:fontFamily="@font/montserrat_bold"
 			android:text="Account Information"
 			android:textColor="@color/black"

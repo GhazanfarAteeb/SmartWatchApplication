@@ -48,6 +48,8 @@ public class Constants {
     public static final int Location_SERVICE_REQUEST_CODE = 123;
     public static final int CREDENTIAL_PICKER_REQUEST = 1;
     public static final int SMS_CONSENT_REQUEST = 2;
+    public static final String DB_NAME = "gss.db";
+    public static final int DB_VERSION = 1;
 
 
 }
