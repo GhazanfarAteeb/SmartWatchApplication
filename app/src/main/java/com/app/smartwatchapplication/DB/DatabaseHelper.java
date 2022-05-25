@@ -36,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, Constants.DB_NAME, null, Constants.DB_VERSION);
-
     }
 
     @Override
@@ -72,6 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS "+ READINGS_TABLE_NAME);
     }
 }
