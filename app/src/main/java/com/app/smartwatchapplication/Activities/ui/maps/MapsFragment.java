@@ -1,5 +1,6 @@
 package com.app.smartwatchapplication.Activities.ui.maps;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -7,18 +8,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.app.smartwatchapplication.Activities.WatchScanActivity;
@@ -35,22 +41,50 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 @SuppressLint("StaticFieldLeak")
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
-    private FragmentMapsBinding binding;
     public static GoogleMap map;
     View root;
     SupportMapFragment mapsFragment;
     Intent serviceIntent;
     public static TextView tvJourneyStartedAt, tvJourneyTime, tvCountry, tvSunrise, tvSunset, tvBloodPressure, tvHeartRate,
             tvBloodOxygen, tvRespirationRate, tvWeather, tvWindSpeed, tvHumidity, tvClouds, tvVisibility, tvTemperature, tvMinTemperature, tvMaxTemperature, tvTemperatureFeelsLike,
-    tvSpeed, tvAccuracy, tvAltitude;
+            tvSpeed, tvAccuracy, tvAltitude;
+    ImageView ivStart, ivStop;
+    private long startTime = 0L;
+    private final Handler customHandler = new Handler();
+    long timeInSeconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+
+    public Runnable updateTimeThread = new Runnable() {
+
+        @Override
+        public void run() {
+            timeInSeconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInSeconds;
+            int seconds = (int) (updatedTime / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            int hours = (int) (minutes / 60);
+
+            String string = "";
+            string += "" + String.format("%02d", hours);
+            string += ":" + String.format("%02d", minutes);
+            string += ":" + String.format("%02d", seconds);
+
+            tvJourneyTime.setText(string);
+            customHandler.postDelayed(this, 0);
+        }
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMapsBinding.inflate(inflater, container, false);
+        FragmentMapsBinding binding = FragmentMapsBinding.inflate(inflater, container, false);
         root = binding.getRoot();
         mapsFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
         return root;
@@ -64,6 +98,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         map.setMyLocationEnabled(true);
         map.getUiSettings().setAllGesturesEnabled(false);
     }
@@ -75,9 +119,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if(Constants.connectedDevice == null) {
             Intent intent = new Intent(getActivity(), WatchScanActivity.class);
             startActivity(intent);
-        }
-        else {
-            enableLocationSettings();
         }
     }
 
@@ -119,6 +160,39 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         tvSpeed = root.findViewById(R.id.tv_speed);
         tvAccuracy = root.findViewById(R.id.tv_accuracy);
         tvAltitude = root.findViewById(R.id.tv_altitude);
+        ivStart = root.findViewById(R.id.iv_start);
+        ivStop = root.findViewById(R.id.iv_stop);
+
+
+        ivStart.setOnClickListener(view -> {
+            enableLocationSettings();
+            startTime = SystemClock.uptimeMillis();
+            customHandler.post(updateTimeThread);
+            Constants.IS_JOURNEY_STARTED = true;
+            tvJourneyStartedAt.setText(new SimpleDateFormat("K:mm a").format(startTime));
+            setIconVisibility();
+        });
+        ivStop.setOnClickListener(view -> {
+            timeSwapBuff += timeInSeconds;
+            customHandler.removeCallbacks(updateTimeThread);
+            Constants.IS_JOURNEY_STARTED = false;
+            timeInSeconds = 0L;
+            timeSwapBuff = 0L;
+            updatedTime = 0L;
+            setIconVisibility();
+        });
+
+    }
+
+    private void setIconVisibility() {
+        if (!Constants.IS_JOURNEY_STARTED) {
+            ivStart.setVisibility(View.VISIBLE);
+            ivStop.setVisibility(View.GONE);
+        }
+        else {
+            ivStart.setVisibility(View.GONE);
+            ivStop.setVisibility(View.VISIBLE);
+        }
     }
 
     public void enableLocationSettings() {
@@ -180,5 +254,4 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
-
 }

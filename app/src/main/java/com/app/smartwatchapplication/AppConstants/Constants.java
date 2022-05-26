@@ -45,6 +45,9 @@ public class Constants {
     public static boolean IS_ON_BOARDING_SHOWN = false;
     public static final String ON_BOARDING_SHOWN = "ON_BOARDING_SHOWN";
     public static List<LatLng> latLngArrayList = new ArrayList<>();
+    public static boolean IS_JOURNEY_STARTED = false;
+    public static final int Location_SERVICE_REQUEST_CODE = 1;
+
 
     //DATABASE ATTRIBUTES
     public static final String DB_NAME = "gss.db";
@@ -73,6 +76,4 @@ public class Constants {
     public static final String READINGS_BLOOD_OXYGEN = "BLOOD_OXYGEN";
     public static final String READINGS_RESPIRATION_RATE = "RESPIRATION_RATE";
     public static final String READINGS_STATUS = "STATUS";
-
-
 }

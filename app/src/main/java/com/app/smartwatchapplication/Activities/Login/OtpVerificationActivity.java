@@ -24,6 +24,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
     Button btnVerifyOTP;
     String vID;
     OtpEditText otpEditText;
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,9 @@ public class OtpVerificationActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         btnVerifyOTP = findViewById(R.id.btn_verify_otp);
         assert Constants.USER.getUser() != null;
+        progressDialog = new ProgressDialog(OtpVerificationActivity.this);
+        progressDialog.setMessage("Verifying OTP ...");
+        progressDialog.setCancelable(false);
         sendVerificationCode(Constants.USER.getUser().get(0).getvApiUsername());
     }
 
@@ -52,11 +56,9 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     private void signInWithCredential(PhoneAuthCredential credential) {
-//        firebaseAuth.getFirebaseAuthSettings().forceRecaptchaFlowForTesting(false);
-//        firebaseAuth.getFirebaseAuthSettings().setAutoRetrievedSmsCodeForPhoneNumber("+923109453603","123456");
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
                     if (task.isSuccessful()) {
-                        firebaseAuth.signOut();
                         Intent i = new Intent(OtpVerificationActivity.this, ActivityMain.class);
                         startActivity(i);
                         finish();
@@ -86,9 +88,6 @@ public class OtpVerificationActivity extends AppCompatActivity {
                                 final String code = phoneAuthCredential.getSmsCode();
                                 if (code != null) {
                                     otpEditText.setText(code);
-                                    ProgressDialog progressDialog = new ProgressDialog(OtpVerificationActivity.this);
-                                    progressDialog.setMessage("Verifying OTP ...");
-                                    progressDialog.show();
                                     verifyCode(code);
                                 }
                             }
@@ -109,6 +108,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
 
     private void verifyCode(String code) {
         try {
+            progressDialog.show();
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(vID, code);
             signInWithCredential(credential);
         } catch (Exception e) {

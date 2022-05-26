@@ -36,14 +36,15 @@
 			android:layout_height="wrap_content">
 			
 			<ImageView
-				android:id="@+id/iv_play"
+				android:id="@+id/iv_start"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:contentDescription="@null"
 				android:src="@drawable/ic_play" />
 			
 			<ImageView
-				android:id="@+id/iv_pause"
+				android:visibility="gone"
+				android:id="@+id/iv_stop"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:contentDescription="@null"

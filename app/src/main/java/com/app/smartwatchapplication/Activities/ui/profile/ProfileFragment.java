@@ -18,6 +18,7 @@ import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.SharedPreferences.SharedPref;
 import com.app.smartwatchapplication.databinding.FragmentProfileBinding;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -78,6 +79,7 @@ public class ProfileFragment extends Fragment {
             SharedPref.writeString(Constants.LOGIN_SAVED, null);
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
+            FirebaseAuth.getInstance().signOut();
         });
     }
 

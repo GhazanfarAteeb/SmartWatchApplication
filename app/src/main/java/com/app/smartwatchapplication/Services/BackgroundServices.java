@@ -113,56 +113,56 @@ public class BackgroundServices extends Service {
                     }
                 });
             }
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.GO_SAFE_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            Api service = retrofit.create(Api.class);
+            Constants.locationList.add(currentLocation);
+
+            if (speedInKMPH >= 10) {
+                Call<PostReadingsResponse> readingsCall = service.postAllData(
+                        Constants.USER_ID,
+                        String.valueOf(currentLocation.getLatitude()),
+                        String.valueOf(currentLocation.getLongitude()),
+                        String.valueOf(System.currentTimeMillis()),
+                        String.valueOf(currentLocation.getAltitude()),
+                        String.valueOf(currentLocation.getSpeed()),
+                        String.valueOf(currentLocation.getBearing()),
+                        String.valueOf(currentLocation.getAccuracy()),
+                        String.valueOf(Constants.weatherResponse.getMain().getTemp()),
+                        String.valueOf(Constants.weatherResponse.getMain().getFeelsLike()),
+                        String.valueOf(Constants.weatherResponse.getMain().getTempMin()),
+                        String.valueOf(Constants.weatherResponse.getMain().getTempMax()),
+                        String.valueOf(Constants.weatherResponse.getMain().getPressure()),
+                        String.valueOf(Constants.weatherResponse.getMain().getHumidity()),
+                        String.valueOf(Constants.weatherResponse.getWind().getSpeed()),
+                        String.valueOf(Constants.weatherResponse.getClouds().getAll()),
+                        String.valueOf(Constants.weatherResponse.getVisibility()),
+                        String.valueOf(Constants.currentWatchReadings.getSystolicBloodPressure()),
+                        String.valueOf(Constants.currentWatchReadings.getDiastolicBloodPressure()),
+                        String.valueOf(Constants.currentWatchReadings.getHeartRate()),
+                        String.valueOf(Constants.currentWatchReadings.getBloodOxygenLevel()),
+                        String.valueOf(Constants.currentWatchReadings.getRespirationRate())
+                );
+                readingsCall.enqueue(new Callback<PostReadingsResponse>() {
+                    @Override
+                    public void onResponse(Call<PostReadingsResponse> call, Response<PostReadingsResponse> response) {
+
+                        if (response.code() == 200) {
+                            PostReadingsResponse postReadingsResponse = response.body();
+                            assert postReadingsResponse != null;
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostReadingsResponse> call, Throwable t) {
+
+                    }
+                });
+            }
             if (Constants.weatherResponse != null) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Constants.GO_SAFE_BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                Api service = retrofit.create(Api.class);
-                Constants.locationList.add(currentLocation);
-
-                if (speedInKMPH >= 3) {
-                    Call<PostReadingsResponse> readingsCall = service.postAllData(
-                            Constants.USER_ID,
-                            String.valueOf(currentLocation.getLatitude()),
-                            String.valueOf(currentLocation.getLongitude()),
-                            String.valueOf(System.currentTimeMillis()),
-                            String.valueOf(currentLocation.getAltitude()),
-                            String.valueOf(currentLocation.getSpeed()),
-                            String.valueOf(currentLocation.getBearing()),
-                            String.valueOf(currentLocation.getAccuracy()),
-                            String.valueOf(Constants.weatherResponse.getMain().getTemp()),
-                            String.valueOf(Constants.weatherResponse.getMain().getFeelsLike()),
-                            String.valueOf(Constants.weatherResponse.getMain().getTempMin()),
-                            String.valueOf(Constants.weatherResponse.getMain().getTempMax()),
-                            String.valueOf(Constants.weatherResponse.getMain().getPressure()),
-                            String.valueOf(Constants.weatherResponse.getMain().getHumidity()),
-                            String.valueOf(Constants.weatherResponse.getWind().getSpeed()),
-                            String.valueOf(Constants.weatherResponse.getClouds().getAll()),
-                            String.valueOf(Constants.weatherResponse.getVisibility()),
-                            String.valueOf(Constants.currentWatchReadings.getSystolicBloodPressure()),
-                            String.valueOf(Constants.currentWatchReadings.getDiastolicBloodPressure()),
-                            String.valueOf(Constants.currentWatchReadings.getHeartRate()),
-                            String.valueOf(Constants.currentWatchReadings.getBloodOxygenLevel()),
-                            String.valueOf(Constants.currentWatchReadings.getRespirationRate())
-                    );
-                    readingsCall.enqueue(new Callback<PostReadingsResponse>() {
-                        @Override
-                        public void onResponse(Call<PostReadingsResponse> call, Response<PostReadingsResponse> response) {
-
-                            if (response.code() == 200) {
-                                PostReadingsResponse postReadingsResponse = response.body();
-                                assert postReadingsResponse != null;
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<PostReadingsResponse> call, Throwable t) {
-
-                        }
-                    });
-                }
                 MapsFragment.tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
                 MapsFragment.tvWindSpeed.setText(Constants.weatherResponse.getWind().getSpeed() + " km/h");
                 MapsFragment.tvHumidity.setText(Constants.weatherResponse.getMain().getHumidity() + "%");

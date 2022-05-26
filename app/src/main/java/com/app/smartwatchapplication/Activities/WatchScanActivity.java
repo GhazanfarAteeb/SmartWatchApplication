@@ -107,6 +107,7 @@ public class WatchScanActivity extends AppCompatActivity {
                 .subscribe(scanResult -> {
                     watchAdapter.setWatchConnectionListener(watch -> {
                         progressDialog.setMessage("Connecting ...");
+                        progressDialog.setCancelable(false);
                         progressDialog.show();
                         if (!wristbandManager.isConnected()) {
                             wristbandManager.connect(watch, "1", false, true, 30, (float) 165, (float) 70.8);
