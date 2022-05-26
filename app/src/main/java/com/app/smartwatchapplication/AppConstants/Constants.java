@@ -47,6 +47,7 @@ public class Constants {
     public static List<LatLng> latLngArrayList = new ArrayList<>();
     public static boolean IS_JOURNEY_STARTED = false;
     public static final int Location_SERVICE_REQUEST_CODE = 1;
+    public static long startTime = 0L;
 
 
     //DATABASE ATTRIBUTES

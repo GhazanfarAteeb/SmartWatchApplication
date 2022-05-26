@@ -1,6 +1,5 @@
 package com.app.smartwatchapplication.Activities.ui.maps;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -8,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.app.smartwatchapplication.Activities.WatchScanActivity;
@@ -54,17 +51,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             tvBloodOxygen, tvRespirationRate, tvWeather, tvWindSpeed, tvHumidity, tvClouds, tvVisibility, tvTemperature, tvMinTemperature, tvMaxTemperature, tvTemperatureFeelsLike,
             tvSpeed, tvAccuracy, tvAltitude;
     ImageView ivStart, ivStop;
-    private long startTime = 0L;
-    private final Handler customHandler = new Handler();
-    long timeInSeconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedTime = 0L;
+    private static final Handler customHandler = new Handler();
+    private static long timeInSeconds = 0L;
+    private static long timeSwapBuff = 0L;
+    private static long updatedTime = 0L;
 
-    public Runnable updateTimeThread = new Runnable() {
+    public static Runnable updateTimeThread = new Runnable() {
 
         @Override
         public void run() {
-            timeInSeconds = SystemClock.uptimeMillis() - startTime;
+            timeInSeconds = SystemClock.uptimeMillis() - Constants.startTime;
             updatedTime = timeSwapBuff + timeInSeconds;
             int seconds = (int) (updatedTime / 1000);
             int minutes = seconds / 60;
@@ -91,23 +87,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         map.setMyLocationEnabled(true);
         map.getUiSettings().setAllGesturesEnabled(false);
     }
@@ -116,6 +97,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+        if (mapsFragment != null) {
+            mapsFragment.getMapAsync(this);
+        }
         if(Constants.connectedDevice == null) {
             Intent intent = new Intent(getActivity(), WatchScanActivity.class);
             startActivity(intent);
@@ -162,24 +146,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         tvAltitude = root.findViewById(R.id.tv_altitude);
         ivStart = root.findViewById(R.id.iv_start);
         ivStop = root.findViewById(R.id.iv_stop);
-
+        if (Constants.startTime != 0L) {
+            tvJourneyStartedAt.setText(new SimpleDateFormat("K:mm a").format(Constants.startTime));
+        }
+        setIconVisibility();
 
         ivStart.setOnClickListener(view -> {
             enableLocationSettings();
-            startTime = SystemClock.uptimeMillis();
+            Constants.startTime = SystemClock.uptimeMillis();
             customHandler.post(updateTimeThread);
             Constants.IS_JOURNEY_STARTED = true;
-            tvJourneyStartedAt.setText(new SimpleDateFormat("K:mm a").format(startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("K:mm a").format(Constants.startTime));
             setIconVisibility();
         });
         ivStop.setOnClickListener(view -> {
             timeSwapBuff += timeInSeconds;
-            customHandler.removeCallbacks(updateTimeThread);
             Constants.IS_JOURNEY_STARTED = false;
             timeInSeconds = 0L;
             timeSwapBuff = 0L;
             updatedTime = 0L;
             setIconVisibility();
+            customHandler.removeCallbacks(updateTimeThread);
         });
 
     }
@@ -219,9 +206,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
         } else {
-            if (mapsFragment != null) {
-                mapsFragment.getMapAsync(this);
-            }
             Constants.locationList = new ArrayList<>();
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
