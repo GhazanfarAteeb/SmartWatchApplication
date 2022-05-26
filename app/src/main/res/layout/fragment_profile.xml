@@ -7,11 +7,11 @@
 	tools:context=".Activities.ui.profile.ProfileFragment">
 	
 	<LinearLayout
-		android:layout_margin="7dp"
 		android:id="@+id/ll_title"
 		style="@style/Widget.AppCompat.Toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_margin="7dp"
 		android:padding="15dp">
 		
 		<TextView
@@ -27,38 +27,39 @@
 	</LinearLayout>
 	
 	<ScrollView
-		android:layout_below="@id/ll_title"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:layout_below="@id/ll_title">
+		
 		<LinearLayout
-			android:paddingStart="30dp"
-			android:paddingEnd="30dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical">
+			android:orientation="vertical"
+			android:paddingStart="30dp"
+			android:paddingEnd="30dp">
 			
 			<com.google.android.material.textfield.TextInputLayout
-				android:foregroundTint="@color/brown"
 				android:id="@+id/et_name"
 				style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				
 				android:contextClickable="false"
+				
 				android:focusable="false"
+				android:focusableInTouchMode="false"
+				android:foregroundTint="@color/brown"
 				android:hint="Name"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_name"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:id="@+id/tie_name"
 					android:clickable="false"
 					android:focusable="false"
-					android:textSize="14sp"
+					android:focusableInTouchMode="false"
 					android:text="Usama Shaukat"
-					android:focusableInTouchMode="false" />
+					android:textSize="14sp" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -73,18 +74,18 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="Address"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_address"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:id="@+id/tie_address"
-					android:text="Allama Iqbal Town, Lahore"
-					android:focusableInTouchMode="false" />
+					android:focusableInTouchMode="false"
+					android:text="Allama Iqbal Town, Lahore" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -98,18 +99,18 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="Phone Number"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_phone_no"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="03007000050"
-					android:id="@+id/tie_phone_no"
-					android:focusableInTouchMode="false"/>
+					android:focusableInTouchMode="false"
+					android:text="03007000050" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -123,18 +124,18 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="License Number"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_license_no"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="XX-XXXX-XXXX-XXX"
-					android:id="@+id/tie_license_no"
-					android:focusableInTouchMode="false" />
+					android:focusableInTouchMode="false"
+					android:text="XX-XXXX-XXXX-XXX" />
 			
 			</com.google.android.material.textfield.TextInputLayout>
 			
@@ -147,18 +148,18 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="Date of Joining"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_doj"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="28th May 2020"
-					android:id="@+id/tie_doj"
-					android:focusableInTouchMode="false" />
+					android:focusableInTouchMode="false"
+					android:text="28th May 2020" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -169,8 +170,8 @@
 				
 				android:layout_marginTop="5dp"
 				android:baselineAligned="false"
-				android:orientation="horizontal"
-				android:focusableInTouchMode="false">
+				android:focusableInTouchMode="false"
+				android:orientation="horizontal">
 				
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/et_vehicle_name"
@@ -180,18 +181,18 @@
 					android:layout_weight="1"
 					android:contextClickable="false"
 					android:focusable="false"
+					android:focusableInTouchMode="false"
 					android:hint="Vehicle Name"
-					app:expandedHintEnabled="true"
-					android:focusableInTouchMode="false">
+					app:expandedHintEnabled="true">
 					
 					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/tie_vehicle_name"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:clickable="false"
 						android:focusable="false"
-						android:text="Honda"
-						android:id="@+id/tie_vehicle_name"
-						android:focusableInTouchMode="false" />
+						android:focusableInTouchMode="false"
+						android:text="Honda" />
 				
 				
 				</com.google.android.material.textfield.TextInputLayout>
@@ -205,18 +206,18 @@
 					android:layout_weight="1"
 					android:contextClickable="false"
 					android:focusable="false"
+					android:focusableInTouchMode="false"
 					android:hint="Manufacturer Name"
-					app:expandedHintEnabled="true"
-					android:focusableInTouchMode="false">
+					app:expandedHintEnabled="true">
 					
 					<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/tie_manufacturer_name"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:clickable="false"
 						android:focusable="false"
-						android:text="Honda"
-						android:id="@+id/tie_manufacturer_name"
-						android:focusableInTouchMode="false" />
+						android:focusableInTouchMode="false"
+						android:text="Honda" />
 				
 				</com.google.android.material.textfield.TextInputLayout>
 			</LinearLayout>
@@ -230,18 +231,18 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="Engine Number"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_engine_no"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="XXXX-XXXX-XX"
-					android:id="@+id/tie_engine_no"
-					android:focusableInTouchMode="false" />
+					android:focusableInTouchMode="false"
+					android:text="XXXX-XXXX-XX" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -256,18 +257,18 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="Chassis Number"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_chassis_no"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="XXXX-XXX-XXXX-X"
-					android:id="@+id/tie_chassis_no"
-					android:focusableInTouchMode="false" />
+					android:focusableInTouchMode="false"
+					android:text="XXXX-XXX-XXXX-X" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
@@ -281,34 +282,34 @@
 				android:layout_marginTop="5dp"
 				android:contextClickable="false"
 				android:focusable="false"
+				android:focusableInTouchMode="false"
 				android:hint="Vehicle Type"
-				app:expandedHintEnabled="true"
-				android:focusableInTouchMode="false">
+				app:expandedHintEnabled="true">
 				
 				<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/tie_vehicle_type"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:clickable="false"
 					android:focusable="false"
-					android:text="SUV"
-					android:id="@+id/tie_vehicle_type"
-					android:focusableInTouchMode="false" />
+					android:focusableInTouchMode="false"
+					android:text="SUV" />
 			
 			
 			</com.google.android.material.textfield.TextInputLayout>
 			
 			<Button
-				android:backgroundTint="@color/red"
 				android:id="@+id/btn_logout"
 				android:layout_width="300dp"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal"
-				android:gravity="start"
 				android:layout_marginTop="30dp"
 				android:background="@drawable/button_bg"
+				android:backgroundTint="@color/red"
 				android:drawableEnd="@drawable/ic_arrow_next"
 				android:elevation="5dp"
 				android:fontFamily="@font/montserrat_medium"
+				android:gravity="start"
 				android:padding="20dp"
 				android:text="Logout"
 				android:textAllCaps="false"

@@ -3,37 +3,40 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Activities.OnBoardingScreens.OnBoardingScreen1Activity"
-	android:padding="20dp">
+	android:padding="20dp"
+	tools:context=".Activities.OnBoardingScreens.OnBoardingScreen1Activity">
 	
 	<LinearLayout
-		android:layout_marginTop="75dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="75dp"
 		android:orientation="vertical">
+		
 		<ImageView
-			android:layout_gravity="center"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_gravity="center"
 			android:src="@drawable/ic_on_boarding_2" />
+		
 		<TextView
+			android:id="@+id/tv_on_boarding"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
 			android:layout_marginTop="20dp"
+			android:fontFamily="@font/montserrat_semi_bold"
+			android:gravity="start"
+			android:text="Route Mapping"
 			android:textColor="@color/black"
 			android:textSize="24sp"
-			android:fontFamily="@font/montserrat_semi_bold"
-			android:text="Route Mapping"
-			android:textStyle="bold"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="start"
-			android:id="@+id/tv_on_boarding"/>
+			android:textStyle="bold" />
+		
 		<TextView
-			android:fontFamily="@font/montserrat_regular"
-			android:textColor="@color/black"
-			android:layout_marginTop="16dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Route planning helps prevent delivery delays by routing drivers around congested roads, bridges, and high-traffic areas"/>
+			android:layout_marginTop="16dp"
+			android:fontFamily="@font/montserrat_regular"
+			android:text="Route planning helps prevent delivery delays by routing drivers around congested roads, bridges, and high-traffic areas"
+			android:textColor="@color/black" />
 	</LinearLayout>
 	
 	<ImageView

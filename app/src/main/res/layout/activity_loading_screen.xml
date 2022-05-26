@@ -4,13 +4,13 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".Activities.LoadingScreenActivity">
-
+	
 	<ImageView
+		android:id="@+id/iv_logo"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:src="@drawable/gss_logo"
 		android:layout_centerHorizontal="true"
 		android:layout_centerVertical="true"
-		android:id="@+id/iv_logo"/>
+		android:src="@drawable/gss_logo" />
 
 </RelativeLayout>

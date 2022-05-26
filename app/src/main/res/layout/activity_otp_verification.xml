@@ -3,9 +3,9 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Activities.Login.OtpVerificationActivity"
+	android:gravity="center_vertical"
 	android:padding="20dp"
-	android:gravity="center_vertical">
+	tools:context=".Activities.Login.OtpVerificationActivity">
 	
 	<ImageView
 		android:id="@+id/iv_otp"
@@ -13,34 +13,36 @@
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
 		android:src="@drawable/ic_otp" />
+	
 	<LinearLayout
-		android:layout_marginTop="35dp"
-		android:layout_below="@id/iv_otp"
-		android:orientation="vertical"
 		android:id="@+id/ll_otp"
-		android:gravity="center_horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:layout_below="@id/iv_otp"
+		android:layout_marginTop="35dp"
+		android:gravity="center_horizontal"
+		android:orientation="vertical">
+		
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="OTP Verification"
-			android:textSize="25sp"
 			android:fontFamily="@font/montserrat_semi_bold"
-			android:textColor="@color/black"/>
+			android:text="OTP Verification"
+			android:textColor="@color/black"
+			android:textSize="25sp" />
+		
 		<TextView
-			android:layout_marginTop="10dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:fontFamily="@font/montserrat_medium"
 			android:gravity="center"
 			android:text="We have sent the OTP on your phone number.\nPlease enter the OTP to login."
 			android:textColor="@color/black"
-			android:fontFamily="@font/montserrat_medium"
-			android:textSize="14sp"/>
+			android:textSize="14sp" />
 	</LinearLayout>
 	
 	<com.app.smartwatchapplication.Activities.Login.OtpEditText
-		android:inputType="phone"
 		android:id="@+id/et_otp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -50,30 +52,34 @@
 		android:layout_marginEnd="40dp"
 		android:autofillHints="smsOTPCode"
 		android:fontFamily="@font/montserrat_medium"
+		android:inputType="phone"
 		android:maxLength="6" />
+	
 	<LinearLayout
 		android:id="@+id/ll_resend_otp"
-		android:layout_marginTop="14dp"
-		android:layout_below="@id/et_otp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@id/et_otp"
+		android:layout_marginTop="14dp"
 		android:gravity="center_horizontal">
+		
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:fontFamily="@font/montserrat_medium"
 			android:text="Didn't Receive OTP?"
 			android:textColor="@color/black"
-			android:fontFamily="@font/montserrat_medium"
-			android:textStyle="bold"/>
+			android:textStyle="bold" />
+		
 		<TextView
-			android:layout_marginStart="7dp"
 			android:id="@+id/tv_verify_otp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Resend OTP"
+			android:layout_marginStart="7dp"
 			android:fontFamily="@font/montserrat_medium"
-			android:textStyle="bold"
-			android:textColor="#DC953E"/>
+			android:text="Resend OTP"
+			android:textColor="#DC953E"
+			android:textStyle="bold" />
 	</LinearLayout>
 	
 	<Button

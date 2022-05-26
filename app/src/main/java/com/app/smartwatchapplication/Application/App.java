@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
-import android.provider.SyncStateContract;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -35,4 +34,5 @@ public class App extends Application {
             notificationManager.cancelAll();
         }
     }
+
 }

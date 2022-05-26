@@ -3,8 +3,8 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".Activities.WatchScanActivity"
-	android:padding="10dp">
+	android:padding="10dp"
+	tools:context=".Activities.WatchScanActivity">
 	
 	<LinearLayout
 		android:id="@+id/ll_toolbar"
@@ -21,27 +21,28 @@
 			android:src="@drawable/ic_back" />
 		
 		<TextView
-			android:layout_weight="1"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_margin="7dp"
+			android:layout_weight="1"
 			android:fontFamily="@font/montserrat_bold"
 			android:text="Scan Activity"
 			android:textColor="@color/black"
 			android:textSize="16sp"
 			android:textStyle="bold" />
+		
 		<ImageView
 			android:id="@+id/iv_stop"
-			android:paddingStart="7dp"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
-			android:src="@drawable/ic_stop"
-			/>
+			android:paddingStart="7dp"
+			android:src="@drawable/ic_stop" />
 	</LinearLayout>
+	
 	<androidx.recyclerview.widget.RecyclerView
-		android:layout_marginTop="10dp"
-		android:layout_below="@id/ll_toolbar"
+		android:id="@+id/rv_watch"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:id="@+id/rv_watch"/>
+		android:layout_below="@id/ll_toolbar"
+		android:layout_marginTop="10dp" />
 </RelativeLayout>

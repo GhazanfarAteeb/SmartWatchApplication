@@ -9,10 +9,12 @@
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
+		
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
+			
 			<RelativeLayout
 				android:id="@+id/rl_header"
 				android:layout_width="wrap_content"
@@ -26,7 +28,7 @@
 					android:layout_marginStart="52dp"
 					android:layout_marginTop="65dp"
 					android:src="@drawable/gss_logo_white" />
-
+				
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -41,18 +43,19 @@
 			</RelativeLayout>
 			
 			<RelativeLayout
-				android:paddingStart="25dp"
-				android:paddingEnd="25dp"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:layout_below="@id/rl_header">
+				android:layout_below="@id/rl_header"
+				android:paddingStart="25dp"
+				android:paddingEnd="25dp">
 				
 				<LinearLayout
-					android:layout_marginTop="40dp"
 					android:id="@+id/ll_login"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_marginTop="40dp"
 					android:orientation="vertical">
+					
 					<TextView
 						android:id="@+id/tv_login"
 						android:layout_width="wrap_content"
@@ -61,34 +64,36 @@
 						android:text="Login"
 						android:textColor="#3A3A3A"
 						android:textSize="28sp" />
+					
 					<TextView
-						android:fontFamily="@font/montserrat_medium"
-						android:textSize="18sp"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginTop="7dp"
-						android:text="Please fill this form to login"/>
+						android:fontFamily="@font/montserrat_medium"
+						android:text="Please fill this form to login"
+						android:textSize="18sp" />
 				</LinearLayout>
 				
 				<RelativeLayout
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:layout_below="@id/ll_login"
-					android:layout_marginTop="60dp"
-					>
+					android:layout_marginTop="60dp">
 					
 					<LinearLayout
 						android:id="@+id/ll_phone_number"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:orientation="vertical">
+						
 						<TextView
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
+							android:fontFamily="@font/montserrat_regular"
 							android:text="Phone Number"
-							android:textSize="14sp"
 							android:textColor="#8D8D8D"
-							android:fontFamily="@font/montserrat_regular"/>
+							android:textSize="14sp" />
+						
 						<LinearLayout
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content">
@@ -105,13 +110,14 @@
 								app:ccp_defaultNameCode="PK"
 								app:ccp_showFlag="true"
 								app:ccp_showPhoneCode="false" />
+							
 							<EditText
 								android:id="@+id/et_phone_no"
 								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
-								android:inputType="phone"
 								android:backgroundTint="#DC953E"
-								android:fontFamily="@font/montserrat_regular" />
+								android:fontFamily="@font/montserrat_regular"
+								android:inputType="phone" />
 						</LinearLayout>
 					</LinearLayout>
 					
@@ -121,21 +127,23 @@
 						android:layout_height="wrap_content"
 						android:layout_below="@id/ll_phone_number"
 						android:layout_marginTop="12dp">
+						
 						<CheckBox
+							android:id="@+id/cb_remember_me"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:buttonTint="#DC953E"
-							android:id="@+id/cb_remember_me"/>
+							android:buttonTint="#DC953E" />
+						
 						<TextView
-							android:textSize="16dp"
-							android:textColor="#DC953E"
-							android:layout_marginStart="5dp"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
+							android:layout_marginStart="5dp"
 							android:fontFamily="@font/montserrat_regular"
-							android:text="Remember Me" />
+							android:text="Remember Me"
+							android:textColor="#DC953E"
+							android:textSize="16dp" />
 					</LinearLayout>
-
+					
 					<Button
 						android:id="@+id/btn_login"
 						android:layout_width="match_parent"

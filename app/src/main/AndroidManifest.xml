@@ -83,7 +83,8 @@
             android:name=".Services.BackgroundServices"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="location">
+            android:foregroundServiceType="location"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.app.smartwatchapplication.GPSService" />
             </intent-filter>

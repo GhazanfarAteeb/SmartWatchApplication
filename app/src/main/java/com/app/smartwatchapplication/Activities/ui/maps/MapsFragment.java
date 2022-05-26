@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +59,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void run() {
-            timeInSeconds = SystemClock.uptimeMillis() - Constants.startTime;
+            timeInSeconds = System.currentTimeMillis() - Constants.startTime;
             updatedTime = timeSwapBuff + timeInSeconds;
             int seconds = (int) (updatedTime / 1000);
             int minutes = seconds / 60;
@@ -147,16 +146,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         ivStart = root.findViewById(R.id.iv_start);
         ivStop = root.findViewById(R.id.iv_stop);
         if (Constants.startTime != 0L) {
-            tvJourneyStartedAt.setText(new SimpleDateFormat("K:mm a").format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a").format(Constants.startTime));
         }
         setIconVisibility();
 
         ivStart.setOnClickListener(view -> {
             enableLocationSettings();
-            Constants.startTime = SystemClock.uptimeMillis();
+            Constants.startTime = System.currentTimeMillis();
             customHandler.post(updateTimeThread);
             Constants.IS_JOURNEY_STARTED = true;
-            tvJourneyStartedAt.setText(new SimpleDateFormat("K:mm a").format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a").format(Constants.startTime));
             setIconVisibility();
         });
         ivStop.setOnClickListener(view -> {
@@ -238,4 +237,5 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
+
 }
