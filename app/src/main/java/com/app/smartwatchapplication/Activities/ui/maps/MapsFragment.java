@@ -38,7 +38,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 @SuppressLint("StaticFieldLeak")
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -66,7 +65,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             minutes %=60;
             seconds = seconds % 60;
 
-            int hours = (int) (minutes / 60);
+            int hours = minutes / 60;
 
             String string = "";
             string += "" + String.format("%02d", hours);

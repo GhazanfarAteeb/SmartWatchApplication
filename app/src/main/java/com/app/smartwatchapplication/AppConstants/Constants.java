@@ -77,4 +77,6 @@ public class Constants {
     public static final String READINGS_BLOOD_OXYGEN = "BLOOD_OXYGEN";
     public static final String READINGS_RESPIRATION_RATE = "RESPIRATION_RATE";
     public static final String READINGS_STATUS = "STATUS";
+    public static final int STATUS_UPLOADED = 1;
+    public static final int STATUS_NOT_UPLOADED = 0;
 }

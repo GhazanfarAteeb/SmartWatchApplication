@@ -48,8 +48,7 @@ public class PostReadings {
     String spo2;
     private @Nullable
     String respirationRate;
-    private @NonNull
-    String status;
+    int status;
 
 
     public PostReadings(
@@ -75,7 +74,7 @@ public class PostReadings {
             @Nullable String heartRate,
             @Nullable String spo2,
             @Nullable String respirationRate,
-            @NonNull String status) {
+            int status) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -100,6 +99,7 @@ public class PostReadings {
         this.respirationRate = respirationRate;
         this.status = status;
     }
+
 
     @NonNull
     public String getId() {
@@ -299,12 +299,11 @@ public class PostReadings {
         this.respirationRate = respirationRate;
     }
 
-    @NonNull
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(@NonNull String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }
