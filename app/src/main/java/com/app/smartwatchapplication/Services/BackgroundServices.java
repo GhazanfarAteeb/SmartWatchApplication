@@ -31,6 +31,7 @@ import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
 import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.DB.DatabaseHelper;
+import com.app.smartwatchapplication.Listeners.DbThread;
 import com.app.smartwatchapplication.Modals.City;
 import com.app.smartwatchapplication.Modals.PostReadings;
 import com.app.smartwatchapplication.Modals.PostReadingsResponse;
@@ -54,7 +55,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @SuppressLint({"SetTextI18n", "DefaultLocale"})
-public class BackgroundServices extends Service {
+public class BackgroundServices extends Service implements DbThread.DBThreadListener {
+    int i = 0;
     private static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
     private PowerManager.WakeLock wakeLock;
@@ -72,13 +74,13 @@ public class BackgroundServices extends Service {
             MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
             MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude())) + "");
 
-            Log.d(null, "================ USER DETAILS ================");
+            Log.d("", "================ USER DETAILS ================");
             Log.d("CURRENT_LOCATION : ", currentLocation.getLatitude() + "," + currentLocation.getLongitude());
             Log.d("CURRENT_SPEED : ", String.valueOf(currentLocation.getSpeed()));
             Log.d("CURRENT_ALTITUDE : ", String.valueOf(currentLocation.getAltitude()));
             Log.d("CURRENT_ACCURACY : ", String.valueOf(currentLocation.getAccuracy()));
             Log.d("CURRENT_BEARING : ", String.valueOf(currentLocation.getBearing()));
-            Log.d(null, "==============================================");
+            Log.d("", "==============================================");
 
             if (Constants.weatherResponse == null) {
                 Retrofit retrofit = new Retrofit.Builder()
@@ -117,14 +119,88 @@ public class BackgroundServices extends Service {
 
                     @Override
                     public void onFailure(@NonNull Call<List<City>> call, @NonNull Throwable t) {
-                        t.getMessage();
+                        t.getLocalizedMessage();
                     }
                 });
             }
+            //DATABASE HELPER CLASS
+            DatabaseHelper dbHelper = new DatabaseHelper(BackgroundServices.this);
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+            //IF MY NETWORK IS AVAILABLE
+            if (networkInfo != null && networkInfo.isConnected()) {
+                // READ THE SQLITE DATABASE
+                Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
+                        "SELECT * FROM " + Constants.READINGS_TABLE_NAME + " WHERE "
+                                + Constants.READINGS_STATUS + "=?",
+                        new String[]{
+                                String.valueOf(Constants.STATUS_NOT_UPLOADED)
+                        }
+                );
+
+                // IF TABLE SEQUENCES ARE CHANGED THEN THIS WILL GET THE INDEX ACCORDING TO THE CHANGED INDEXES
+                int locationReadingsID = cursor.getColumnIndex(Constants.READINGS_ID);
+                int locationReadingsLat = cursor.getColumnIndex(Constants.READINGS_LAT);
+                int locationReadingsLon = cursor.getColumnIndex(Constants.READINGS_LON);
+                int locationReadingsTimestamp = cursor.getColumnIndex(Constants.READINGS_TIMESTAMP);
+                int locationReadingsAltitude = cursor.getColumnIndex(Constants.READINGS_ALTITUDE);
+                int locationReadingsSpeed = cursor.getColumnIndex(Constants.READINGS_SPEED);
+                int locationReadingsBearing = cursor.getColumnIndex(Constants.READINGS_BEARING);
+                int locationReadingsAccuracy = cursor.getColumnIndex(Constants.READINGS_ACCURACY);
+                int locationReadingsTemp = cursor.getColumnIndex(Constants.READINGS_TEMP);
+                int locationReadingsFeelsLike = cursor.getColumnIndex(Constants.READINGS_FEELS_LIKE);
+                int locationReadingsTempMax = cursor.getColumnIndex(Constants.READINGS_TEMP_MAX);
+                int locationReadingsTempMin = cursor.getColumnIndex(Constants.READINGS_TEMP_MIN);
+                int locationReadingsPressure = cursor.getColumnIndex(Constants.READINGS_PRESSURE);
+                int locationReadingsHumidity = cursor.getColumnIndex(Constants.READINGS_HUMIDITY);
+                int locationReadingsWind = cursor.getColumnIndex(Constants.READINGS_WIND);
+                int locationReadingsClouds = cursor.getColumnIndex(Constants.READINGS_CLOUDS);
+                int locationReadingsVisibility = cursor.getColumnIndex(Constants.READINGS_VISIBILITY);
+                int locationReadingsSystolicBP = cursor.getColumnIndex(Constants.READINGS_SYSTOLIC_BLOOD_PRESSURE);
+                int locationReadingsDiastolicBP = cursor.getColumnIndex(Constants.READINGS_DIASTOLIC_BLOOD_PRESSURE);
+                int locationReadingsHeartRate = cursor.getColumnIndex(Constants.READINGS_HEART_RATE);
+                int locationReadingsSPO2 = cursor.getColumnIndex(Constants.READINGS_BLOOD_OXYGEN);
+                int locationReadingsRespirationRate = cursor.getColumnIndex(Constants.READINGS_RESPIRATION_RATE);
+                int locationReadingsStatus = cursor.getColumnIndex(Constants.READINGS_STATUS);
+                ArrayList<PostReadings> postReadingsArrayList = new ArrayList<>();
+
+                // GETTING DATA FROM THE CURSOR
+                while (cursor.moveToNext()) {
+                    postReadingsArrayList.add(
+                            new PostReadings(
+                                    cursor.getString(locationReadingsID),
+                                    cursor.getString(locationReadingsLat),
+                                    cursor.getString(locationReadingsLon),
+                                    cursor.getString(locationReadingsTimestamp),
+                                    cursor.getString(locationReadingsAltitude),
+                                    cursor.getString(locationReadingsSpeed),
+                                    cursor.getString(locationReadingsBearing),
+                                    cursor.getString(locationReadingsAccuracy),
+                                    cursor.getString(locationReadingsTemp),
+                                    cursor.getString(locationReadingsFeelsLike),
+                                    cursor.getString(locationReadingsTempMin),
+                                    cursor.getString(locationReadingsTempMax),
+                                    cursor.getString(locationReadingsPressure),
+                                    cursor.getString(locationReadingsHumidity),
+                                    cursor.getString(locationReadingsWind),
+                                    cursor.getString(locationReadingsClouds),
+                                    cursor.getString(locationReadingsVisibility),
+                                    cursor.getString(locationReadingsSystolicBP),
+                                    cursor.getString(locationReadingsDiastolicBP),
+                                    cursor.getString(locationReadingsHeartRate),
+                                    cursor.getString(locationReadingsSPO2),
+                                    cursor.getString(locationReadingsRespirationRate),
+                                    cursor.getInt(locationReadingsStatus)
+                            )
+                    );
+                }
+                cursor.close();
+                new DbThread(BackgroundServices.this, postReadingsArrayList, dbHelper).start();
+            }
+
             if (speedInKMPH >= 10) {
-                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                DatabaseHelper dbHelper = new DatabaseHelper(BackgroundServices.this);
                 PostReadings postReadings = new PostReadings(
                         Constants.USER_ID,
                         String.valueOf(currentLocation.getLatitude()),
@@ -178,124 +254,6 @@ public class BackgroundServices extends Service {
 
                 dbHelper.getWritableDatabase().insert(Constants.READINGS_TABLE_NAME, null, contentValues);
                 Constants.locationList.add(currentLocation);
-
-
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
-                            "SELECT * FROM " + Constants.READINGS_TABLE_NAME + " WHERE "
-                                    + Constants.READINGS_STATUS + "=?",
-                            new String[]{
-                                    String.valueOf(Constants.STATUS_NOT_UPLOADED)
-                            }
-                    );
-
-                    int locationReadingsID = cursor.getColumnIndex(Constants.READINGS_ID);
-                    int locationReadingsLat = cursor.getColumnIndex(Constants.READINGS_LAT);
-                    int locationReadingsLon = cursor.getColumnIndex(Constants.READINGS_LON);
-                    int locationReadingsTimestamp = cursor.getColumnIndex(Constants.READINGS_TIMESTAMP);
-                    int locationReadingsAltitude = cursor.getColumnIndex(Constants.READINGS_ALTITUDE);
-                    int locationReadingsSpeed = cursor.getColumnIndex(Constants.READINGS_SPEED);
-                    int locationReadingsBearing = cursor.getColumnIndex(Constants.READINGS_BEARING);
-                    int locationReadingsAccuracy = cursor.getColumnIndex(Constants.READINGS_ACCURACY);
-                    int locationReadingsTemp = cursor.getColumnIndex(Constants.READINGS_TEMP);
-                    int locationReadingsFeelsLike = cursor.getColumnIndex(Constants.READINGS_FEELS_LIKE);
-                    int locationReadingsTempMax = cursor.getColumnIndex(Constants.READINGS_TEMP_MAX);
-                    int locationReadingsTempMin = cursor.getColumnIndex(Constants.READINGS_TEMP_MIN);
-                    int locationReadingsPressure = cursor.getColumnIndex(Constants.READINGS_PRESSURE);
-                    int locationReadingsHumidity = cursor.getColumnIndex(Constants.READINGS_HUMIDITY);
-                    int locationReadingsWind = cursor.getColumnIndex(Constants.READINGS_WIND);
-                    int locationReadingsClouds = cursor.getColumnIndex(Constants.READINGS_CLOUDS);
-                    int locationReadingsVisibility = cursor.getColumnIndex(Constants.READINGS_VISIBILITY);
-                    int locationReadingsSystolicBP = cursor.getColumnIndex(Constants.READINGS_SYSTOLIC_BLOOD_PRESSURE);
-                    int locationReadingsDiastolicBP = cursor.getColumnIndex(Constants.READINGS_DIASTOLIC_BLOOD_PRESSURE);
-                    int locationReadingsHeartRate = cursor.getColumnIndex(Constants.READINGS_HEART_RATE);
-                    int locationReadingsSPO2 = cursor.getColumnIndex(Constants.READINGS_BLOOD_OXYGEN);
-                    int locationReadingsRespirationRate = cursor.getColumnIndex(Constants.READINGS_RESPIRATION_RATE);
-                    int locationReadingsStatus = cursor.getColumnIndex(Constants.READINGS_STATUS);
-                    ArrayList<PostReadings> postReadingsArrayList = new ArrayList<>();
-                    while (cursor.moveToNext()) {
-                        postReadingsArrayList.add(
-                                new PostReadings(
-                                        cursor.getString(locationReadingsID),
-                                        cursor.getString(locationReadingsLat),
-                                        cursor.getString(locationReadingsLon),
-                                        cursor.getString(locationReadingsTimestamp),
-                                        cursor.getString(locationReadingsAltitude),
-                                        cursor.getString(locationReadingsSpeed),
-                                        cursor.getString(locationReadingsBearing),
-                                        cursor.getString(locationReadingsAccuracy),
-                                        cursor.getString(locationReadingsTemp),
-                                        cursor.getString(locationReadingsFeelsLike),
-                                        cursor.getString(locationReadingsTempMin),
-                                        cursor.getString(locationReadingsTempMax),
-                                        cursor.getString(locationReadingsPressure),
-                                        cursor.getString(locationReadingsHumidity),
-                                        cursor.getString(locationReadingsWind),
-                                        cursor.getString(locationReadingsClouds),
-                                        cursor.getString(locationReadingsVisibility),
-                                        cursor.getString(locationReadingsSystolicBP),
-                                        cursor.getString(locationReadingsDiastolicBP),
-                                        cursor.getString(locationReadingsHeartRate),
-                                        cursor.getString(locationReadingsSPO2),
-                                        cursor.getString(locationReadingsRespirationRate),
-                                        cursor.getInt(locationReadingsStatus)
-                                )
-                        );
-                    }
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(Constants.GO_SAFE_BASE_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    Api service = retrofit.create(Api.class);
-                    for (PostReadings reading : postReadingsArrayList) {
-                        Call<PostReadingsResponse> readingsCall = service.postAllData(
-                                reading.getId(),
-                                reading.getLat(),
-                                reading.getLon(),
-                                reading.getTimestamp(),
-                                reading.getAltitude(),
-                                reading.getSpeed(),
-                                reading.getBearing(),
-                                reading.getAccuracy(),
-                                reading.getTemp(),
-                                reading.getFeelsLike(),
-                                reading.getTempMin(),
-                                reading.getTempMax(),
-                                reading.getPressure(),
-                                reading.getHumidity(),
-                                reading.getWind(),
-                                reading.getClouds(),
-                                reading.getVisibility(),
-                                reading.getSystolicBP(),
-                                reading.getDiastolicBP(),
-                                reading.getHeartRate(),
-                                reading.getSpo2(),
-                                reading.getRespirationRate()
-                        );
-                        readingsCall.enqueue(new Callback<PostReadingsResponse>() {
-                            @Override
-                            public void onResponse(Call<PostReadingsResponse> call, Response<PostReadingsResponse> response) {
-
-                                if (response.code() == 200) {
-                                    PostReadingsResponse postReadingsResponse = response.body();
-                                    assert postReadingsResponse != null;
-                                    dbHelper.getWritableDatabase().rawQuery(
-                                            "UPDATE "+ Constants.READINGS_TABLE_NAME+" SET "+ Constants.READINGS_STATUS+"="+ Constants.STATUS_UPLOADED +
-                                                    " WHERE "+ Constants.READINGS_ID+"=? AND "+ Constants.READINGS_TIMESTAMP+"=?",
-                                            new String[] {
-                                               reading.getId(),
-                                               reading.getTimestamp()
-                                            });
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<PostReadingsResponse> call, Throwable t) {
-
-                            }
-                        });
-                    }
-                }
             }
             if (Constants.weatherResponse != null) {
                 MapsFragment.tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
@@ -327,6 +285,61 @@ public class BackgroundServices extends Service {
                 .setFastestInterval(Constants.FASTEST_INTERVAL);
     }
 
+
+    @Override
+    public void updateDB(List<PostReadings> postReadingsList, DatabaseHelper dbHelper) {
+        try {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.GO_SAFE_BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            Api service = retrofit.create(Api.class);
+            for (PostReadings reading : postReadingsList) {
+                Call<PostReadingsResponse> readingsCall = service.postAllData(
+                        reading.getId(),
+                        reading.getLat(),
+                        reading.getLon(),
+                        reading.getTimestamp(),
+                        reading.getAltitude(),
+                        reading.getSpeed(),
+                        reading.getBearing(),
+                        reading.getAccuracy(),
+                        reading.getTemp(),
+                        reading.getFeelsLike(),
+                        reading.getTempMin(),
+                        reading.getTempMax(),
+                        reading.getPressure(),
+                        reading.getHumidity(),
+                        reading.getWind(),
+                        reading.getClouds(),
+                        reading.getVisibility(),
+                        reading.getSystolicBP(),
+                        reading.getDiastolicBP(),
+                        reading.getHeartRate(),
+                        reading.getSpo2(),
+                        reading.getRespirationRate()
+                );
+
+                Response<PostReadingsResponse> response = readingsCall.execute();
+                System.out.println("POST_READINGS_RESPONSE" + response.code());
+                if (response.code() == 200) {
+                    PostReadingsResponse postReadingsResponse = response.body();
+                    assert postReadingsResponse != null;
+                    System.out.println(postReadingsResponse.success);
+                    if (postReadingsList.size() > 0) {
+                        dbHelper.getWritableDatabase().execSQL(
+                                "UPDATE " + Constants.READINGS_TABLE_NAME + " SET " + Constants.READINGS_STATUS + "=" + Constants.STATUS_UPLOADED +
+                                        " WHERE " +
+                                        Constants.READINGS_ID + "='" + reading.getId() + "' AND " +
+                                        Constants.READINGS_TIMESTAMP + "='" + reading.getTimestamp() + "'");
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.getLocalizedMessage();
+        }
+    }
+
     public class LocalBinder extends Binder {
         public BackgroundServices getServiceInstance() {
             return BackgroundServices.this;
@@ -347,8 +360,6 @@ public class BackgroundServices extends Service {
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)

@@ -64,4 +64,5 @@ public interface Api {
             @Field("spo2") String spo2,
             @Field("respiration_rate") String respirationRate
     );
+
 }

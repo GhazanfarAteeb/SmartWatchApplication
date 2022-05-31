@@ -99,6 +99,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (mapsFragment != null) {
             mapsFragment.getMapAsync(this);
         }
+        //TODO - UNCOMMENT THESE LINES
 //        if(Constants.connectedDevice == null) {
 //            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
 //            startActivity(intent);
@@ -165,6 +166,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             timeSwapBuff = 0L;
             updatedTime = 0L;
             setIconVisibility();
+            getActivity().unbindService(GPSServiceConnection);
+            getActivity().stopService(serviceIntent);
             customHandler.removeCallbacks(updateTimeThread);
         });
 

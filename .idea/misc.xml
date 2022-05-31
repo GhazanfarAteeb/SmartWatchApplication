@@ -30,13 +30,13 @@
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/drawable/route_mapping.xml" value="0.1805" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/drawable/shadow_gradient.xml" value="0.2875" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_fragment_screen_slide.xml" value="0.17447916666666666" />
-        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_loading_screen.xml" value="0.3515625" />
-        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_login.xml" value="0.14" />
-        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_loading_screen.xml" value="0.25" />
+        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_login.xml" value="0.2556663644605621" />
+        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_maps.xml" value="0.1" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_on_boarding_screen1.xml" value="0.33" />
-        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_on_boarding_screen2.xml" value="0.3515625" />
-        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_on_boarding_screen3.xml" value="0.3515625" />
+        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_on_boarding_screen2.xml" value="0.33" />
+        <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_on_boarding_screen3.xml" value="0.25" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_otp_verification.xml" value="0.25" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_screen_slide.xml" value="0.17447916666666666" />
         <entry key="..\:/BitLogicx/SmartWatchApplication/app/src/main/res/layout/activity_watch_scan.xml" value="0.33" />
