@@ -44,9 +44,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +56,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@SuppressLint({"SetTextI18n", "DefaultLocale"})
+@SuppressLint("SetTextI18n")
 public class BackgroundServices extends Service implements DbThread.DBThreadListener {
     int i = 0;
     private static final int NOTIFICATION_ID = 1;
@@ -65,14 +67,15 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
-
             MapsFragment.map.clear();
             Location currentLocation = locationResult.getLastLocation();
             float speedInKMPH = (float) (currentLocation.getSpeed() * 3.6);
             Constants.latLngArrayList.add(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
-            MapsFragment.tvSpeed.setText(String.format("%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
-            MapsFragment.tvAccuracy.setText(String.format("%.2f", (currentLocation.getAccuracy())) + "");
-            MapsFragment.tvAltitude.setText(String.format("%.2f", (currentLocation.getAltitude())) + "");
+
+            //SETTING UP DATA ON THE MAPS FRAGMENT
+            MapsFragment.tvSpeed.setText(String.format(Locale.getDefault(),"%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
+            MapsFragment.tvAccuracy.setText(String.format(Locale.getDefault(),"%.2f", (currentLocation.getAccuracy())) + "");
+            MapsFragment.tvAltitude.setText(String.format(Locale.getDefault(),"%.2f", (currentLocation.getAltitude())) + "");
 
             Log.d("", "================ USER DETAILS ================");
             Log.d("CURRENT_LOCATION : ", currentLocation.getLatitude() + "," + currentLocation.getLongitude());
@@ -82,6 +85,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             Log.d("CURRENT_BEARING : ", String.valueOf(currentLocation.getBearing()));
             Log.d("", "==============================================");
 
+            // FETCHING WEATHER DATA ONLY ONCE AFTER THE SERVICE STARTS
             if (Constants.weatherResponse == null) {
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(Constants.BaseUrl)
@@ -110,7 +114,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
 
                                 @Override
                                 public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-
+                                    t.getLocalizedMessage();
                                 }
                             });
                         }
@@ -125,7 +129,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             }
             //DATABASE HELPER CLASS
             DatabaseHelper dbHelper = new DatabaseHelper(BackgroundServices.this);
-
+            //TO CHECK THE IF INTERNET IS AVAILABLE THEN THE SQLITE DATABASE READINGS WILL BE SENT TO THE SERVER THROUGH APIs
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -286,6 +290,13 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
     }
 
 
+    /**
+     * THE UPDATE DB IS THE FUNCTION OF DB THREAD CLASS IT WILL LISTEN TO THE CHANGES IN DATA AND
+     * WILL SEND THAT DATA TO THE UPDATE DB FUNCTION IN ONE CASE IF INTERNET IS AVAILABLE AND
+     * THE DATA MUST BE FIRST STORED IN THE SQLITE DATABASE
+     * @param postReadingsList
+     * @param dbHelper
+     */
     @Override
     public void updateDB(List<PostReadings> postReadingsList, DatabaseHelper dbHelper) {
         try {
@@ -340,6 +351,9 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         }
     }
 
+    /**
+     * THIS CLASS IS USED TO BIND THE BACKGROUND SERVICE
+     */
     public class LocalBinder extends Binder {
         public BackgroundServices getServiceInstance() {
             return BackgroundServices.this;
@@ -357,6 +371,10 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         return locationServiceBinder;
     }
 
+    /**
+     * THIS FUNCTION IS USED TO START THE CONTINUOUS LOCATION UPDATES IN THE BACKGROUND
+     * @retun NOTHING
+     */
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -367,8 +385,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Constants.client.requestLocationUpdates(Constants.locationRequest,
-                this.locationCallback, Looper.getMainLooper());
+        Constants.client.requestLocationUpdates(Constants.locationRequest, this.locationCallback, Looper.getMainLooper());
     }
 
     @Override
@@ -400,6 +417,11 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         return START_NOT_STICKY;
     }
 
+
+    /**
+     * THIS FUNCTION WILL BE USED TO GENERATE THE NOTIFICATION OF THE BACKGROUND SERVICE AS IT WILL HAVE THE APP'S LAUNCHER ICON WITH PUBLIC VISIBILITY
+     * @return NOTHING
+     */
     private Notification getNotification() {
         final String CHANNEL_ID = "serviceChannel";
 
@@ -427,5 +449,43 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
     private String getDateString(long timeInMilliseconds) {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         return formatter.format(timeInMilliseconds);
+    }
+
+    /**
+     * <P>
+     *          CALCULATE THE DISTANCE TRAVELLED
+                SO TO CALCULATE WHOLE DISTANCE BETWEEN ALL THE POINTS A LOOP WILL BE USED AS
+     @params LatLng staringPoint
+     @params LatLng endingPoint
+                if (Constants.latLngArrayList.size() >=2) {
+                    for (int i = 0; i<Constants.latLngArrayList.size()-2; i++) {
+                    distanceTravelled += calculateDistance(Constants.latLngArrayList.get(i), Constants.latLngArrayList.get(i+1));
+                    Log.d("DISTANCE_TRAVELLED", String.valueOf(distanceTravelled));
+                    }
+                }
+    </P>
+     */
+    private double calculateDistance(LatLng StartP, LatLng EndP) {
+        int Radius = 6371;// radius of earth in Km
+        double lat1 = StartP.latitude;
+        double lat2 = EndP.latitude;
+        double lon1 = StartP.longitude;
+        double lon2 = EndP.longitude;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
+                * Math.sin(dLon / 2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        double valueResult = Radius * c;
+        DecimalFormat newFormat = new DecimalFormat("####");
+        int kmInDec = Integer.parseInt(newFormat.format(valueResult));
+        double meter = valueResult % 1000;
+        int meterInDec = Integer.parseInt(newFormat.format(meter));
+        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
+                + " Meter   " + meterInDec);
+
+        return Radius * c;
     }
 }
