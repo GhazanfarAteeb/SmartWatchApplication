@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 @SuppressLint("StaticFieldLeak")
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -68,9 +70,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             int hours = minutes / 60;
 
             String string = "";
-            string += "" + String.format("%02d", hours);
-            string += ":" + String.format("%02d", minutes);
-            string += ":" + String.format("%02d", seconds);
+            string += "" + String.format(Locale.getDefault(),"%02d", hours);
+            string += ":" + String.format(Locale.getDefault(), "%02d", minutes);
+            string += ":" + String.format(Locale.getDefault(), "%02d", seconds);
 
             tvJourneyTime.setText(string);
             customHandler.postDelayed(this, 0);
@@ -147,16 +149,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         ivStart = root.findViewById(R.id.iv_start);
         ivStop = root.findViewById(R.id.iv_stop);
         if (Constants.startTime != 0L) {
-            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a").format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
         }
         setIconVisibility();
 
         ivStart.setOnClickListener(view -> {
             enableLocationSettings();
+            Constants.distanceTravelled = 0;
+            Constants.locationList = new ArrayList<>();
             Constants.startTime = System.currentTimeMillis();
             customHandler.post(updateTimeThread);
             Constants.IS_JOURNEY_STARTED = true;
-            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a").format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
             setIconVisibility();
         });
         ivStop.setOnClickListener(view -> {
@@ -166,8 +170,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             timeSwapBuff = 0L;
             updatedTime = 0L;
             setIconVisibility();
-            getActivity().unbindService(GPSServiceConnection);
-            getActivity().stopService(serviceIntent);
+            requireActivity().unbindService(GPSServiceConnection);
+            requireActivity().stopService(serviceIntent);
             customHandler.removeCallbacks(updateTimeThread);
         });
 
@@ -185,7 +189,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void enableLocationSettings() {
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             LocationRequest locationRequest = LocationRequest.create()
                     .setInterval(0)
@@ -193,31 +197,30 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-            LocationServices.getSettingsClient(getActivity()).checkLocationSettings(builder.build())
-                    .addOnSuccessListener(getActivity(), (LocationSettingsResponse response) -> {
+            LocationServices.getSettingsClient(requireActivity()).checkLocationSettings(builder.build())
+                    .addOnSuccessListener(requireActivity(), (LocationSettingsResponse response) -> {
 
-                    }).addOnFailureListener(getActivity(), ex -> {
+                    }).addOnFailureListener(requireActivity(), ex -> {
                         if (ex instanceof ResolvableApiException) {
                             // Location settings are NOT satisfied,  but this can be fixed  by showing the user a dialog.
                             try {
                                 ResolvableApiException resolvable = (ResolvableApiException) ex;
-                                resolvable.startResolutionForResult(getActivity(), Constants.Location_SERVICE_REQUEST_CODE);
+                                resolvable.startResolutionForResult(requireActivity(), Constants.Location_SERVICE_REQUEST_CODE);
                             } catch (IntentSender.SendIntentException sendEx) {
                                 // Ignore the error.
                             }
                         }
                     });
         } else {
-            Constants.locationList = new ArrayList<>();
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                requireActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                requireActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             }
-            getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            requireActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
 
@@ -232,12 +235,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                requireActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                requireActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             }
-            getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            requireActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
 

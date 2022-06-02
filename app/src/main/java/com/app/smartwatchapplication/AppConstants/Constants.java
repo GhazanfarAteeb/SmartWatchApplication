@@ -48,7 +48,7 @@ public class Constants {
     public static boolean IS_JOURNEY_STARTED = false;
     public static final int Location_SERVICE_REQUEST_CODE = 1;
     public static long startTime = 0L;
-
+    public static double distanceTravelled = 0;
 
     //DATABASE ATTRIBUTES
     public static final String DB_NAME = "gss.db";

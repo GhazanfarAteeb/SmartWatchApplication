@@ -12,6 +12,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 
 import com.app.smartwatchapplication.R;
 
+/**
+ * THE OTP EDIT TEXT CLASS IS USED TO CREATE AN EDIT TEXT FOR OTP STYLE
+ */
 public class  OtpEditText extends AppCompatEditText {
     private float mSpace = 16; //24 dp by default, space between the lines
     private float mNumChars = 6;
