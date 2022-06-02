@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -160,7 +159,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             Constants.startTime = System.currentTimeMillis();
             customHandler.post(updateTimeThread);
             Constants.IS_JOURNEY_STARTED = true;
-            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("kk:mm aa", Locale.US).format(Constants.startTime));
             setIconVisibility();
         });
         ivStop.setOnClickListener(view -> {
@@ -170,8 +169,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             timeSwapBuff = 0L;
             updatedTime = 0L;
             setIconVisibility();
-            requireActivity().unbindService(GPSServiceConnection);
-            requireActivity().stopService(serviceIntent);
+            getActivity().unbindService(GPSServiceConnection);
+            getActivity().stopService(serviceIntent);
             customHandler.removeCallbacks(updateTimeThread);
         });
 
@@ -189,7 +188,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void enableLocationSettings() {
-        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             LocationRequest locationRequest = LocationRequest.create()
                     .setInterval(0)
@@ -197,15 +196,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-            LocationServices.getSettingsClient(requireActivity()).checkLocationSettings(builder.build())
-                    .addOnSuccessListener(requireActivity(), (LocationSettingsResponse response) -> {
+            LocationServices.getSettingsClient(getActivity()).checkLocationSettings(builder.build())
+                    .addOnSuccessListener(getActivity(), (LocationSettingsResponse response) -> {
 
-                    }).addOnFailureListener(requireActivity(), ex -> {
+                    }).addOnFailureListener(getActivity(), ex -> {
                         if (ex instanceof ResolvableApiException) {
                             // Location settings are NOT satisfied,  but this can be fixed  by showing the user a dialog.
                             try {
                                 ResolvableApiException resolvable = (ResolvableApiException) ex;
-                                resolvable.startResolutionForResult(requireActivity(), Constants.Location_SERVICE_REQUEST_CODE);
+                                resolvable.startResolutionForResult(getActivity(), Constants.Location_SERVICE_REQUEST_CODE);
                             } catch (IntentSender.SendIntentException sendEx) {
                                 // Ignore the error.
                             }
@@ -215,12 +214,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             }
-            requireActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
 
@@ -235,13 +234,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             }
-            requireActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
-
 }
