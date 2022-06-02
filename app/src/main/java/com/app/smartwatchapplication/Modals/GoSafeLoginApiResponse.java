@@ -7,10 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-
-/**
- * CLASS USED FOR THE API RESPONSE OF LOGIN
- */
 public class GoSafeLoginApiResponse {
     public boolean error;
     @Nullable

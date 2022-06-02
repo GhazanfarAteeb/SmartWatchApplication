@@ -18,7 +18,6 @@ import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.SharedPreferences.SharedPref;
 
-//THE ACTIVITY RESPONSIBLE FOR LOADING SCREEN OR SPLASH SCREEN
 public class LoadingScreenActivity extends AppCompatActivity {
     ImageView ivLogo;
     @Override

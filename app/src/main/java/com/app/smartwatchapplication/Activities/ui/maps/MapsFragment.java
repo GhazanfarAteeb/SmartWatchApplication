@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.app.smartwatchapplication.Activities.WatchScanActivity;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Services.BackgroundServices;
@@ -39,7 +38,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 @SuppressLint("StaticFieldLeak")
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -70,9 +68,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             int hours = minutes / 60;
 
             String string = "";
-            string += "" + String.format(Locale.getDefault(),"%02d", hours);
-            string += ":" + String.format(Locale.getDefault(), "%02d", minutes);
-            string += ":" + String.format(Locale.getDefault(), "%02d", seconds);
+            string += "" + String.format("%02d", hours);
+            string += ":" + String.format("%02d", minutes);
+            string += ":" + String.format("%02d", seconds);
 
             tvJourneyTime.setText(string);
             customHandler.postDelayed(this, 0);
@@ -101,10 +99,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (mapsFragment != null) {
             mapsFragment.getMapAsync(this);
         }
-        if(Constants.connectedDevice == null) {
-            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
-            startActivity(intent);
-        }
+        //TODO - UNCOMMENT THESE LINES
+//        if(Constants.connectedDevice == null) {
+//            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
+//            startActivity(intent);
+//        }
     }
 
     com.app.smartwatchapplication.Services.BackgroundServices locationServices;
@@ -148,18 +147,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         ivStart = root.findViewById(R.id.iv_start);
         ivStop = root.findViewById(R.id.iv_stop);
         if (Constants.startTime != 0L) {
-            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a").format(Constants.startTime));
         }
         setIconVisibility();
 
         ivStart.setOnClickListener(view -> {
             enableLocationSettings();
-            Constants.distanceTravelled = 0;
-            Constants.locationList = new ArrayList<>();
             Constants.startTime = System.currentTimeMillis();
             customHandler.post(updateTimeThread);
             Constants.IS_JOURNEY_STARTED = true;
-            tvJourneyStartedAt.setText(new SimpleDateFormat("kk:mm aa", Locale.US).format(Constants.startTime));
+            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a").format(Constants.startTime));
             setIconVisibility();
         });
         ivStop.setOnClickListener(view -> {
@@ -211,6 +208,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
         } else {
+            Constants.locationList = new ArrayList<>();
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
@@ -242,4 +240,5 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
+
 }

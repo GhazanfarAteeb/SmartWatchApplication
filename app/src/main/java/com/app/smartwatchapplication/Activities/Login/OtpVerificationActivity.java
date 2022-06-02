@@ -19,7 +19,6 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-//THIS CLASS IS USED TO TO VERIFY THE OTP USING THE FIREBASE ONE TIME PASSWORD FOR PHONE AUTHENTICATION
 public class OtpVerificationActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Button btnVerifyOTP;

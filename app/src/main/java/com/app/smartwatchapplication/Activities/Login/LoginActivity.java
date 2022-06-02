@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
-//        CHECKING THE BACKGROUND PERMISSIONS WHETHER THEY ARE GRANTED OR NOT
         PermissionUtils.checkAndRequestPermissions(LoginActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -66,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //SETTING UP THE IDS AND INITIALIZING THINGS
     private void init() {
         SharedPref.writeBoolean(Constants.ON_BOARDING_SHOWN, true);
         countryCodePicker = findViewById(R.id.ccp_picker);
@@ -76,8 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Verifying ...");
         progressDialog.setCancelable(false);
     }
-
-    //FOR LOGIN WORKING THE DO LOGIN METHOD IS USED
     private void doLogin(String number) {
         progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
