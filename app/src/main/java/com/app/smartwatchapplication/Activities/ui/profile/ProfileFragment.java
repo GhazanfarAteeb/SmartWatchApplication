@@ -80,7 +80,6 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
             FirebaseAuth.getInstance().signOut();
-            Constants.IS_JOURNEY_STARTED = false;
         });
     }
 
