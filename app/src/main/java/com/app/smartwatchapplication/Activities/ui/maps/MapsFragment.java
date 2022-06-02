@@ -1,13 +1,15 @@
 package com.app.smartwatchapplication.Activities.ui.maps;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
-import android.location.Location;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,20 +24,25 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.app.smartwatchapplication.Activities.WatchScanActivity;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Services.BackgroundServices;
 import com.app.smartwatchapplication.databinding.FragmentMapsBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,13 +71,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             updatedTime = timeSwapBuff + timeInSeconds;
             int seconds = (int) (updatedTime / 1000);
             int minutes = seconds / 60;
-            minutes %=60;
+            minutes %= 60;
             seconds = seconds % 60;
 
             int hours = minutes / 60;
 
             String string = "";
-            string += "" + String.format(Locale.getDefault(),"%02d", hours);
+            string += "" + String.format(Locale.getDefault(), "%02d", hours);
             string += ":" + String.format(Locale.getDefault(), "%02d", minutes);
             string += ":" + String.format(Locale.getDefault(), "%02d", seconds);
 
@@ -90,6 +97,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         map.setMyLocationEnabled(true);
         map.getUiSettings().setAllGesturesEnabled(false);
     }
@@ -100,12 +117,26 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         init();
         if (mapsFragment != null) {
             mapsFragment.getMapAsync(this);
+            FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getActivity());
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            client.getLastLocation().addOnSuccessListener(getActivity(), location -> {
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.f));
+                map.setMyLocationEnabled(true);
+            });
         }
-        //TODO - UNCOMMENT THESE LINES
-//        if(Constants.connectedDevice == null) {
-//            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
-//            startActivity(intent);
-//        }
+        if(Constants.connectedDevice == null) {
+            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
+            startActivity(intent);
+        }
     }
 
     com.app.smartwatchapplication.Services.BackgroundServices locationServices;
@@ -155,7 +186,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         ivStart.setOnClickListener(view -> {
             enableLocationSettings();
-            Constants.distanceTravelled = 0;
             Constants.locationList = new ArrayList<>();
             Constants.startTime = System.currentTimeMillis();
             customHandler.post(updateTimeThread);
@@ -170,8 +200,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             timeSwapBuff = 0L;
             updatedTime = 0L;
             setIconVisibility();
-            requireActivity().unbindService(GPSServiceConnection);
-            requireActivity().stopService(serviceIntent);
+            if (isMyServiceRunning(BackgroundServices.class)) {
+                getActivity().unbindService(GPSServiceConnection);
+                getActivity().stopService(serviceIntent);
+            }
             customHandler.removeCallbacks(updateTimeThread);
         });
 
@@ -189,7 +221,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void enableLocationSettings() {
-        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             LocationRequest locationRequest = LocationRequest.create()
                     .setInterval(0)
@@ -197,15 +229,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-            LocationServices.getSettingsClient(requireActivity()).checkLocationSettings(builder.build())
-                    .addOnSuccessListener(requireActivity(), (LocationSettingsResponse response) -> {
+            LocationServices.getSettingsClient(getActivity()).checkLocationSettings(builder.build())
+                    .addOnSuccessListener(getActivity(), (LocationSettingsResponse response) -> {
 
-                    }).addOnFailureListener(requireActivity(), ex -> {
+                    }).addOnFailureListener(getActivity(), ex -> {
                         if (ex instanceof ResolvableApiException) {
                             // Location settings are NOT satisfied,  but this can be fixed  by showing the user a dialog.
                             try {
                                 ResolvableApiException resolvable = (ResolvableApiException) ex;
-                                resolvable.startResolutionForResult(requireActivity(), Constants.Location_SERVICE_REQUEST_CODE);
+                                resolvable.startResolutionForResult(getActivity(), Constants.Location_SERVICE_REQUEST_CODE);
                             } catch (IntentSender.SendIntentException sendEx) {
                                 // Ignore the error.
                             }
@@ -215,12 +247,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             }
-            requireActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
     }
 
@@ -235,13 +267,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                requireActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
             }
-            requireActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

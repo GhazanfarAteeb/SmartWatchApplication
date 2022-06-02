@@ -58,7 +58,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @SuppressLint("SetTextI18n")
 public class BackgroundServices extends Service implements DbThread.DBThreadListener {
-    int i = 0;
     private static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
     private PowerManager.WakeLock wakeLock;
@@ -68,6 +67,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
             MapsFragment.map.clear();
+
             Location currentLocation = locationResult.getLastLocation();
             float speedInKMPH = (float) (currentLocation.getSpeed() * 3.6);
             Constants.latLngArrayList.add(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
@@ -130,80 +130,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             //DATABASE HELPER CLASS
             DatabaseHelper dbHelper = new DatabaseHelper(BackgroundServices.this);
             //TO CHECK THE IF INTERNET IS AVAILABLE THEN THE SQLITE DATABASE READINGS WILL BE SENT TO THE SERVER THROUGH APIs
-            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-            //IF MY NETWORK IS AVAILABLE
-            if (networkInfo != null && networkInfo.isConnected()) {
-                // READ THE SQLITE DATABASE
-                Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
-                        "SELECT * FROM " + Constants.READINGS_TABLE_NAME + " WHERE "
-                                + Constants.READINGS_STATUS + "=?",
-                        new String[]{
-                                String.valueOf(Constants.STATUS_NOT_UPLOADED)
-                        }
-                );
-
-                // IF TABLE SEQUENCES ARE CHANGED THEN THIS WILL GET THE INDEX ACCORDING TO THE CHANGED INDEXES
-                int locationReadingsID = cursor.getColumnIndex(Constants.READINGS_ID);
-                int locationReadingsLat = cursor.getColumnIndex(Constants.READINGS_LAT);
-                int locationReadingsLon = cursor.getColumnIndex(Constants.READINGS_LON);
-                int locationReadingsTimestamp = cursor.getColumnIndex(Constants.READINGS_TIMESTAMP);
-                int locationReadingsAltitude = cursor.getColumnIndex(Constants.READINGS_ALTITUDE);
-                int locationReadingsSpeed = cursor.getColumnIndex(Constants.READINGS_SPEED);
-                int locationReadingsBearing = cursor.getColumnIndex(Constants.READINGS_BEARING);
-                int locationReadingsAccuracy = cursor.getColumnIndex(Constants.READINGS_ACCURACY);
-                int locationReadingsTemp = cursor.getColumnIndex(Constants.READINGS_TEMP);
-                int locationReadingsFeelsLike = cursor.getColumnIndex(Constants.READINGS_FEELS_LIKE);
-                int locationReadingsTempMax = cursor.getColumnIndex(Constants.READINGS_TEMP_MAX);
-                int locationReadingsTempMin = cursor.getColumnIndex(Constants.READINGS_TEMP_MIN);
-                int locationReadingsPressure = cursor.getColumnIndex(Constants.READINGS_PRESSURE);
-                int locationReadingsHumidity = cursor.getColumnIndex(Constants.READINGS_HUMIDITY);
-                int locationReadingsWind = cursor.getColumnIndex(Constants.READINGS_WIND);
-                int locationReadingsClouds = cursor.getColumnIndex(Constants.READINGS_CLOUDS);
-                int locationReadingsVisibility = cursor.getColumnIndex(Constants.READINGS_VISIBILITY);
-                int locationReadingsSystolicBP = cursor.getColumnIndex(Constants.READINGS_SYSTOLIC_BLOOD_PRESSURE);
-                int locationReadingsDiastolicBP = cursor.getColumnIndex(Constants.READINGS_DIASTOLIC_BLOOD_PRESSURE);
-                int locationReadingsHeartRate = cursor.getColumnIndex(Constants.READINGS_HEART_RATE);
-                int locationReadingsSPO2 = cursor.getColumnIndex(Constants.READINGS_BLOOD_OXYGEN);
-                int locationReadingsRespirationRate = cursor.getColumnIndex(Constants.READINGS_RESPIRATION_RATE);
-                int locationReadingsStatus = cursor.getColumnIndex(Constants.READINGS_STATUS);
-                ArrayList<PostReadings> postReadingsArrayList = new ArrayList<>();
-
-                // GETTING DATA FROM THE CURSOR
-                while (cursor.moveToNext()) {
-                    postReadingsArrayList.add(
-                            new PostReadings(
-                                    cursor.getString(locationReadingsID),
-                                    cursor.getString(locationReadingsLat),
-                                    cursor.getString(locationReadingsLon),
-                                    cursor.getString(locationReadingsTimestamp),
-                                    cursor.getString(locationReadingsAltitude),
-                                    cursor.getString(locationReadingsSpeed),
-                                    cursor.getString(locationReadingsBearing),
-                                    cursor.getString(locationReadingsAccuracy),
-                                    cursor.getString(locationReadingsTemp),
-                                    cursor.getString(locationReadingsFeelsLike),
-                                    cursor.getString(locationReadingsTempMin),
-                                    cursor.getString(locationReadingsTempMax),
-                                    cursor.getString(locationReadingsPressure),
-                                    cursor.getString(locationReadingsHumidity),
-                                    cursor.getString(locationReadingsWind),
-                                    cursor.getString(locationReadingsClouds),
-                                    cursor.getString(locationReadingsVisibility),
-                                    cursor.getString(locationReadingsSystolicBP),
-                                    cursor.getString(locationReadingsDiastolicBP),
-                                    cursor.getString(locationReadingsHeartRate),
-                                    cursor.getString(locationReadingsSPO2),
-                                    cursor.getString(locationReadingsRespirationRate),
-                                    cursor.getInt(locationReadingsStatus)
-                            )
-                    );
-                }
-                cursor.close();
-                new DbThread(BackgroundServices.this, postReadingsArrayList, dbHelper).start();
-            }
-
+            addDataToDB();
             if (speedInKMPH >= 10) {
                 PostReadings postReadings = new PostReadings(
                         Constants.USER_ID,
@@ -289,14 +216,6 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
                 .setFastestInterval(Constants.FASTEST_INTERVAL);
     }
 
-
-    /**
-     * THE UPDATE DB IS THE FUNCTION OF DB THREAD CLASS IT WILL LISTEN TO THE CHANGES IN DATA AND
-     * WILL SEND THAT DATA TO THE UPDATE DB FUNCTION IN ONE CASE IF INTERNET IS AVAILABLE AND
-     * THE DATA MUST BE FIRST STORED IN THE SQLITE DATABASE
-     * @param postReadingsList
-     * @param dbHelper
-     */
     @Override
     public void updateDB(List<PostReadings> postReadingsList, DatabaseHelper dbHelper) {
         try {
@@ -371,10 +290,6 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         return locationServiceBinder;
     }
 
-    /**
-     * THIS FUNCTION IS USED TO START THE CONTINUOUS LOCATION UPDATES IN THE BACKGROUND
-     * @retun NOTHING
-     */
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -418,10 +333,6 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
     }
 
 
-    /**
-     * THIS FUNCTION WILL BE USED TO GENERATE THE NOTIFICATION OF THE BACKGROUND SERVICE AS IT WILL HAVE THE APP'S LAUNCHER ICON WITH PUBLIC VISIBILITY
-     * @return NOTHING
-     */
     private Notification getNotification() {
         final String CHANNEL_ID = "serviceChannel";
 
@@ -451,20 +362,7 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         return formatter.format(timeInMilliseconds);
     }
 
-    /**
-     * <P>
-     *          CALCULATE THE DISTANCE TRAVELLED
-                SO TO CALCULATE WHOLE DISTANCE BETWEEN ALL THE POINTS A LOOP WILL BE USED AS
-     @params LatLng staringPoint
-     @params LatLng endingPoint
-                if (Constants.latLngArrayList.size() >=2) {
-                    for (int i = 0; i<Constants.latLngArrayList.size()-2; i++) {
-                    distanceTravelled += calculateDistance(Constants.latLngArrayList.get(i), Constants.latLngArrayList.get(i+1));
-                    Log.d("DISTANCE_TRAVELLED", String.valueOf(distanceTravelled));
-                    }
-                }
-    </P>
-     */
+
     private double calculateDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
         double lat1 = StartP.latitude;
@@ -487,5 +385,82 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
                 + " Meter   " + meterInDec);
 
         return Radius * c;
+    }
+    private void addDataToDB() {
+        DatabaseHelper dbHelper = new DatabaseHelper(BackgroundServices.this);
+        //TO CHECK THE IF INTERNET IS AVAILABLE THEN THE SQLITE DATABASE READINGS WILL BE SENT TO THE SERVER THROUGH APIs
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //IF MY NETWORK IS AVAILABLE
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // READ THE SQLITE DATABASE
+            Cursor cursor = dbHelper.getReadableDatabase().rawQuery(
+                    "SELECT * FROM " + Constants.READINGS_TABLE_NAME + " WHERE "
+                            + Constants.READINGS_STATUS + "=?",
+                    new String[]{
+                            String.valueOf(Constants.STATUS_NOT_UPLOADED)
+                    }
+            );
+
+            // IF TABLE SEQUENCES ARE CHANGED THEN THIS WILL GET THE INDEX ACCORDING TO THE CHANGED INDEXES
+            int locationReadingsID = cursor.getColumnIndex(Constants.READINGS_ID);
+            int locationReadingsLat = cursor.getColumnIndex(Constants.READINGS_LAT);
+            int locationReadingsLon = cursor.getColumnIndex(Constants.READINGS_LON);
+            int locationReadingsTimestamp = cursor.getColumnIndex(Constants.READINGS_TIMESTAMP);
+            int locationReadingsAltitude = cursor.getColumnIndex(Constants.READINGS_ALTITUDE);
+            int locationReadingsSpeed = cursor.getColumnIndex(Constants.READINGS_SPEED);
+            int locationReadingsBearing = cursor.getColumnIndex(Constants.READINGS_BEARING);
+            int locationReadingsAccuracy = cursor.getColumnIndex(Constants.READINGS_ACCURACY);
+            int locationReadingsTemp = cursor.getColumnIndex(Constants.READINGS_TEMP);
+            int locationReadingsFeelsLike = cursor.getColumnIndex(Constants.READINGS_FEELS_LIKE);
+            int locationReadingsTempMax = cursor.getColumnIndex(Constants.READINGS_TEMP_MAX);
+            int locationReadingsTempMin = cursor.getColumnIndex(Constants.READINGS_TEMP_MIN);
+            int locationReadingsPressure = cursor.getColumnIndex(Constants.READINGS_PRESSURE);
+            int locationReadingsHumidity = cursor.getColumnIndex(Constants.READINGS_HUMIDITY);
+            int locationReadingsWind = cursor.getColumnIndex(Constants.READINGS_WIND);
+            int locationReadingsClouds = cursor.getColumnIndex(Constants.READINGS_CLOUDS);
+            int locationReadingsVisibility = cursor.getColumnIndex(Constants.READINGS_VISIBILITY);
+            int locationReadingsSystolicBP = cursor.getColumnIndex(Constants.READINGS_SYSTOLIC_BLOOD_PRESSURE);
+            int locationReadingsDiastolicBP = cursor.getColumnIndex(Constants.READINGS_DIASTOLIC_BLOOD_PRESSURE);
+            int locationReadingsHeartRate = cursor.getColumnIndex(Constants.READINGS_HEART_RATE);
+            int locationReadingsSPO2 = cursor.getColumnIndex(Constants.READINGS_BLOOD_OXYGEN);
+            int locationReadingsRespirationRate = cursor.getColumnIndex(Constants.READINGS_RESPIRATION_RATE);
+            int locationReadingsStatus = cursor.getColumnIndex(Constants.READINGS_STATUS);
+            ArrayList<PostReadings> postReadingsArrayList = new ArrayList<>();
+
+            // GETTING DATA FROM THE CURSOR
+            while (cursor.moveToNext()) {
+                postReadingsArrayList.add(
+                        new PostReadings(
+                                cursor.getString(locationReadingsID),
+                                cursor.getString(locationReadingsLat),
+                                cursor.getString(locationReadingsLon),
+                                cursor.getString(locationReadingsTimestamp),
+                                cursor.getString(locationReadingsAltitude),
+                                cursor.getString(locationReadingsSpeed),
+                                cursor.getString(locationReadingsBearing),
+                                cursor.getString(locationReadingsAccuracy),
+                                cursor.getString(locationReadingsTemp),
+                                cursor.getString(locationReadingsFeelsLike),
+                                cursor.getString(locationReadingsTempMin),
+                                cursor.getString(locationReadingsTempMax),
+                                cursor.getString(locationReadingsPressure),
+                                cursor.getString(locationReadingsHumidity),
+                                cursor.getString(locationReadingsWind),
+                                cursor.getString(locationReadingsClouds),
+                                cursor.getString(locationReadingsVisibility),
+                                cursor.getString(locationReadingsSystolicBP),
+                                cursor.getString(locationReadingsDiastolicBP),
+                                cursor.getString(locationReadingsHeartRate),
+                                cursor.getString(locationReadingsSPO2),
+                                cursor.getString(locationReadingsRespirationRate),
+                                cursor.getInt(locationReadingsStatus)
+                        )
+                );
+            }
+            cursor.close();
+            new DbThread(BackgroundServices.this, postReadingsArrayList, dbHelper).start();
+        }
     }
 }
