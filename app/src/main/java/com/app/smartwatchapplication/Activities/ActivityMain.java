@@ -176,4 +176,9 @@ public class ActivityMain extends AppCompatActivity implements DbThread.DBThread
             ex.getLocalizedMessage();
         }
     }
+
+    @Override
+    public void onBackPressed () {
+        moveTaskToBack(true);
+    }
 }

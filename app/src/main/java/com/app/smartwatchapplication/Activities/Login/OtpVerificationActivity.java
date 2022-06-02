@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -100,6 +101,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
                             public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
                                 super.onCodeAutoRetrievalTimeOut(s);
                                 System.out.println("TIMEOUT: "+s);
+                                progressDialog.dismiss();
+                                Toast.makeText(OtpVerificationActivity.this, "Unable to connect. Check your internet and try again", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .build();
@@ -115,5 +118,9 @@ public class OtpVerificationActivity extends AppCompatActivity {
             System.out.println("WRONG CODE ENTERED");
             progressDialog.dismiss();
         }
+    }
+    @Override
+    public void onBackPressed () {
+        moveTaskToBack(true);
     }
 }

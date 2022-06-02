@@ -8,12 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.app.smartwatchapplication.Activities.ui.home.HomeFragment;
 import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.Modals.GoSafeLoginApiResponse;
@@ -97,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPref.writeString(Constants.LOGIN_SAVED, countryCodePicker.getFullNumberWithPlus());
                         }
                         Constants.USER_ID = Constants.USER.getUser().get(0).getvApiUsername();
-                        startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
+                        startActivity(new Intent(LoginActivity.this, HomeFragment.class));
                         finish();
                     }
                 }
@@ -105,8 +107,12 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call call, @NonNull Throwable t) {
-
+                Toast.makeText(LoginActivity.this, "Unable to connect. Check your internet and try again", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    public void onBackPressed () {
+        moveTaskToBack(true);
     }
 }

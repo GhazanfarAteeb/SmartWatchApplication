@@ -33,16 +33,13 @@ import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Services.BackgroundServices;
 import com.app.smartwatchapplication.databinding.FragmentMapsBinding;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -109,6 +106,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         map.setMyLocationEnabled(true);
         map.getUiSettings().setAllGesturesEnabled(false);
+//        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getActivity());
+//        client.getLastLocation().addOnSuccessListener(getActivity(), location -> {
+//            if(map != null) {
+//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.f));
+//            }
+//        });
     }
 
     @Override
@@ -117,25 +120,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         init();
         if (mapsFragment != null) {
             mapsFragment.getMapAsync(this);
-            FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getActivity());
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            client.getLastLocation().addOnSuccessListener(getActivity(), location -> {
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.f));
-                map.setMyLocationEnabled(true);
-            });
         }
         if(Constants.connectedDevice == null) {
             Intent intent = new Intent(getActivity(), WatchScanActivity.class);
             startActivity(intent);
+            getActivity().finish();
         }
     }
 
