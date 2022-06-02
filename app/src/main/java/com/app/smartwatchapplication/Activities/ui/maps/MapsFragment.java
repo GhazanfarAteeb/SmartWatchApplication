@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.app.smartwatchapplication.Activities.WatchScanActivity;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Services.BackgroundServices;
@@ -100,11 +101,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (mapsFragment != null) {
             mapsFragment.getMapAsync(this);
         }
-        //TODO - UNCOMMENT THESE LINES
-//        if(Constants.connectedDevice == null) {
-//            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
-//            startActivity(intent);
-//        }
+        if(Constants.connectedDevice == null) {
+            Intent intent = new Intent(getActivity(), WatchScanActivity.class);
+            startActivity(intent);
+        }
     }
 
     com.app.smartwatchapplication.Services.BackgroundServices locationServices;
