@@ -20,6 +20,7 @@ public class Constants {
     public static final long FASTEST_INTERVAL = 0;
     public static final long INTERVAL = 0;
     public static final String LOGIN_SAVED = null;
+    public static  String KEY_BOOLEAN_LOGIN_SAVED = "IS_LOGIN_SAVED";
     public static boolean isFineLocationPermissionGranted = false;
     public static boolean isCoarseLocationPermissionGranted = false;
     public static boolean isBluetoothPermissionGranted = false;

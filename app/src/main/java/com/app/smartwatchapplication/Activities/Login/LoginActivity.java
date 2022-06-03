@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText etPhoneNo;
     CountryCodePicker countryCodePicker;
     ProgressDialog progressDialog;
+    String savedLogin;
+    private boolean isLoginSaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,9 @@ public class LoginActivity extends AppCompatActivity {
                 builder.show();
             }
         }
-        String savedLogin = SharedPref.readString(Constants.LOGIN_SAVED, null);
-        if (savedLogin != null) {
+        isLoginSaved = SharedPref.readBoolean(Constants.KEY_BOOLEAN_LOGIN_SAVED, false);
+        if (isLoginSaved) {
+            savedLogin = SharedPref.readString(Constants.LOGIN_SAVED, null);
             doLogin(savedLogin);
         }
         findViewById(R.id.btn_login).setOnClickListener(view -> {
@@ -97,7 +100,10 @@ public class LoginActivity extends AppCompatActivity {
                         Constants.USER_ID = Constants.USER.getUser().get(0).getvApiUsername();
                         CheckBox cbRememberMe = findViewById(R.id.cb_remember_me);
                         if (cbRememberMe.isChecked()) {
+                            SharedPref.writeBoolean(Constants.KEY_BOOLEAN_LOGIN_SAVED, true);
                             SharedPref.writeString(Constants.LOGIN_SAVED, countryCodePicker.getFullNumberWithPlus());
+                        }
+                        if (isLoginSaved) {
                             startActivity(new Intent(LoginActivity.this, ActivityMain.class));
                             finish();
                         }
@@ -105,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
                             finish();
                         }
+
                     }
                 }
             }
