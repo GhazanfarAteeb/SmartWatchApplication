@@ -305,16 +305,17 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
 
     @Override
     public void onDestroy() {
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+        }
         Constants.client.removeLocationUpdates(locationCallback);
         Log.d("STOP_SERVICE", "TRYING TO STOP SERVICE FROM ON DESTROY");
-        stopSelf();
         super.onDestroy();
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Constants.client.removeLocationUpdates(locationCallback);
-        stopSelf();
         Log.d("STOP_SERVICE", "TRYING TO STOP SERVICE");
         super.onTaskRemoved(rootIntent);
     }
@@ -462,5 +463,13 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             cursor.close();
             new DbThread(BackgroundServices.this, postReadingsArrayList, dbHelper).start();
         }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // PARTIAL_WAKELOCK
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,getResources().getString(R.string.app_name)+":wakelock");
     }
 }

@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.app.smartwatchapplication.Activities.ui.home.HomeFragment;
+import com.app.smartwatchapplication.Activities.ActivityMain;
 import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.Modals.GoSafeLoginApiResponse;
@@ -94,13 +94,17 @@ public class LoginActivity extends AppCompatActivity {
                     if (Constants.USER.error) {
                         etPhoneNo.setError("Phone number not valid");
                     } else {
+                        Constants.USER_ID = Constants.USER.getUser().get(0).getvApiUsername();
                         CheckBox cbRememberMe = findViewById(R.id.cb_remember_me);
                         if (cbRememberMe.isChecked()) {
                             SharedPref.writeString(Constants.LOGIN_SAVED, countryCodePicker.getFullNumberWithPlus());
+                            startActivity(new Intent(LoginActivity.this, ActivityMain.class));
+                            finish();
                         }
-                        Constants.USER_ID = Constants.USER.getUser().get(0).getvApiUsername();
-                        startActivity(new Intent(LoginActivity.this, HomeFragment.class));
-                        finish();
+                        else {
+                            startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
+                            finish();
+                        }
                     }
                 }
             }

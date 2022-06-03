@@ -77,7 +77,7 @@
         </activity>
         
         <service
-            android:name=".Services.BackgroundServices"
+            android:name="com.app.smartwatchapplication.Services.BackgroundServices"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location"

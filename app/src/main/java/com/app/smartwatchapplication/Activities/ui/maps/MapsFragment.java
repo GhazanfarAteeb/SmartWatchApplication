@@ -50,7 +50,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public static GoogleMap map;
     View root;
     SupportMapFragment mapsFragment;
-    Intent serviceIntent;
+    public static Intent serviceIntent;
     public static TextView tvJourneyStartedAt, tvJourneyTime, tvCountry, tvSunrise, tvSunset, tvBloodPressure, tvHeartRate,
             tvBloodOxygen, tvRespirationRate, tvWeather, tvWindSpeed, tvHumidity, tvClouds, tvVisibility, tvTemperature, tvMinTemperature, tvMaxTemperature, tvTemperatureFeelsLike,
             tvSpeed, tvAccuracy, tvAltitude;
@@ -128,9 +128,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    com.app.smartwatchapplication.Services.BackgroundServices locationServices;
-    boolean isGPSServiceBound = false;
-    private final ServiceConnection GPSServiceConnection = new ServiceConnection() {
+    public static com.app.smartwatchapplication.Services.BackgroundServices locationServices;
+    public static boolean isGPSServiceBound = false;
+    public static final ServiceConnection GPSServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BackgroundServices.LocalBinder binder = (BackgroundServices.LocalBinder) iBinder;
@@ -140,7 +140,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-
         }
     };
 
@@ -190,6 +189,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             updatedTime = 0L;
             setIconVisibility();
             if (isMyServiceRunning(BackgroundServices.class)) {
+                isGPSServiceBound = false;
                 getActivity().unbindService(GPSServiceConnection);
                 getActivity().stopService(serviceIntent);
             }
@@ -256,10 +256,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startForegroundService(serviceIntent);
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startService(serviceIntent);
             }
             getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }
