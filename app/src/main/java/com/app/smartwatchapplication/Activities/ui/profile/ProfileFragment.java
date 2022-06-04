@@ -19,6 +19,8 @@ import com.app.smartwatchapplication.SharedPreferences.SharedPref;
 import com.app.smartwatchapplication.databinding.FragmentProfileBinding;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.htsmart.wristband2.WristbandApplication;
+import com.htsmart.wristband2.WristbandManager;
 
 import java.util.ArrayList;
 
@@ -75,6 +77,8 @@ public class ProfileFragment extends Fragment {
             Constants.weatherResponse = null;
             Constants.USER = null;
             Constants.locationList = null;
+            WristbandManager manager = WristbandApplication.getWristbandManager();
+            manager.close();
             Constants.currentWatchReadings = new WatchReadings();
             SharedPref.writeString(Constants.LOGIN_SAVED, null);
             startActivity(new Intent(getActivity(), LoginActivity.class));
