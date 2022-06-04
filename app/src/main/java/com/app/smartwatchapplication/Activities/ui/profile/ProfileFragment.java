@@ -87,15 +87,17 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setData() {
-        tieName.setText(Constants.USER.getUser().get(0).getdName());
-        tieAddress.setText(Constants.USER.getUser().get(0).getdAddress());
-        tiePhoneNumber.setText(Constants.USER.getUser().get(0).getdMobile());
-        tieLicenseNumber.setText(Constants.USER.getUser().get(0).getdLicenseno());
-        tieManufacturer.setText(Constants.USER.getUser().get(0).getvManufacturedBy());
-        tieVehicleType.setText(Constants.USER.getUser().get(0).getvType());
-        tieVehicleName.setText(Constants.USER.getUser().get(0).getvName());
-        tieDateOfJoining.setText(Constants.USER.getUser().get(0).getdDoj());
-        tieEngineNumber.setText(Constants.USER.getUser().get(0).getvEngineNo());
-        tieChassisNumber.setText(Constants.USER.getUser().get(0).getvChassisNo());
+        if (Constants.USER.getUser()!=null) {
+            tieName.setText(Constants.USER.getUser().get(0).getdName());
+            tieAddress.setText(Constants.USER.getUser().get(0).getdAddress());
+            tiePhoneNumber.setText(Constants.USER.getUser().get(0).getdMobile());
+            tieLicenseNumber.setText(Constants.USER.getUser().get(0).getdLicenseno());
+            tieManufacturer.setText(Constants.USER.getUser().get(0).getvManufacturedBy());
+            tieVehicleType.setText(Constants.USER.getUser().get(0).getvType());
+            tieVehicleName.setText(Constants.USER.getUser().get(0).getvName());
+            tieDateOfJoining.setText(Constants.USER.getUser().get(0).getdDoj());
+            tieEngineNumber.setText(Constants.USER.getUser().get(0).getvEngineNo());
+            tieChassisNumber.setText(Constants.USER.getUser().get(0).getvChassisNo());
+        }
     }
 }
