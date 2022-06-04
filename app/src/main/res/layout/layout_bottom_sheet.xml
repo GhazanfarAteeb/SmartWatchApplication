@@ -8,7 +8,7 @@
 	android:background="@color/white"
 	android:paddingTop="13dp"
 	app:behavior_hideable="false"
-	app:behavior_peekHeight="200dp"
+	app:behavior_peekHeight="110dp"
 	app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
 	tools:ignore="HardcodedText">
 	

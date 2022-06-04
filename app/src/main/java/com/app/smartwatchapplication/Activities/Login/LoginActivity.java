@@ -105,19 +105,17 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         if (isLoginSaved) {
                             startActivity(new Intent(LoginActivity.this, ActivityMain.class));
-                            finish();
                         }
                         else {
                             startActivity(new Intent(LoginActivity.this, OtpVerificationActivity.class));
-                            finish();
                         }
-
                     }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call call, @NonNull Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this, "Unable to connect. Check your internet and try again", Toast.LENGTH_SHORT).show();
             }
         });

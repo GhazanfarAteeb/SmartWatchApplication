@@ -123,8 +123,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         if(Constants.connectedDevice == null) {
             Intent intent = new Intent(getActivity(), WatchScanActivity.class);
-            startActivity(intent);
-            getActivity().finish();
+            startActivityForResult(intent, 1);
         }
     }
 
@@ -204,6 +203,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             ivStop.setVisibility(View.GONE);
         }
         else {
+            if (isMyServiceRunning(BackgroundServices.class)) {
+                getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
+            }
             ivStart.setVisibility(View.GONE);
             ivStop.setVisibility(View.VISIBLE);
         }
@@ -236,10 +238,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             serviceIntent = new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startForegroundService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startForegroundService(serviceIntent);
             } else {
                 Log.d("SERVICE", "STARTING SERVICE");
-                getActivity().startService(new Intent(getActivity(), com.app.smartwatchapplication.Services.BackgroundServices.class));
+                getActivity().startService(serviceIntent);
             }
             getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         }

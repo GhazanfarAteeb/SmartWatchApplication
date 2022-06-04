@@ -110,7 +110,7 @@ public class WatchScanActivity extends AppCompatActivity {
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         if (!wristbandManager.isConnected()) {
-                            wristbandManager.connect(watch, "1", false, true, 30, (float) 165, (float) 70.8);
+                            wristbandManager.connect(watch, "1", true, true, 30, (float) 165, (float) 70.8);
                             System.out.println("WATCH CONNECTED: WITH MANAGER");
                             Constants.connectedDevice = watch;
                         }
@@ -193,9 +193,10 @@ public class WatchScanActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(WatchScanActivity.this, ActivityMain.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        if (scanDisposable != null) {
+            scanDisposable.dispose();
+        }
+        finishActivity(1);
     }
 
     public void enableLocationSettings() {
