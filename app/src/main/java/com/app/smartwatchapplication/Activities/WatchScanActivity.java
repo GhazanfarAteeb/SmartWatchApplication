@@ -79,6 +79,7 @@ public class WatchScanActivity extends AppCompatActivity {
         rvWatch = findViewById(R.id.rv_watch);
         ivBack = findViewById(R.id.iv_back);
         ivStop = findViewById(R.id.iv_stop);
+        Constants.IS_SCAN_STOPPED = false;
         progressDialog = new ProgressDialog(WatchScanActivity.this);
         AlertDialog builder = new AlertDialog.Builder(WatchScanActivity.this)
                 .setMessage("In order to connect watch first you need to stop scan from the above red button.")
@@ -94,6 +95,7 @@ public class WatchScanActivity extends AppCompatActivity {
         });
         ivStop.setOnClickListener(view -> {
             if (scanDisposable != null) {
+                Constants.IS_SCAN_STOPPED = true;
                 scanDisposable.dispose();
                 Toast.makeText(WatchScanActivity.this, "Scan Stopped", Toast.LENGTH_SHORT).show();
             }
@@ -145,6 +147,7 @@ public class WatchScanActivity extends AppCompatActivity {
                                 .setTitle("Watch Connected")
                                 .setMessage("Your watch have been connected successfully.")
                                 .setCancelable(false).setPositiveButton("OK", (dialog, which) -> {
+                                    Constants.IS_WATCH_CONNECTED = true;
                                     Intent intent = new Intent(WatchScanActivity.this, ActivityMain.class);
                                     startActivity(intent);
                                     finish();
@@ -220,10 +223,10 @@ public class WatchScanActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (scanDisposable != null) {
-            scanDisposable.dispose();
-        }
-        finishActivity(1);
+//        if (scanDisposable != null) {
+//            scanDisposable.dispose();
+//        }
+        moveTaskToBack(true);
     }
 
     public void enableLocationSettings() {

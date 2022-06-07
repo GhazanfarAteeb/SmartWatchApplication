@@ -123,7 +123,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         if(Constants.connectedDevice == null) {
             Intent intent = new Intent(getActivity(), WatchScanActivity.class);
-            startActivityForResult(intent, 1);
+            startActivity(intent);
         }
     }
 

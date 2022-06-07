@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import com.app.smartwatchapplication.Activities.ActivityMain;
+import com.app.smartwatchapplication.Activities.WatchScanActivity;
 import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
 import com.app.smartwatchapplication.Apis.Api;
 import com.app.smartwatchapplication.AppConstants.Constants;
@@ -85,6 +86,10 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             Log.d("CURRENT_BEARING : ", String.valueOf(currentLocation.getBearing()));
             Log.d("", "==============================================");
             // FETCHING WEATHER DATA ONLY ONCE AFTER THE SERVICE STARTS
+            if (!Constants.IS_WATCH_CONNECTED) {
+                Intent intent = new Intent(BackgroundServices.this, WatchScanActivity.class);
+                startActivity(intent);
+            }
             if (Constants.weatherResponse == null) {
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(Constants.BaseUrl)
