@@ -172,6 +172,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         setIconVisibility();
 
         ivStart.setOnClickListener(view -> {
+            Constants.weatherResponse = null;
             enableLocationSettings();
             Constants.locationList = new ArrayList<>();
             Constants.startTime = System.currentTimeMillis();

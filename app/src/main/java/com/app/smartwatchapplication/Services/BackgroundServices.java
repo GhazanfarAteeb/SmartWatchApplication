@@ -84,7 +84,6 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             Log.d("CURRENT_ACCURACY : ", String.valueOf(currentLocation.getAccuracy()));
             Log.d("CURRENT_BEARING : ", String.valueOf(currentLocation.getBearing()));
             Log.d("", "==============================================");
-
             // FETCHING WEATHER DATA ONLY ONCE AFTER THE SERVICE STARTS
             if (Constants.weatherResponse == null) {
                 Retrofit retrofit = new Retrofit.Builder()
@@ -132,31 +131,52 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
             //TO CHECK THE IF INTERNET IS AVAILABLE THEN THE SQLITE DATABASE READINGS WILL BE SENT TO THE SERVER THROUGH APIs
             addDataToDB();
             if (speedInKMPH >= 10) {
-                PostReadings postReadings = new PostReadings(
-                        Constants.USER_ID,
-                        String.valueOf(currentLocation.getLatitude()),
-                        String.valueOf(currentLocation.getLongitude()),
-                        String.valueOf(System.currentTimeMillis()),
-                        String.valueOf(currentLocation.getAltitude()),
-                        String.valueOf(currentLocation.getSpeed()),
-                        String.valueOf(currentLocation.getBearing()),
-                        String.valueOf(currentLocation.getAccuracy()),
-                        String.valueOf(Constants.weatherResponse.getMain().getTemp()),
-                        String.valueOf(Constants.weatherResponse.getMain().getFeelsLike()),
-                        String.valueOf(Constants.weatherResponse.getMain().getTempMin()),
-                        String.valueOf(Constants.weatherResponse.getMain().getTempMax()),
-                        String.valueOf(Constants.weatherResponse.getMain().getPressure()),
-                        String.valueOf(Constants.weatherResponse.getMain().getHumidity()),
-                        String.valueOf(Constants.weatherResponse.getWind().getSpeed()),
-                        String.valueOf(Constants.weatherResponse.getClouds().getAll()),
-                        String.valueOf(Constants.weatherResponse.getVisibility()),
-                        String.valueOf(Constants.currentWatchReadings.getSystolicBloodPressure()),
-                        String.valueOf(Constants.currentWatchReadings.getDiastolicBloodPressure()),
-                        String.valueOf(Constants.currentWatchReadings.getHeartRate()),
-                        String.valueOf(Constants.currentWatchReadings.getBloodOxygenLevel()),
-                        String.valueOf(Constants.currentWatchReadings.getRespirationRate()),
-                        Constants.STATUS_NOT_UPLOADED
-                );
+                PostReadings postReadings;
+                if (Constants.weatherResponse != null) {
+                    postReadings= new PostReadings(
+                            Constants.USER_ID,
+                            String.valueOf(currentLocation.getLatitude()),
+                            String.valueOf(currentLocation.getLongitude()),
+                            String.valueOf(System.currentTimeMillis()),
+                            String.valueOf(currentLocation.getAltitude()),
+                            String.valueOf(currentLocation.getSpeed()),
+                            String.valueOf(currentLocation.getBearing()),
+                            String.valueOf(currentLocation.getAccuracy()),
+                            String.valueOf(Constants.weatherResponse.getMain().getTemp()),
+                            String.valueOf(Constants.weatherResponse.getMain().getFeelsLike()),
+                            String.valueOf(Constants.weatherResponse.getMain().getTempMin()),
+                            String.valueOf(Constants.weatherResponse.getMain().getTempMax()),
+                            String.valueOf(Constants.weatherResponse.getMain().getPressure()),
+                            String.valueOf(Constants.weatherResponse.getMain().getHumidity()),
+                            String.valueOf(Constants.weatherResponse.getWind().getSpeed()),
+                            String.valueOf(Constants.weatherResponse.getClouds().getAll()),
+                            String.valueOf(Constants.weatherResponse.getVisibility()),
+                            String.valueOf(Constants.currentWatchReadings.getSystolicBloodPressure()),
+                            String.valueOf(Constants.currentWatchReadings.getDiastolicBloodPressure()),
+                            String.valueOf(Constants.currentWatchReadings.getHeartRate()),
+                            String.valueOf(Constants.currentWatchReadings.getBloodOxygenLevel()),
+                            String.valueOf(Constants.currentWatchReadings.getRespirationRate()),
+                            Constants.STATUS_NOT_UPLOADED
+                    );
+                }
+                else {
+                    postReadings= new PostReadings(
+                            Constants.USER_ID,
+                            String.valueOf(currentLocation.getLatitude()),
+                            String.valueOf(currentLocation.getLongitude()),
+                            String.valueOf(System.currentTimeMillis()),
+                            String.valueOf(currentLocation.getAltitude()),
+                            String.valueOf(currentLocation.getSpeed()),
+                            String.valueOf(currentLocation.getBearing()),
+                            String.valueOf(currentLocation.getAccuracy()),
+                            String.valueOf(Constants.currentWatchReadings.getSystolicBloodPressure()),
+                            String.valueOf(Constants.currentWatchReadings.getDiastolicBloodPressure()),
+                            String.valueOf(Constants.currentWatchReadings.getHeartRate()),
+                            String.valueOf(Constants.currentWatchReadings.getBloodOxygenLevel()),
+                            String.valueOf(Constants.currentWatchReadings.getRespirationRate()),
+                            Constants.STATUS_NOT_UPLOADED
+                    );
+                }
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(Constants.READINGS_ID, postReadings.getId());

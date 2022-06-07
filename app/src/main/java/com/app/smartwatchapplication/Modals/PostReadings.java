@@ -50,6 +50,46 @@ public class PostReadings {
     String respirationRate;
     int status;
 
+    public PostReadings(
+            @NonNull String id,
+            @NonNull String lat,
+            @NonNull String lon,
+            @NonNull String timestamp,
+            @Nullable String altitude,
+            @Nullable String speed,
+            @Nullable String bearing,
+            @Nullable String accuracy,
+            @Nullable String systolicBP,
+            @Nullable String diastolicBP,
+            @Nullable String heartRate,
+            @Nullable String spo2,
+            @Nullable String respirationRate,
+            int status
+    ) {
+        this.id = id;
+        this.lat = lat;
+        this.lon = lon;
+        this.timestamp = timestamp;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.bearing = bearing;
+        this.accuracy = accuracy;
+        this.status = status;
+        this.temp = null;
+        this.feelsLike = null;
+        this.tempMin = null;
+        this.tempMax = null;
+        this.pressure = null;
+        this.humidity = null;
+        this.wind = null;
+        this.clouds = null;
+        this.visibility = null;
+        this.systolicBP = systolicBP;
+        this.diastolicBP = diastolicBP;
+        this.heartRate = heartRate;
+        this.spo2 = spo2;
+        this.respirationRate = respirationRate;
+    }
 
     public PostReadings(
             @NonNull String id,
