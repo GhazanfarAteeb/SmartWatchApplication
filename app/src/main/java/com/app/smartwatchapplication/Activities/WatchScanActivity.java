@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.htsmart.wristband2.WristbandApplication;
 import com.htsmart.wristband2.WristbandManager;
+import com.htsmart.wristband2.bean.ConnectionError;
 import com.htsmart.wristband2.bean.ConnectionState;
 import com.polidea.rxandroidble2.RxBleClient;
 import com.polidea.rxandroidble2.scan.ScanSettings;
@@ -36,6 +37,7 @@ import com.polidea.rxandroidble2.scan.ScanSettings;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class WatchScanActivity extends AppCompatActivity {
     WristbandManager wristbandManager = WristbandApplication.getWristbandManager();
@@ -111,7 +113,6 @@ public class WatchScanActivity extends AppCompatActivity {
                         progressDialog.show();
                         if (!wristbandManager.isConnected()) {
                             wristbandManager.connect(watch, "1", true, true, 30, (float) 165, (float) 70.8);
-                            System.out.println("WATCH CONNECTED: WITH MANAGER");
                             Constants.connectedDevice = watch;
                         }
                     });
@@ -121,7 +122,6 @@ public class WatchScanActivity extends AppCompatActivity {
                         public void onSubscribe(Disposable d) {
                             System.out.println("DISPOSABLE" + d.isDisposed());
                         }
-
 
                         @Override
                         public void onNext(ConnectionState connectionState) {
@@ -141,7 +141,6 @@ public class WatchScanActivity extends AppCompatActivity {
                                     builder.show();
                                 }
                                 int healthType = 0;
-                                System.out.println(wristbandManager.isConnected());
                                 healthType |= WristbandManager.HEALTHY_TYPE_HEART_RATE;
                                 healthType |= WristbandManager.HEALTHY_TYPE_BLOOD_PRESSURE;
                                 healthType |= WristbandManager.HEALTHY_TYPE_OXYGEN;
@@ -175,11 +174,13 @@ public class WatchScanActivity extends AppCompatActivity {
                                             Log.d("RESPIRATION_RATE", String.valueOf(healthyDataResult.getRespiratoryRate()));
                                         }, Throwable::getLocalizedMessage);
                             }
+
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            e.getLocalizedMessage();
+                            Log.d("ERROR", e.getMessage());
+                            System.out.println("CONNECTION FAILED");
                         }
 
                         @Override
@@ -187,7 +188,25 @@ public class WatchScanActivity extends AppCompatActivity {
                             System.out.println("CONNECTED SUCCESSFULLY");
                         }
                     });
-                }, Throwable::getLocalizedMessage);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    Log.d("ERROR", throwable.getMessage());
+                });
+        Disposable errorDisposable = wristbandManager.observerConnectionError().subscribe(new Consumer<ConnectionError>() {
+            @Override
+            public void accept(ConnectionError connectionError) throws Exception {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                    AlertDialog builder = new AlertDialog.Builder(WatchScanActivity.this)
+                            .setTitle("Connection Error")
+                            .setMessage("Unable to connect to watch. Please try again.")
+                            .setCancelable(false).setPositiveButton("OK", (dialog, which) -> {
+                                dialog.dismiss();
+                            }).create();
+                    builder.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -234,6 +253,15 @@ public class WatchScanActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 scanWatch();
             }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        WristbandManager wristbandManager = WristbandApplication.getWristbandManager();
+        if (wristbandManager.isConnected()) {
+            wristbandManager.close();
         }
     }
 }

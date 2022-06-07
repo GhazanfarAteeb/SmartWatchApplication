@@ -20,6 +20,8 @@ import com.app.smartwatchapplication.Modals.PostReadingsResponse;
 import com.app.smartwatchapplication.R;
 import com.app.smartwatchapplication.Utils.PermissionUtils;
 import com.app.smartwatchapplication.databinding.ActivityMainBinding;
+import com.htsmart.wristband2.WristbandApplication;
+import com.htsmart.wristband2.WristbandManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,5 +182,19 @@ public class ActivityMain extends AppCompatActivity implements DbThread.DBThread
     @Override
     public void onBackPressed () {
         moveTaskToBack(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        WristbandManager wristbandManager = WristbandApplication.getWristbandManager();
+        if (wristbandManager.isConnected()) {
+            wristbandManager.close();
+        }
     }
 }
