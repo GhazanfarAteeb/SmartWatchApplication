@@ -116,6 +116,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
             signInWithCredential(credential);
         } catch (Exception e) {
             System.out.println("WRONG CODE ENTERED");
+            System.out.println(e.getMessage());
             progressDialog.dismiss();
         }
     }

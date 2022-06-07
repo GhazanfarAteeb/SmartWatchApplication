@@ -223,9 +223,9 @@ public class WatchScanActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        if (scanDisposable != null) {
-//            scanDisposable.dispose();
-//        }
+        if (scanDisposable != null) {
+            scanDisposable.dispose();
+        }
         moveTaskToBack(true);
     }
 

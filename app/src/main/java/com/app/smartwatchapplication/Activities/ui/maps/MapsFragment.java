@@ -55,10 +55,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             tvBloodOxygen, tvRespirationRate, tvWeather, tvWindSpeed, tvHumidity, tvClouds, tvVisibility, tvTemperature, tvMinTemperature, tvMaxTemperature, tvTemperatureFeelsLike,
             tvSpeed, tvAccuracy, tvAltitude;
     ImageView ivStart, ivStop;
-    private static final Handler customHandler = new Handler();
-    private static long timeInSeconds = 0L;
-    private static long timeSwapBuff = 0L;
-    private static long updatedTime = 0L;
+    public static final Handler customHandler = new Handler();
+    public static long timeInSeconds = 0L;
+    public static long timeSwapBuff = 0L;
+    public static long updatedTime = 0L;
 
     public static Runnable updateTimeThread = new Runnable() {
 
@@ -172,14 +172,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         setIconVisibility();
 
         ivStart.setOnClickListener(view -> {
-            Constants.weatherResponse = null;
-            enableLocationSettings();
-            Constants.locationList = new ArrayList<>();
-            Constants.startTime = System.currentTimeMillis();
-            customHandler.post(updateTimeThread);
-            Constants.IS_JOURNEY_STARTED = true;
-            tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
-            setIconVisibility();
+            if(!Constants.IS_WATCH_CONNECTED) {
+                Intent intent = new Intent(getActivity(), WatchScanActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Constants.weatherResponse = null;
+                enableLocationSettings();
+                Constants.locationList = new ArrayList<>();
+                Constants.startTime = System.currentTimeMillis();
+                customHandler.post(updateTimeThread);
+                Constants.IS_JOURNEY_STARTED = true;
+                tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
+                setIconVisibility();
+            }
         });
         ivStop.setOnClickListener(view -> {
             timeSwapBuff += timeInSeconds;

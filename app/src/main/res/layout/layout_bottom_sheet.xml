@@ -75,7 +75,7 @@
 				android:layout_gravity="center"
 				android:layout_marginTop="3dp"
 				android:fontFamily="@font/montserrat_semi_bold"
-				android:text="08:00 am"
+				android:text="-"
 				android:textSize="14sp"
 				android:textStyle="bold" />
 		</LinearLayout>
@@ -150,7 +150,7 @@
 				android:layout_gravity="center"
 				android:layout_marginTop="3dp"
 				android:fontFamily="@font/montserrat_semi_bold"
-				android:text="Oman, OM"
+				android:text="-"
 				android:textSize="14sp"
 				android:textStyle="bold" />
 		</LinearLayout>
@@ -180,7 +180,7 @@
 				android:layout_gravity="center"
 				android:layout_marginTop="3dp"
 				android:fontFamily="@font/montserrat_semi_bold"
-				android:text="08:00 am"
+				android:text="-"
 				android:textSize="14sp"
 				android:textStyle="bold" />
 		</LinearLayout>
@@ -210,7 +210,7 @@
 				android:layout_gravity="center"
 				android:layout_marginTop="3dp"
 				android:fontFamily="@font/montserrat_semi_bold"
-				android:text="08:00 am"
+				android:text="-"
 				android:textSize="14sp"
 				android:textStyle="bold" />
 		</LinearLayout>
@@ -294,7 +294,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="130/80 mmHg"
+										android:text="---/-- mmHg"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -321,7 +321,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="88 BPM"
+										android:text="-- BPM"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -348,7 +348,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="97%"
+										android:text="--%"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -375,7 +375,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="17 Per Min."
+										android:text="-- Per Min."
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -444,7 +444,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="Cloudy"
+										android:text="-"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -471,7 +471,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="3.5 km/h"
+										android:text="-- km/h"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -498,7 +498,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="97%"
+										android:text="--%"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -525,7 +525,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="17%"
+										android:text="--%"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -552,7 +552,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="10 km"
+										android:text="-- km"
 										android:textSize="14sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -629,7 +629,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="35°C"
+										android:text="--°C"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -656,7 +656,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="35°C"
+										android:text="--°C"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -683,7 +683,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="35°C"
+										android:text="--°C"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -710,7 +710,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="35°C"
+										android:text="--°C"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -778,7 +778,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="100 km/h"
+										android:text="-- km/h"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -805,7 +805,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="3.5"
+										android:text="--"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>
@@ -832,7 +832,7 @@
 										android:layout_height="wrap_content"
 										android:layout_marginTop="3dp"
 										android:fontFamily="@font/montserrat_semi_bold"
-										android:text="1000"
+										android:text="--"
 										android:textSize="13sp"
 										android:textStyle="bold" />
 								</LinearLayout>

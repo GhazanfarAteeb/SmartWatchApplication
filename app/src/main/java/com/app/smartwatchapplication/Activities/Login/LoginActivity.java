@@ -71,7 +71,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void init() {
-        SharedPref.writeBoolean(Constants.ON_BOARDING_SHOWN, true);
+        if (SharedPref.readBoolean(Constants.ON_BOARDING_SHOWN, false)) {
+            SharedPref.writeBoolean(Constants.ON_BOARDING_SHOWN, true);
+        }
         countryCodePicker = findViewById(R.id.ccp_picker);
         etPhoneNo = findViewById(R.id.et_phone_no);
         countryCodePicker.registerCarrierNumberEditText(etPhoneNo);

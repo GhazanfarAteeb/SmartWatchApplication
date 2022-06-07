@@ -1,5 +1,10 @@
 package com.app.smartwatchapplication.Activities.ui.profile;
 
+import static com.app.smartwatchapplication.Activities.ui.maps.MapsFragment.GPSServiceConnection;
+import static com.app.smartwatchapplication.Activities.ui.maps.MapsFragment.serviceIntent;
+
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,9 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.app.smartwatchapplication.Activities.Login.LoginActivity;
+import com.app.smartwatchapplication.Activities.ui.maps.MapsFragment;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.Modals.WatchReadings;
 import com.app.smartwatchapplication.R;
+import com.app.smartwatchapplication.Services.BackgroundServices;
 import com.app.smartwatchapplication.SharedPreferences.SharedPref;
 import com.app.smartwatchapplication.databinding.FragmentProfileBinding;
 import com.google.android.material.textfield.TextInputEditText;
@@ -83,6 +90,14 @@ public class ProfileFragment extends Fragment {
             getActivity().finish();
             FirebaseAuth.getInstance().signOut();
             SharedPref.writeBoolean(Constants.KEY_BOOLEAN_LOGIN_SAVED, false);
+            Constants.IS_WATCH_CONNECTED = false;
+            MapsFragment.customHandler.removeCallbacksAndMessages(null);
+            MapsFragment.tvJourneyStartedAt.setText("-");
+            Constants.IS_JOURNEY_STARTED = false;
+            if (isMyServiceRunning(BackgroundServices.class)) {
+                getActivity().unbindService(GPSServiceConnection);
+                getActivity().stopService(serviceIntent);
+            }
         });
     }
 
@@ -99,5 +114,15 @@ public class ProfileFragment extends Fragment {
             tieEngineNumber.setText(Constants.USER.getUser().get(0).getvEngineNo());
             tieChassisNumber.setText(Constants.USER.getUser().get(0).getvChassisNo());
         }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

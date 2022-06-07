@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
             cvConnectedWatch.setVisibility(View.GONE);
             cvConnectWatch.setVisibility(View.VISIBLE);
             wristbandManager.close();
-            Constants.connectedDevice = null;
+            Constants.IS_WATCH_CONNECTED = false;
         });
         cvConnectWatch.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), WatchScanActivity.class)));
 
