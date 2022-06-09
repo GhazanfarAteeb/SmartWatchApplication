@@ -89,10 +89,13 @@ public class ProfileFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
             FirebaseAuth.getInstance().signOut();
+            SharedPref.writeBoolean(Constants.KEY_BOOLEAN_OTP_VERIFIED, false);
             SharedPref.writeBoolean(Constants.KEY_BOOLEAN_LOGIN_SAVED, false);
             Constants.IS_WATCH_CONNECTED = false;
             MapsFragment.customHandler.removeCallbacksAndMessages(null);
-            MapsFragment.tvJourneyStartedAt.setText("-");
+            if (MapsFragment.tvJourneyStartedAt != null) {
+                MapsFragment.tvJourneyStartedAt.setText("-");
+            }
             Constants.IS_JOURNEY_STARTED = false;
             if (isMyServiceRunning(BackgroundServices.class)) {
                 getActivity().unbindService(GPSServiceConnection);

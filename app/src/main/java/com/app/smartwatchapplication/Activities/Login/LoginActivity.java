@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     String savedLogin;
     private boolean isLoginSaved;
+    private boolean isOTPVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         isLoginSaved = SharedPref.readBoolean(Constants.KEY_BOOLEAN_LOGIN_SAVED, false);
         if (isLoginSaved) {
             savedLogin = SharedPref.readString(Constants.LOGIN_SAVED, null);
+            isOTPVerified = SharedPref.readBoolean(Constants.KEY_BOOLEAN_OTP_VERIFIED, false);
             doLogin(savedLogin);
         }
         findViewById(R.id.btn_login).setOnClickListener(view -> {
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPref.writeBoolean(Constants.KEY_BOOLEAN_LOGIN_SAVED, true);
                             SharedPref.writeString(Constants.LOGIN_SAVED, countryCodePicker.getFullNumberWithPlus());
                         }
-                        if (isLoginSaved) {
+                        if (isLoginSaved && isOTPVerified) {
                             startActivity(new Intent(LoginActivity.this, ActivityMain.class));
                         }
                         else {

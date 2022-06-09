@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.app.smartwatchapplication.Activities.ActivityMain;
 import com.app.smartwatchapplication.AppConstants.Constants;
 import com.app.smartwatchapplication.R;
+import com.app.smartwatchapplication.SharedPreferences.SharedPref;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -60,6 +61,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
+                        SharedPref.writeBoolean(Constants.KEY_BOOLEAN_OTP_VERIFIED, true);
                         Intent i = new Intent(OtpVerificationActivity.this, ActivityMain.class);
                         startActivity(i);
                         finish();

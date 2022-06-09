@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
+    public static final String KEY_BOOLEAN_OTP_VERIFIED = "IS_OTP_VERIFIED";
     public static final long FASTEST_INTERVAL = 0;
     public static final long INTERVAL = 0;
     public static final String LOGIN_SAVED = null;
