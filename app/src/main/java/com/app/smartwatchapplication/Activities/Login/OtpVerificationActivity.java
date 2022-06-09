@@ -45,10 +45,13 @@ public class OtpVerificationActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(OtpVerificationActivity.this);
         progressDialog.setMessage("Verifying OTP ...");
         progressDialog.setCancelable(false);
-        sendVerificationCode(Constants.USER.getUser().get(0).getvApiUsername());
     }
 
     private void setListeners() {
+        findViewById(R.id.tv_resend_otp).setOnClickListener(view -> {
+            assert Constants.USER.getUser() != null;
+            sendVerificationCode(Constants.USER.getUser().get(0).getvApiUsername());
+        });
         btnVerifyOTP.setOnClickListener(view -> {
             if (!otpEditText.getText().toString().isEmpty() && otpEditText.getText().toString().length() == 6) {
                 verifyCode(otpEditText.getText().toString());
@@ -87,7 +90,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
                                 vID = s;
                             }
                             @Override
-                            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                                 final String code = phoneAuthCredential.getSmsCode();
                                 if (code != null) {
                                     otpEditText.setText(code);
