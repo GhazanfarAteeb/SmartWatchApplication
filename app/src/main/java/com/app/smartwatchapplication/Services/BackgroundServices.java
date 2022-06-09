@@ -497,4 +497,6 @@ public class BackgroundServices extends Service implements DbThread.DBThreadList
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,getResources().getString(R.string.app_name)+":wakelock");
     }
+
+
 }

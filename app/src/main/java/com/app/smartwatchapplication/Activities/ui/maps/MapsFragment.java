@@ -283,4 +283,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         return false;
     }
+//    @Override
+//    public void onDestroy() {
+//        //stopService(mServiceIntent);
+//        if(Constants.IS_JOURNEY_STARTED) {
+//            Intent broadcastIntent = new Intent();
+//            broadcastIntent.setAction("restartservice");
+//            broadcastIntent.setClass(getActivity(), Restarter.class);
+//            getActivity().sendBroadcast(broadcastIntent);
+//        }
+//        super.onDestroy();
+//    }
 }

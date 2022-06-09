@@ -32,7 +32,14 @@
         android:theme="@style/Theme.SmartWatchApplication"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
-        
+        <receiver
+            android:name=".Services.Restarter"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartservice" />
+            </intent-filter>
+        </receiver>
         <!--
 			 To get one, follow the directions here:
 				https://developers.google.com/maps/documentation/android-sdk/get-api-key
