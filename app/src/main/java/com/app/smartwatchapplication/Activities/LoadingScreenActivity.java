@@ -9,6 +9,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,7 +60,8 @@ public class LoadingScreenActivity extends AppCompatActivity {
         ivLogo.startAnimation(anim);
 
         new Handler().postDelayed(() -> {
-            if (!SharedPref.readBoolean(Constants.ON_BOARDING_SHOWN, Constants.IS_ON_BOARDING_SHOWN)) {
+            Toast.makeText(this, SharedPref.readBoolean(Constants.ON_BOARDING_SHOWN, false)+"",Toast.LENGTH_LONG).show();
+            if (!SharedPref.readBoolean(Constants.ON_BOARDING_SHOWN, false)) {
                 startActivity(new Intent(LoadingScreenActivity.this, OnBoardingScreen1Activity.class));
             }
             else {

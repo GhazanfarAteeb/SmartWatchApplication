@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-@SuppressLint("StaticFieldLeak")
+@SuppressLint({"SetTextI18n", "StaticFieldLeak"})
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public static GoogleMap map;
     View root;
@@ -68,18 +69,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             updatedTime = timeSwapBuff + timeInSeconds;
             int seconds = (int) (updatedTime / 1000);
             int minutes = seconds / 60;
-            minutes %= 60;
+            int hours = seconds / 3600;
+
             seconds = seconds % 60;
+            minutes %= 60;
 
-            int hours = minutes / 60;
-
-            String string = "";
-            string += "" + String.format(Locale.getDefault(), "%02d", hours);
-            string += ":" + String.format(Locale.getDefault(), "%02d", minutes);
-            string += ":" + String.format(Locale.getDefault(), "%02d", seconds);
-
-            tvJourneyTime.setText(string);
-            customHandler.postDelayed(this, 0);
+            tvJourneyTime.setText(
+                    String.format(Locale.getDefault(), "%02d", hours) + ":" +
+                    String.format(Locale.getDefault(), "%02d", minutes)+":" +
+                    String.format(Locale.getDefault(), "%02d", seconds)
+            );
+            customHandler.post(this);
         }
     };
 
@@ -106,12 +106,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         map.setMyLocationEnabled(true);
         map.getUiSettings().setAllGesturesEnabled(false);
-//        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(getActivity());
-//        client.getLastLocation().addOnSuccessListener(getActivity(), location -> {
-//            if(map != null) {
-//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16.f));
-//            }
-//        });
     }
 
     @Override
@@ -213,6 +207,34 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             if (isMyServiceRunning(BackgroundServices.class)) {
                 getActivity().bindService(serviceIntent, GPSServiceConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
             }
+            if (Constants.locationList.size()>=1) {
+                Location currentLocation = Constants.locationList.get(Constants.locationList.size()-1);
+                tvSpeed.setText(String.format(Locale.getDefault(),"%.2f", (currentLocation.getSpeed() * 3.6)) + " km/h");
+                tvAccuracy.setText(String.format(Locale.getDefault(),"%.2f", (currentLocation.getAccuracy())) + "");
+                tvAltitude.setText(String.format(Locale.getDefault(),"%.2f", (currentLocation.getAltitude())) + "");
+            }
+
+            if (Constants.weatherResponse != null) {
+                tvWeather.setText(Constants.weatherResponse.getWeather().get(0).getMain());
+                tvWindSpeed.setText(Constants.weatherResponse.getWind().getSpeed() + " km/h");
+                tvHumidity.setText(Constants.weatherResponse.getMain().getHumidity() + "%");
+                tvClouds.setText(Constants.weatherResponse.getClouds().getAll() + "%");
+                if (Constants.weatherResponse.getVisibility() >= 1000) {
+                    tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " km");
+                } else {
+                    tvVisibility.setText((Constants.weatherResponse.getVisibility() / 1000) + " m");
+                }
+                tvTemperature.setText(Constants.weatherResponse.getMain().getTemp() + "°C");
+                tvMinTemperature.setText(Constants.weatherResponse.getMain().getTempMin() + "°C");
+                tvMaxTemperature.setText(Constants.weatherResponse.getMain().getTempMax() + "°C");
+                tvTemperatureFeelsLike.setText(Constants.weatherResponse.getMain().getFeelsLike() + "°C");
+                tvCountry.setText(Constants.weatherResponse.getName() + ", " + Constants.weatherResponse.getSys().getCountry());
+                tvSunrise.setText(getDateString(Constants.weatherResponse.getSys().getSunrise()) + " am");
+                tvSunset.setText(getDateString(Constants.weatherResponse.getSys().getSunset()) + " pm");
+            }
+            if (Constants.startTime != 0L) {
+                tvJourneyStartedAt.setText(new SimpleDateFormat("KK:mm a", Locale.getDefault()).format(Constants.startTime));
+            }
             ivStart.setVisibility(View.GONE);
             ivStop.setVisibility(View.VISIBLE);
         }
@@ -283,15 +305,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         return false;
     }
-//    @Override
-//    public void onDestroy() {
-//        //stopService(mServiceIntent);
-//        if(Constants.IS_JOURNEY_STARTED) {
-//            Intent broadcastIntent = new Intent();
-//            broadcastIntent.setAction("restartservice");
-//            broadcastIntent.setClass(getActivity(), Restarter.class);
-//            getActivity().sendBroadcast(broadcastIntent);
-//        }
-//        super.onDestroy();
-//    }
+
+    @SuppressLint("SimpleDateFormat")
+    private String getDateString(long timeInMilliseconds) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        return formatter.format(timeInMilliseconds);
+    }
 }
